@@ -14,10 +14,8 @@
 
   })();
 
-  setTimeout((function(_this) {
-    return function() {
-      return new Main;
-    };
-  })(this), 1000);
+  setTimeout(function() {
+    return new Main;
+  }, 1000);
 
 }).call(this);

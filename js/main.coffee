@@ -5,6 +5,6 @@ class Main
 
   vars:->
 
-setTimeout =>
+setTimeout ->
   new Main
 , 1000
