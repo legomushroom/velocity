@@ -81,29 +81,30 @@ class Cross
     $circle.velocity( attr, delay: 300, duration: 200 )
       .velocity { scale: 1 }, { 
         duration: 1000,
-        easing: 'spring',
-        complete: -> $(document.body).append $circleProto.css 'opacity': 1
+        easing: 'spring'
+        # complete: -> $(document.body).append $circleProto.css 'opacity': 1
       }
 
     
     $circleProto = $circle.clone()
     circles = @cloneCircles $circleProto
 
+    # $circle.css scale: 2
     lineHeight = 200
-    attr = { translateY: -lineHeight-(size/2), 'border-width': 0 }
-    $circle.velocity attr, delay: 100, duration: 1000
-    attr = { 'border-width': 0 }
-    $circleProto.velocity attr, delay: 1600, duration: 1000
+    attr = { scale: .1 }
+    $circle.velocity attr, delay: 100, duration: 1800
+    # attr = { 'border-width': 0 }
+    # $circleProto.velocity attr, delay: 1600, duration: 1000
     # $circleLine.velocity { height: lineHeight, translateY: -lineHeight }, delay: 1600, duration: 1000
 
     for $circle in circles
-      attr = { scale: @rand(2,10)/10  }
+      attr = { scale: @rand(2,8)/10  }
       $circle.velocity( attr, { duration: 0 })
-        .velocity { translateX: @rand(-30,30), 'border-width': 0, opacity: 100, translateY: -lineHeight+@rand(-20,20), scale: 1 }, { delay: 1200+@rand(0,1000), duration: 1200 }
+        .velocity { translateX: @rand(-80,80), 'border-width': 0, opacity: 100, translateY: -2*lineHeight+@rand(-100,100), scale: 1.15 }, { delay: 1200+@rand(0,1800), duration: 1200 }
 
   cloneCircles:($proto)->
     circles = []
-    for i in [0...20]
+    for i in [0...30]
       $new = $proto.clone()
       $(document.body).append $new
       circles.push $new

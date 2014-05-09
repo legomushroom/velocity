@@ -99,47 +99,34 @@
         scale: 1
       }, {
         duration: 1000,
-        easing: 'spring',
-        complete: function() {
-          return $(document.body).append($circleProto.css({
-            'opacity': 1
-          }));
-        }
+        easing: 'spring'
       });
       $circleProto = $circle.clone();
       circles = this.cloneCircles($circleProto);
       lineHeight = 200;
       attr = {
-        translateY: -lineHeight - (size / 2),
-        'border-width': 0
+        scale: .1
       };
       $circle.velocity(attr, {
         delay: 100,
-        duration: 1000
-      });
-      attr = {
-        'border-width': 0
-      };
-      $circleProto.velocity(attr, {
-        delay: 1600,
-        duration: 1000
+        duration: 1800
       });
       _results = [];
       for (_i = 0, _len = circles.length; _i < _len; _i++) {
         $circle = circles[_i];
         attr = {
-          scale: this.rand(2, 10) / 10
+          scale: this.rand(2, 8) / 10
         };
         _results.push($circle.velocity(attr, {
           duration: 0
         }).velocity({
-          translateX: this.rand(-30, 30),
+          translateX: this.rand(-80, 80),
           'border-width': 0,
           opacity: 100,
-          translateY: -lineHeight + this.rand(-20, 20),
-          scale: 1
+          translateY: -2 * lineHeight + this.rand(-100, 100),
+          scale: 1.15
         }, {
-          delay: 1200 + this.rand(0, 1000),
+          delay: 1200 + this.rand(0, 1800),
           duration: 1200
         }));
       }
@@ -149,7 +136,7 @@
     Cross.prototype.cloneCircles = function($proto) {
       var $new, circles, i, _i;
       circles = [];
-      for (i = _i = 0; _i < 20; i = ++_i) {
+      for (i = _i = 0; _i < 30; i = ++_i) {
         $new = $proto.clone();
         $(document.body).append($new);
         circles.push($new);
