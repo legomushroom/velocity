@@ -15,7 +15,7 @@
   })();
 
   setTimeout(function() {
-    return new Main;
+    return new window.Cross;
   }, 1000);
 
 }).call(this);

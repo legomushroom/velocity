@@ -6,5 +6,9 @@ class Main
   vars:->
 
 setTimeout ->
-  new Main
+  new window.Cross
 , 1000
+
+# setTimeout ->
+#   new window.Cross
+# , 2000

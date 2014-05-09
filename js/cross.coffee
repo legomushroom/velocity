@@ -1,18 +1,25 @@
+# $.easing.crazy = (t, millisecondsSince, startValue, endValue, totalDuration)->
+#     if(t<0.5) {
+#         return t*4;
+#     } else {
+#         return -2*t + 3;  
+#     }
+
 class Cross
   constructor:->
     @vars()
     @init()
-    console.log 'cross init'
 
   vars:->
   init:->
-    $div1   = $ "<div class='c-green-g a-g' />"
-    $div2   = $ "<div class='c-green-g a-g' />"
-    $div3   = $ "<div class='c-green-g a-g' />"
-    $div4   = $ "<div class='c-green-g a-g' />"
-    $circle = $ "<div class='c-green-g a-g' />"
+    $div1   = $ "<div class='c-green-g' />"
+    $div2   = $ "<div class='c-green-g' />"
+    $div3   = $ "<div class='c-green-g' />"
+    $div4   = $ "<div class='c-green-g' />"
+    $circle = $ "<div class='' />"
+    $circleLine = $ "<div class='c-green-g' />"
     width = 2
-    height = 500
+    height = 200
     $div1.css
       width: height
       height: width
@@ -38,12 +45,26 @@ class Cross
       'margin-left': width/2
       bottom: '100%'
 
+    $circleLine.css
+      width: width
+      height: 0
+      left: '50%'
+      'margin-left': -(width/2)
+      top: '100%'
+
+    $circle.append $circleLine
+
+    size = 20
     $circle.css
       left:   '50%'
       top:    '50%'
-      width:  0
-      height: 0
+      width:  size
+      height: size
+      'margin-left': -(size/2)
+      'margin-top':  -(size/2)
       'border-radius': '50%'
+      'opacity': 0
+      'border': "#{size/2}px solid #00FFC6"
 
     $(document.body).append $div1
     $(document.body).append $div2
@@ -56,7 +77,27 @@ class Cross
     $div2.velocity { top: '50%',    height: 0 }
     $div4.velocity { bottom: '50%', height: 0 }
 
-    $circle.velocity { width: 20, height: 20 }
+    attr = { scale: 1.5, opacity: 1 }
+    $circle.velocity( attr, delay: 300, duration: 200 )
+      .velocity({ scale: 1 }, { duration: 1000, easing: 'spring' })
+    
+    $circleProto = $circle.clone()
+    circles = @cloneCircles $circleProto
+    console.log circles[0][0]
+
+    lineHeight = 200
+    attr = { translateY: -lineHeight, 'border-width': 0 }
+    $circle.velocity attr, delay: 300, duration: 700
+    $circleLine.velocity { height: lineHeight }, delay: 1800, duration: 700
+
+  cloneCircles:($proto)->
+    circles = []
+    for i in [0..5]
+      $new = $proto.clone()
+      $(document.body).append $new
+      circles.push $new
+    circles
+
 
 
 
