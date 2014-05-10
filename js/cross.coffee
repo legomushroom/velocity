@@ -98,7 +98,7 @@ class Cross
     attr = { scale: .1 }
     $circle.velocity attr, duration: 2800
 
-    for $circle in circles
+    for $circleBit in circles
       attr = { scale: @rand(2,8)/10  }
       attr2 = { 
         translateX: @rand(-80,80),
@@ -106,17 +106,44 @@ class Cross
         translateY: -2*lineHeight+@rand(-100,100),
         scale: 1.15
       }
-      $circle.velocity( attr, { duration: 0 })
+      $circleBit.velocity( attr, { duration: 0 })
         .velocity attr2, { delay: 1200+@rand(0,1800), duration: 1200 }
 
-    $circleLine.velocity { 
+    $circleLine.velocity {
       height: lineHeight,
       translateY: -lineHeight
     }, delay: 3500, duration: 1000
+    $circle.velocity {opacity:0}, duration: 100
 
-  cloneCircles:($proto)->
+    # ===> line
+    lines = @cloneCircles $circleLine, 7
+    r = 0
+    for $line, i in lines
+      r += r+i
+      $line.velocity {
+        'margin-left': "#{-i}px"
+        height: lineHeight
+        translateY: -lineHeight
+        translateX: -r
+        opacity: 0
+      }, duration: 0
+      $line
+        .velocity( {opacity:1}, duration: 20, delay: 4200+(r*2))
+        .velocity( {opacity:0}, duration: 400)
+    
+
+    $circleLine.velocity {
+      translateX: -200
+    }, delay: 200, duration: 700, easing: 'easeOutExpo'
+
+
+    $circleLine.velocity {
+      translateX: 0
+    }, delay: 200, duration: 700, easing: 'easeOutExpo'
+
+  cloneCircles:($proto, cnt=20)->
     circles = []
-    for i in [0...20]
+    for i in [0...cnt]
       $new = $proto.clone()
       $(document.body).append $new
       circles.push $new
