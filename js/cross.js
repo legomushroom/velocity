@@ -109,7 +109,7 @@
       };
       $circle.velocity(attr, {
         delay: 100,
-        duration: 1800
+        duration: 2000
       });
       _results = [];
       for (_i = 0, _len = circles.length; _i < _len; _i++) {
@@ -136,7 +136,7 @@
     Cross.prototype.cloneCircles = function($proto) {
       var $new, circles, i, _i;
       circles = [];
-      for (i = _i = 0; _i < 30; i = ++_i) {
+      for (i = _i = 0; _i < 20; i = ++_i) {
         $new = $proto.clone();
         $(document.body).append($new);
         circles.push($new);

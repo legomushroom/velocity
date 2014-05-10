@@ -92,7 +92,7 @@ class Cross
     # $circle.css scale: 2
     lineHeight = 200
     attr = { scale: .1 }
-    $circle.velocity attr, delay: 100, duration: 1800
+    $circle.velocity attr, delay: 100, duration: 2000
     # attr = { 'border-width': 0 }
     # $circleProto.velocity attr, delay: 1600, duration: 1000
     # $circleLine.velocity { height: lineHeight, translateY: -lineHeight }, delay: 1600, duration: 1000
@@ -104,7 +104,7 @@ class Cross
 
   cloneCircles:($proto)->
     circles = []
-    for i in [0...30]
+    for i in [0...20]
       $new = $proto.clone()
       $(document.body).append $new
       circles.push $new
