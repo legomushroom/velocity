@@ -19,7 +19,7 @@
     Cross.prototype.vars = function() {};
 
     Cross.prototype.init = function() {
-      var $circle, $circleBit, $circleLine, $circleProto, $div1, $div2, $div3, $div4, $line, attr, attr2, circles, height, i, lineHeight, lines, r, size, start, width, _i, _j, _len, _len1;
+      var $circle, $circleBit, $circleLine, $circleProto, $div1, $div2, $div3, $div4, $line, $shade, $textWrapper, attr, attr2, circles, height, i, lineHeight, lines, r, size, start, width, _i, _j, _len, _len1;
       $div1 = this.createDiv({
         "class": 'c-green-g'
       });
@@ -172,7 +172,7 @@
       }, {
         duration: 100
       });
-      lines = this.cloneCircles($circleLine, 7);
+      lines = this.cloneCircles($circleLine, 8);
       r = 0;
       for (i = _j = 0, _len1 = lines.length; _j < _len1; i = ++_j) {
         $line = lines[i];
@@ -190,22 +190,23 @@
           opacity: 1
         }, {
           duration: 20,
-          delay: 4200 + (r * 2)
+          delay: 4200 + r
         }).velocity({
           opacity: 0
         }, {
           duration: 400
         });
       }
-      $circleLine.velocity({
-        translateX: -200
+      $textWrapper = $('.text-wrapper');
+      $shade = $('.text-wrapper__shade');
+      $shade.velocity({
+        translateX: -300
       }, {
-        delay: 200,
-        duration: 700,
+        delay: 4800,
         easing: 'easeOutExpo'
       });
       return $circleLine.velocity({
-        translateX: 0
+        translateX: -300
       }, {
         delay: 200,
         duration: 700,

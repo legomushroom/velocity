@@ -116,7 +116,7 @@ class Cross
     $circle.velocity {opacity:0}, duration: 100
 
     # ===> line
-    lines = @cloneCircles $circleLine, 7
+    lines = @cloneCircles $circleLine, 8
     r = 0
     for $line, i in lines
       r += r+i
@@ -128,18 +128,23 @@ class Cross
         opacity: 0
       }, duration: 0
       $line
-        .velocity( {opacity:1}, duration: 20, delay: 4200+(r*2))
+        .velocity( {opacity:1}, duration: 20, delay: 4200+(r))
         .velocity( {opacity:0}, duration: 400)
     
+    $textWrapper = $('.text-wrapper')
+    $shade = $('.text-wrapper__shade')
+
+    $shade
+      .velocity({ translateX: -300 }, delay: 4800, easing: 'easeOutExpo')
 
     $circleLine.velocity {
-      translateX: -200
+      translateX: -300
     }, delay: 200, duration: 700, easing: 'easeOutExpo'
 
 
-    $circleLine.velocity {
-      translateX: 0
-    }, delay: 200, duration: 700, easing: 'easeOutExpo'
+    # $circleLine.velocity {
+    #   translateX: 0
+    # }, delay: 200, duration: 700, easing: 'easeOutExpo'
 
   cloneCircles:($proto, cnt=20)->
     circles = []
