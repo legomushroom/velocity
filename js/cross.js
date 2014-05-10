@@ -16,10 +16,12 @@
       this.init();
     }
 
-    Cross.prototype.vars = function() {};
+    Cross.prototype.vars = function() {
+      return this.prefix = this.prefix();
+    };
 
     Cross.prototype.init = function() {
-      var $circle, $circleBit, $circleLine, $circleProto, $div1, $div2, $div3, $div4, $line, $shade, $textWrapper, attr, attr2, circles, height, i, lineHeight, lines, r, size, start, width, _i, _j, _len, _len1;
+      var $circle, $circleBit, $circleLine, $circleProto, $div1, $div2, $div3, $div4, $easy, $fast, $fastShade, $robust, attr, attr2, circles, height, lineHeight, size, start, width, _i, _len;
       $div1 = this.createDiv({
         "class": 'c-green-g'
       });
@@ -172,38 +174,62 @@
       }, {
         duration: 100
       });
-      lines = this.cloneCircles($circleLine, 8);
-      r = 0;
-      for (i = _j = 0, _len1 = lines.length; _j < _len1; i = ++_j) {
-        $line = lines[i];
-        r += r + i;
-        $line.velocity({
-          'margin-left': "" + (-i) + "px",
-          height: lineHeight,
-          translateY: -lineHeight,
-          translateX: -r,
-          opacity: 0
-        }, {
-          duration: 0
-        });
-        $line.velocity({
-          opacity: 1
-        }, {
-          duration: 20,
-          delay: 4200 + r
-        }).velocity({
-          opacity: 0
-        }, {
-          duration: 400
-        });
-      }
-      $textWrapper = $('.text-wrapper');
-      $shade = $('.text-wrapper__shade');
-      $shade.velocity({
+      $fast = $('#js-fast');
+      $fastShade = $fast.find('.text-wrapper__shade');
+      $robust = $('#js-robust');
+      $easy = $('#js-easy');
+      $fastShade.velocity({
         translateX: -300
       }, {
-        delay: 4800,
+        delay: 4700,
+        easing: 'easeOutExpo',
+        duration: 700
+      });
+      $circleLine.velocity({
+        translateX: -300
+      }, {
+        delay: 200,
+        duration: 700,
+        easing: 'easeOutExpo',
+        complete: (function(_this) {
+          return function() {};
+        })(this)
+      });
+      $robust.velocity({
+        width: 300
+      }, {
+        delay: 5600,
+        easing: 'easeOutExpo',
+        duration: 700
+      });
+      $fastShade.velocity({
+        translateX: 0
+      }, {
+        delay: 200,
+        easing: 'easeOutExpo',
+        duration: 700,
+        complete: function() {
+          $easy.css({
+            'opacity': 1
+          });
+          return $fast.css({
+            'display': 'none'
+          });
+        }
+      });
+      $circleLine.velocity({
+        translateX: 0
+      }, {
+        delay: 200,
+        duration: 700,
         easing: 'easeOutExpo'
+      });
+      $robust.velocity({
+        width: 0
+      }, {
+        delay: 200,
+        easing: 'easeOutExpo',
+        duration: 700
       });
       return $circleLine.velocity({
         translateX: -300
@@ -238,6 +264,18 @@
 
     Cross.prototype.rand = function(min, max) {
       return Math.floor((Math.random() * ((max + 1) - min)) + min);
+    };
+
+    Cross.prototype.prefixProp = function(prop) {
+      return this.prefix + prop;
+    };
+
+    Cross.prototype.prefix = function() {
+      var dom, pre, styles;
+      styles = window.getComputedStyle(document.documentElement, "");
+      pre = (Array.prototype.slice.call(styles).join("").match(/-(moz|webkit|ms)-/) || (styles.OLink === "" && ["", "o"]))[1];
+      dom = "WebKit|Moz|MS|O".match(new RegExp("(" + pre + ")", "i"))[1];
+      return "-" + pre + "-";
     };
 
     return Cross;

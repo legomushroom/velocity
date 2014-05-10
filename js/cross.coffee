@@ -9,6 +9,7 @@ class Cross
     @init()
 
   vars:->
+    @prefix = @prefix()
   init:->
     $div1   = @createDiv class: 'c-green-g'
     $div2   = @createDiv class: 'c-green-g'
@@ -115,28 +116,53 @@ class Cross
     }, delay: 3500, duration: 1000
     $circle.velocity {opacity:0}, duration: 100
 
-    # ===> line
-    lines = @cloneCircles $circleLine, 8
-    r = 0
-    for $line, i in lines
-      r += r+i
-      $line.velocity {
-        'margin-left': "#{-i}px"
-        height: lineHeight
-        translateY: -lineHeight
-        translateX: -r
-        opacity: 0
-      }, duration: 0
-      $line
-        .velocity( {opacity:1}, duration: 20, delay: 4200+(r))
-        .velocity( {opacity:0}, duration: 400)
+    # # ===> line
+    # lines = @cloneCircles $circleLine, 8
+    # r = 0
+    # for $line, i in lines
+    #   r += r+i
+    #   $line.velocity {
+    #     'margin-left': "#{-i}px"
+    #     height: lineHeight
+    #     # @prefixProp('transform'): "translateY(-lineHeight)"
+    #     translateY: (-lineHeight)
+    #     translateX: -r
+    #     opacity: 0
+    #   }, duration: 0
+    #   $line
+    #     .velocity( {opacity:1}, duration: 20, delay: 4200+(r))
+    #     .velocity( {opacity:0}, duration: 400)
     
-    $textWrapper = $('.text-wrapper')
-    $shade = $('.text-wrapper__shade')
+    $fast = $('#js-fast')
+    $fastShade = $fast.find('.text-wrapper__shade')
+    $robust = $('#js-robust')
+    $easy = $('#js-easy')
+    # $robustShade = $robust.find('.text-wrapper__shade')
 
-    $shade
-      .velocity({ translateX: -300 }, delay: 4800, easing: 'easeOutExpo')
+    $fastShade
+      .velocity({ translateX: -300 }, delay: 4700, easing: 'easeOutExpo', duration: 700)
+    $circleLine.velocity {
+      translateX: -300
+    }, delay: 200, duration: 700, easing: 'easeOutExpo', complete:=>
 
+    
+    $robust
+      .velocity({ width: 300 }, delay: 5600, easing: 'easeOutExpo', duration: 700)
+    $fastShade
+      .velocity({ translateX: 0 },{ 
+        delay: 200,
+        easing: 'easeOutExpo',
+        duration: 700
+        complete:->
+          $easy.css 'opacity': 1
+          $fast.css 'display': 'none'
+        })
+    $circleLine.velocity {
+      translateX: 0
+    }, delay: 200, duration: 700, easing: 'easeOutExpo'
+
+    $robust
+      .velocity({ width: 0 }, delay: 200, easing: 'easeOutExpo', duration: 700)
     $circleLine.velocity {
       translateX: -300
     }, delay: 200, duration: 700, easing: 'easeOutExpo'
@@ -162,6 +188,15 @@ class Cross
 
   rand:(min,max)->
     Math.floor((Math.random() * ((max + 1) - min)) + min)
+
+  prefixProp:(prop)->
+    @prefix+prop
+
+  prefix:->
+    styles = window.getComputedStyle(document.documentElement, "")
+    pre = (Array::slice.call(styles).join("").match(/-(moz|webkit|ms)-/) or (styles.OLink is "" and ["", "o"]))[1]
+    dom = ("WebKit|Moz|MS|O").match(new RegExp("(" + pre + ")", "i"))[1]
+    "-" + pre + "-"
 
 window.Cross = Cross
 

@@ -18,6 +18,7 @@ c-green = #00FFC6
 
 div
 	position absolute
+	z-index 10
 
 .text-wrapper
 	width 300px
@@ -27,6 +28,17 @@ div
 	top 50%
 	margin-left -300px
 	margin-top -130px
+	z-index 5
+	&--robust
+		width 0
+		background  #777777
+		.text-wrapper__shade
+			display: none
+		.text-wrapper__text
+			width 300px
+	&--easy
+		z-index 4
+		opacity 0
 	&__text
 		color c-green
 		font-family 'Open Sans'
