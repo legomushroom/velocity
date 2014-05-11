@@ -29,8 +29,10 @@ class Cross
     $div3   = @createDiv class: 'c-green-g'
     $div4   = @createDiv class: 'c-green-g'
     $circle = @createDiv()
-    $circleLine = @createDiv class: 'c-green-g'
     $screen1 = $('#js-screen1')
+    $circleLine = @createDiv 
+      class: 'c-green-g'
+      container: $screen1
     width = 2
     height = 200
     $div1.css
@@ -184,6 +186,8 @@ class Cross
     $circleLine.css 'transform-origin': '50% bottom'
 
     $circleProto = $circleLine.clone()
+    
+    # ===> tree
     # $circleProto.css
     #   'top': '100%'
     #   'height': height
@@ -209,47 +213,71 @@ class Cross
     $circleLine
       .velocity({top: '100%'}, delay: 200, duration: 500, easing: 'easeInExpo')
       .velocity { rotateZ: 20 }, duration: 1, delay: 0
-      .velocity { rotateZ: 0 }, { duration: 1500, easing: 'quake' }
+      .velocity { rotateZ: 0 }, {
+        duration: 1500,
+        easing: 'quake'
+      }
 
     $circleProto.css 
       'margin-top': 0
       'top': '100%'
-      'height': height
+      # 'height': height
       'margin-left': -300 - (width/2)
       'transform': 'none'
 
-    lines2 = @cloneCircles $circleProto, 20
+    lines2 = @cloneCircles $circleProto, 38, $screen1
     for $line2, i in lines2
       y = if (i+1) % 5 is 0 then -200 else -100
+      h = if (i+1) % 5 is 0 then height else height-80
       $line2.css 
         'margin-left': "#{-300 - (width/2) + ((i+1)*100)}px"
-      #   opacity: 1
-      #   top: 100%
-      #   height: height
-      #   'margin-left': -300 - (width/2)
-      #   'transform': 'none'
+        height: h
 
-      $line2.velocity {
-        translateY: y
-      }, {
-        easing: 'elasticOut',
-        # duration: 1400+@rand(0,600),
-        delay: 7000+(i*50)
-      }
+      $line2
+        .velocity {
+            translateY: y
+          }, {
+            easing: 'elasticOut'
+            duration: 700
+            delay: 6650+(i*50)
+          }
+        .velocity {
+            rotateZ: -90
+          }, {
+            delay: (lines2.length-i)*120
+            easing: 'easeOutBounce'
+            duration: 300
+            # delay: 6650+(i*50)
+          }
 
+    $screen1.velocity {
+      translateX: -3000
+    }, {
+      duration: 2000
+      delay: 7000
+    }
 
-  cloneCircles:($proto, cnt=20)->
+    $easy.velocity {
+      translateX: -3000
+    }, {
+      duration: 2000
+      delay: 7000
+    }
+
+  cloneCircles:($proto, cnt=20, $container)->
     circles = []
     for i in [0...cnt]
       $new = $proto.clone()
-      $(document.body).append $new
+      $cont = $container or $(document.body)
+      $cont.append $new
       circles.push $new
     circles
 
   createDiv:(o)->
     $div = $ '<div />'
     o?.class? and $div.addClass o.class
-    $(document.body).append $div
+    $cont = o?.container or $(document.body)
+    $cont.append $div
     $div
 
   rand:(min,max)->
