@@ -10,6 +10,26 @@
     return 1 - b;
   };
 
+  $.easing.elasticOut = function(t, millisecondsSince, startValue, endValue, totalDuration) {
+    var a, p, s;
+    s = void 0;
+    a = 0.1;
+    p = 0.4;
+    if (t === 0) {
+      return 0;
+    }
+    if (t === 1) {
+      return 1;
+    }
+    if (!a || a < 1) {
+      a = 1;
+      s = p / 4;
+    } else {
+      s = p * Math.asin(1 / a) / (2 * Math.PI);
+    }
+    return a * Math.pow(2, -10 * t) * Math.sin((t - s) * (2 * Math.PI) / p) + 1;
+  };
+
   Cross = (function() {
     function Cross() {
       this.vars();
@@ -19,7 +39,7 @@
     Cross.prototype.vars = function() {};
 
     Cross.prototype.init = function() {
-      var $circle, $circleBit, $circleLine, $circleProto, $div1, $div2, $div3, $div4, $easy, $fast, $fastShade, $robust, $screen1, attr, attr2, circles, height, lineHeight, size, start, width, _i, _len;
+      var $circle, $circleBit, $circleLine, $circleProto, $div1, $div2, $div3, $div4, $easy, $fast, $fastShade, $line2, $robust, $screen1, attr, attr2, circles, height, i, lineHeight, lines2, size, start, width, y, _i, _j, _len, _len1, _results;
       $div1 = this.createDiv({
         "class": 'c-green-g'
       });
@@ -237,7 +257,8 @@
       $circleLine.css({
         'transform-origin': '50% bottom'
       });
-      return $circleLine.velocity({
+      $circleProto = $circleLine.clone();
+      $circleLine.velocity({
         top: '100%'
       }, {
         delay: 200,
@@ -251,34 +272,32 @@
       }).velocity({
         rotateZ: 0
       }, {
-        duration: 1300,
-        easing: 'quake',
-        complete: (function(_this) {
-          return function() {
-            var $line, angle, i, lines, _j, _len1, _results;
-            $circleProto = $circleLine.clone();
-            $circleProto.css({
-              'margin-top': -200,
-              'margin-left': -300 - (width / 2),
-              'transform': 'none'
-            });
-            lines = _this.cloneCircles($circleProto, 6);
-            _results = [];
-            for (i = _j = 0, _len1 = lines.length; _j < _len1; i = ++_j) {
-              $line = lines[i];
-              angle = i % 2 === 0 ? 90 : -90;
-              _results.push($line.velocity({
-                rotateZ: angle
-              }, {
-                easing: 'easeOutBounce',
-                duration: 1400 + _this.rand(0, 600),
-                delay: 100 * i + _this.rand(0, 500)
-              }));
-            }
-            return _results;
-          };
-        })(this)
+        duration: 1500,
+        easing: 'quake'
       });
+      $circleProto.css({
+        'margin-top': 0,
+        'top': '100%',
+        'height': height,
+        'margin-left': -300 - (width / 2),
+        'transform': 'none'
+      });
+      lines2 = this.cloneCircles($circleProto, 20);
+      _results = [];
+      for (i = _j = 0, _len1 = lines2.length; _j < _len1; i = ++_j) {
+        $line2 = lines2[i];
+        y = (i + 1) % 5 === 0 ? -200 : -100;
+        $line2.css({
+          'margin-left': "" + (-300 - (width / 2) + ((i + 1) * 100)) + "px"
+        });
+        _results.push($line2.velocity({
+          translateY: y
+        }, {
+          easing: 'elasticOut',
+          delay: 7000 + (i * 50)
+        }));
+      }
+      return _results;
     };
 
     Cross.prototype.cloneCircles = function($proto, cnt) {

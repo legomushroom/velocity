@@ -3,6 +3,19 @@ $.easing.quake = (t, millisecondsSince, startValue, endValue, totalDuration)->
   if t >= 1 then return 1
   1 - b
 
+$.easing.elasticOut = (t, millisecondsSince, startValue, endValue, totalDuration)->
+  s = undefined
+  a = 0.1
+  p = 0.4
+  return 0  if t is 0
+  return 1  if t is 1
+  if not a or a < 1
+    a = 1
+    s = p / 4
+  else
+    s = p * Math.asin(1 / a) / (2 * Math.PI)
+  a * Math.pow(2, -10 * t) * Math.sin((t - s) * (2 * Math.PI) / p) + 1
+
 class Cross
   constructor:->
     @vars()
@@ -102,7 +115,7 @@ class Cross
 
     for $circleBit in circles
       attr = { scale: @rand(2,8)/10  }
-      attr2 = { 
+      attr2 = {
         translateX: @rand(-80,80),
         'border-width': 0, opacity: 100,
         translateY: -2*lineHeight+@rand(-100,100),
@@ -139,16 +152,18 @@ class Cross
     # $robustShade = $robust.find('.text-wrapper__shade')
 
     $fastShade
-      .velocity({ translateX: -300 }, delay: 4500, easing: 'easeOutExpo', duration: 700)
+      .velocity({ translateX: -300 },
+        delay: 4500, easing: 'easeOutExpo', duration: 700
+    )
     $circleLine.velocity {
       translateX: -300
     }, delay: 0, duration: 700, easing: 'easeOutExpo'
 
     
     $robust
-      .velocity({ width: 300 }, delay: 5200, easing: 'easeOutExpo', duration: 400)
+      .velocity({width: 300}, delay: 5200, easing: 'easeOutExpo', duration: 400)
     $fastShade
-      .velocity({ translateX: 0 },{ 
+      .velocity({ translateX: 0 },{
         delay: 0,
         easing: 'easeOutExpo',
         duration: 400
@@ -168,24 +183,58 @@ class Cross
 
     $circleLine.css 'transform-origin': '50% bottom'
 
+    $circleProto = $circleLine.clone()
+    # $circleProto.css
+    #   'top': '100%'
+    #   'height': height
+    #   'margin-top': -200
+    #   'margin-left': -300 - (width/2)
+    #   'transform': 'none'
+    #   'opacity': 0
+
+    # lines = @cloneCircles $circleProto, 6
+    # for $line, i in lines
+    #   angle = if i % 2 is 0 then 90 else -90
+    #   $line.velocity {
+    #     rotateZ: angle,
+    #     opacity: 100
+    #   }, {
+    #     easing: 'easeOutBounce',
+    #     duration: 1400+@rand(0,600),
+    #     delay: 7400+(i*100)+@rand(0,500)
+    #     complete: ->
+    #       $(this).fadeOut()
+    #   }
+
     $circleLine
-      .velocity({ top: '100%' }, delay: 200, duration: 500, easing: 'easeInExpo')
+      .velocity({top: '100%'}, delay: 200, duration: 500, easing: 'easeInExpo')
       .velocity { rotateZ: 20 }, duration: 1, delay: 0
-      .velocity { rotateZ: 0 }, {
-        duration: 1300,
-        easing: 'quake',
-        complete:=>
-          $circleProto = $circleLine.clone()
-          $circleProto.css
-            'margin-top': -200
-            'margin-left': -300 - (width/2)
-            'transform': 'none'
-          lines = @cloneCircles $circleProto, 6
-          for $line, i in lines
-            angle = if i % 2 is 0 then 90 else -90
-            $line.velocity {
-              rotateZ: angle
-            }, easing: 'easeOutBounce', duration: 1400+@rand(0,600), delay: 100*i+@rand(0,500)
+      .velocity { rotateZ: 0 }, { duration: 1500, easing: 'quake' }
+
+    $circleProto.css 
+      'margin-top': 0
+      'top': '100%'
+      'height': height
+      'margin-left': -300 - (width/2)
+      'transform': 'none'
+
+    lines2 = @cloneCircles $circleProto, 20
+    for $line2, i in lines2
+      y = if (i+1) % 5 is 0 then -200 else -100
+      $line2.css 
+        'margin-left': "#{-300 - (width/2) + ((i+1)*100)}px"
+      #   opacity: 1
+      #   top: 100%
+      #   height: height
+      #   'margin-left': -300 - (width/2)
+      #   'transform': 'none'
+
+      $line2.velocity {
+        translateY: y
+      }, {
+        easing: 'elasticOut',
+        # duration: 1400+@rand(0,600),
+        delay: 7000+(i*50)
       }
 
 
