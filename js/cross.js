@@ -237,7 +237,7 @@
       $circleLine.css({
         'transform-origin': '50% bottom'
       });
-      $circleLine.velocity({
+      return $circleLine.velocity({
         top: '100%'
       }, {
         delay: 200,
@@ -251,22 +251,33 @@
       }).velocity({
         rotateZ: 0
       }, {
-        duration: 1000,
+        duration: 1300,
         easing: 'quake',
         complete: (function(_this) {
           return function() {
-            return $screen1.append($circleLine);
+            var $line, angle, i, lines, _j, _len1, _results;
+            $circleProto = $circleLine.clone();
+            $circleProto.css({
+              'margin-top': -200,
+              'margin-left': -300 - (width / 2),
+              'transform': 'none'
+            });
+            lines = _this.cloneCircles($circleProto, 6);
+            _results = [];
+            for (i = _j = 0, _len1 = lines.length; _j < _len1; i = ++_j) {
+              $line = lines[i];
+              angle = i % 2 === 0 ? 90 : -90;
+              _results.push($line.velocity({
+                rotateZ: angle
+              }, {
+                easing: 'easeOutBounce',
+                duration: 1400 + _this.rand(0, 600),
+                delay: 100 * i + _this.rand(0, 500)
+              }));
+            }
+            return _results;
           };
         })(this)
-      });
-      return $screen1.velocity({
-        rotateZ: 90,
-        translateX: '70%',
-        translateY: '-120%',
-        scale: 3
-      }, {
-        delay: 7500,
-        duration: 1000
       });
     };
 

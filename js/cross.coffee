@@ -172,30 +172,22 @@ class Cross
       .velocity({ top: '100%' }, delay: 200, duration: 500, easing: 'easeInExpo')
       .velocity { rotateZ: 20 }, duration: 1, delay: 0
       .velocity { rotateZ: 0 }, {
-        duration: 1000,
+        duration: 1300,
         easing: 'quake',
-        complete:=> 
-          $screen1.append $circleLine
+        complete:=>
+          $circleProto = $circleLine.clone()
+          $circleProto.css
+            'margin-top': -200
+            'margin-left': -300 - (width/2)
+            'transform': 'none'
+          lines = @cloneCircles $circleProto, 6
+          for $line, i in lines
+            angle = if i % 2 is 0 then 90 else -90
+            $line.velocity {
+              rotateZ: angle
+            }, easing: 'easeOutBounce', duration: 1400+@rand(0,600), delay: 100*i+@rand(0,500)
       }
 
-
-    $screen1
-      .velocity {
-        rotateZ: 90,
-        translateX: '70%',
-        translateY: '-120%',
-        scale: 3
-      }, delay: 7500, duration: 1000
-
-
-
-    # $circleLine
-      # .velocity { rotateZ: 20 }, delay: 1000
-
-
-    # $circleLine.velocity {
-    #   translateX: 0
-    # }, delay: 200, duration: 700, easing: 'easeOutExpo'
 
   cloneCircles:($proto, cnt=20)->
     circles = []
