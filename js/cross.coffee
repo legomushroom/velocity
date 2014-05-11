@@ -17,6 +17,7 @@ class Cross
     $div4   = @createDiv class: 'c-green-g'
     $circle = @createDiv()
     $circleLine = @createDiv class: 'c-green-g'
+    $screen1 = $('#js-screen1')
     width = 2
     height = 200
     $div1.css
@@ -170,11 +171,26 @@ class Cross
     $circleLine
       .velocity({ top: '100%' }, delay: 200, duration: 500, easing: 'easeInExpo')
       .velocity { rotateZ: 20 }, duration: 1, delay: 0
-      .velocity { rotateZ: 0 }, duration: 1000, easing: 'quake'
+      .velocity { rotateZ: 0 }, {
+        duration: 1000,
+        easing: 'quake',
+        complete:=> 
+          $screen1.append $circleLine
+      }
 
 
-    $(document.body)
-      .velocity { rotateZ: 20 }, delay: 7000
+    $screen1
+      .velocity {
+        rotateZ: 90,
+        translateX: '70%',
+        translateY: '-120%',
+        scale: 3
+      }, delay: 7500, duration: 1000
+
+
+
+    # $circleLine
+      # .velocity { rotateZ: 20 }, delay: 1000
 
 
     # $circleLine.velocity {

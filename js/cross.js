@@ -19,7 +19,7 @@
     Cross.prototype.vars = function() {};
 
     Cross.prototype.init = function() {
-      var $circle, $circleBit, $circleLine, $circleProto, $div1, $div2, $div3, $div4, $easy, $fast, $fastShade, $robust, attr, attr2, circles, height, lineHeight, size, start, width, _i, _len;
+      var $circle, $circleBit, $circleLine, $circleProto, $div1, $div2, $div3, $div4, $easy, $fast, $fastShade, $robust, $screen1, attr, attr2, circles, height, lineHeight, size, start, width, _i, _len;
       $div1 = this.createDiv({
         "class": 'c-green-g'
       });
@@ -36,6 +36,7 @@
       $circleLine = this.createDiv({
         "class": 'c-green-g'
       });
+      $screen1 = $('#js-screen1');
       width = 2;
       height = 200;
       $div1.css({
@@ -251,12 +252,21 @@
         rotateZ: 0
       }, {
         duration: 1000,
-        easing: 'quake'
+        easing: 'quake',
+        complete: (function(_this) {
+          return function() {
+            return $screen1.append($circleLine);
+          };
+        })(this)
       });
-      return $(document.body).velocity({
-        rotateZ: 20
+      return $screen1.velocity({
+        rotateZ: 90,
+        translateX: '70%',
+        translateY: '-120%',
+        scale: 3
       }, {
-        delay: 7000
+        delay: 7500,
+        duration: 1000
       });
     };
 
