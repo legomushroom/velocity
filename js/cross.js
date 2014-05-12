@@ -39,7 +39,7 @@
     Cross.prototype.vars = function() {};
 
     Cross.prototype.init = function() {
-      var $child, $circle, $circleBit, $circleLine, $circleProto, $cloudBit, $div1, $div2, $div3, $div4, $easy, $fast, $fastShade, $line, $line2, $robust, $screen1, $slice, $slices, $velocity, attr, attr2, childs, circles, h, height, i, intervals, lineHeight, lines, lines2, r, size, slice, start, width, y, _i, _j, _k, _l, _len, _len1, _len2, _len3, _m, _ref;
+      var $child, $circle, $circleBit, $circleLine, $circleProto, $cloudBit, $div1, $div2, $div3, $div4, $easy, $fast, $fastShade, $line, $line2, $robust, $screen1, $slice, $slices, $velocity, attr, attr2, childs, circles, h, height, i, interval, intervals, lineHeight, lines, lines2, r, size, slice, start, width, y, _i, _j, _k, _l, _len, _len1, _len2, _len3, _m, _ref;
       $div1 = this.createDiv({
         "class": 'c-green-g'
       });
@@ -376,12 +376,29 @@
       $cloudBit = this.createDiv({
         "class": 'c-grey-g cloud-bit'
       });
+      size = 200;
       $cloudBit.css({
         left: '50%',
         top: '50%',
+        width: size,
+        height: size,
         'border-radius': '50%'
       });
-      return intervals = [];
+      intervals = [];
+      $(document.body).append($cloudBit);
+      return interval = setInterval(function() {
+        return $cloudBit.velocity({
+          width: size - (size / 10),
+          height: size,
+          translateX: size / 20,
+          translateY: 0
+        }).velocity({
+          height: size - (size / 10),
+          width: size,
+          translateX: 0,
+          translateY: size / 20
+        });
+      }, 800);
     };
 
     Cross.prototype.cloneCircles = function($proto, cnt, $container) {

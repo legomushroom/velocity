@@ -289,11 +289,29 @@ class Cross
 
     $cloudBit = @createDiv class: 'c-grey-g cloud-bit'
 
+    size = 200
     $cloudBit.css
       left: '50%'
       top:  '50%'
+      width:  size
+      height: size
       'border-radius': '50%'
     intervals = []
+    $(document.body).append $cloudBit
+    interval = setInterval ->
+      $cloudBit
+        .velocity({
+          width: size-(size/10)
+          height: size
+          translateX: (size/20)
+          translateY: 0
+        }).velocity({
+          height: size-(size/10)
+          width: size
+          translateX: 0
+          translateY: (size/20)
+        })
+    , 800
     # clouds = @cloneCircles $cloudBit, 10
     # for $bit, i in clouds
     #   size = @rand(10,30)
