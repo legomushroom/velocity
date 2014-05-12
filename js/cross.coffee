@@ -289,29 +289,19 @@ class Cross
 
     $cloudBit = @createDiv class: 'c-grey-g cloud-bit'
 
-    size = 200
-    $cloudBit.css
-      left: '50%'
-      top:  '50%'
-      width:  size
-      height: size
-      'border-radius': '50%'
-    intervals = []
-    $(document.body).append $cloudBit
-    interval = setInterval ->
-      $cloudBit
-        .velocity({
-          width: size-(size/10)
-          height: size
-          translateX: (size/20)
-          translateY: 0
-        }).velocity({
-          height: size-(size/10)
-          width: size
-          translateX: 0
-          translateY: (size/20)
-        })
-    , 800
+    new CloudBit
+      width: 90
+      height: 120
+      deg: 5
+      class: 'c-grey-g'
+
+    new CloudBit
+      width: 70
+      height: 70
+      deg: 0
+      class: 'c-grey-g'
+      shiftX: 55
+      shiftY: 40
     # clouds = @cloneCircles $cloudBit, 10
     # for $bit, i in clouds
     #   size = @rand(10,30)
@@ -359,6 +349,50 @@ window.Cross = Cross
 
 
 
+class CloudBit
+  constructor:(@o={})->
+    @vars()
+    @createDiv()
+    @setAttrs()
+    @loop()
+
+  vars:->
+  createDiv:->
+    @$el = $ '<div />'
+    @o.class? and @$el.addClass @o.class
+    $(document.body).append @$el
+
+  setAttrs:->
+    @$el.css
+      left: '50%'
+      top:  '50%'
+      width:  @o.width
+      height: @o.height
+      'border-radius': '50%'
+      'margin-left':  (-@o.width/2)  + (@o.shiftX or 0)
+      'margin-top':   (-@o.height/2) + (@o.shiftY or 0)
+      # transform: 'rotate(#{@o.deg}deg)'
+
+  loop:->
+    @$el
+      .velocity({
+        width: @o.width-(@o.width/10)
+        height: @o.height
+        translateX: (@o.width/20)
+        translateY: 0
+        rotateZ: @o.deg
+      }).velocity({
+        height: @o.height-(@o.height/10)
+        width: @o.width
+        translateX: 0
+        translateY: (@o.height/20)
+        complete:=> @loop()
+      })
+
+  destroy:->
+    clearInterval @interval
+
+    
 
 
 
