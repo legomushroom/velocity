@@ -276,8 +276,8 @@ class Cross
           translateY: -200-@rand(0,400)
           rotateZ: @rand(-500,500)
         }, {
-          delay: 9000+((childs.length-i)*50),
-          duration: 2000
+        delay: 9000+((childs.length-i)*50),
+        duration: 2000
         }
     $slices = $('.slice')
     for slice, i in $slices
@@ -296,12 +296,67 @@ class Cross
       class: 'c-grey-g'
 
     new CloudBit
+      width: 80
+      height:  90
+      deg: 45
+      class: 'c-grey-g'
+      shiftY: 40
+      shiftX: -5
+
+    new CloudBit
+      width: 80
+      height:  100
+      deg: -35
+      class: 'c-grey-g'
+      shiftY: 20
+      shiftX: -90
+
+    new CloudBit
+      width: 60
+      height:  60
+      deg: 0
+      class: 'c-grey-g'
+      shiftY: 30
+      shiftX: -40
+
+    new CloudBit
       width: 70
       height: 70
-      deg: 0
+      deg: 10
       class: 'c-grey-g'
       shiftX: 55
       shiftY: 40
+
+    new CloudBit
+      width: 60
+      height: 30
+      deg: 0
+      class: 'c-grey-g'
+      shiftX: 75
+      shiftY: 60
+
+    new CloudBit
+      width: 70
+      height: 30
+      deg: 0
+      class: 'c-grey-g'
+      shiftX: -100
+      shiftY: 60
+
+    new CloudBit
+      width: 80
+      height: 50
+      deg: 0
+      class: 'c-grey-g'
+      shiftX: -60
+      shiftY: 55
+    new CloudBit
+      width: 40
+      height: 30
+      deg: 0
+      class: 'c-grey-g'
+      shiftX: 25
+      shiftY: 55
     # clouds = @cloneCircles $cloudBit, 10
     # for $bit, i in clouds
     #   size = @rand(10,30)
@@ -314,7 +369,7 @@ class Cross
     #   do ($bit, i)=>
     #     setInterval ()=>
     #       $bit
-    #         .velocity { 
+    #         .velocity {
     #           rotateZ: -@rand(200,360)
     #           # translateY: -@rand(-3,3)
     #           # 'transform-origin': "#{@rand(80,100)}% #{@rand(80,100)}%"
@@ -354,7 +409,13 @@ class CloudBit
     @vars()
     @createDiv()
     @setAttrs()
-    @loop()
+    timer = setTimeout =>
+      @loop()
+      clearTimeout timer
+    , @rand(0,200)
+
+  rand:(min,max)->
+    Math.floor((Math.random() * ((max + 1) - min)) + min)
 
   vars:->
   createDiv:->
@@ -369,8 +430,8 @@ class CloudBit
       width:  @o.width
       height: @o.height
       'border-radius': '50%'
-      'margin-left':  (-@o.width/2)  + (@o.shiftX or 0)
-      'margin-top':   (-@o.height/2) + (@o.shiftY or 0)
+      'margin-left':  (-@o.width/2)  + (@o.shiftX ?= 0)
+      'margin-top':   (-@o.height/2) + (@o.shiftY ?= 0)
       # transform: 'rotate(#{@o.deg}deg)'
 
   loop:->
@@ -382,11 +443,11 @@ class CloudBit
         translateY: 0
         rotateZ: @o.deg
       }).velocity({
-        height: @o.height-(@o.height/10)
-        width: @o.width
-        translateX: 0
-        translateY: (@o.height/20)
-        complete:=> @loop()
+      height: @o.height-(@o.height/10)
+      width: @o.width
+      translateX: 0
+      translateY: (@o.height/20)
+      complete:=> @loop()
       })
 
   destroy:->

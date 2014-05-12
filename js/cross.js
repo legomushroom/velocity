@@ -382,13 +382,69 @@
         deg: 5,
         "class": 'c-grey-g'
       });
-      return new CloudBit({
+      new CloudBit({
+        width: 80,
+        height: 90,
+        deg: 45,
+        "class": 'c-grey-g',
+        shiftY: 40,
+        shiftX: -5
+      });
+      new CloudBit({
+        width: 80,
+        height: 100,
+        deg: -35,
+        "class": 'c-grey-g',
+        shiftY: 20,
+        shiftX: -90
+      });
+      new CloudBit({
+        width: 60,
+        height: 60,
+        deg: 0,
+        "class": 'c-grey-g',
+        shiftY: 30,
+        shiftX: -40
+      });
+      new CloudBit({
         width: 70,
         height: 70,
-        deg: 0,
+        deg: 10,
         "class": 'c-grey-g',
         shiftX: 55,
         shiftY: 40
+      });
+      new CloudBit({
+        width: 60,
+        height: 30,
+        deg: 0,
+        "class": 'c-grey-g',
+        shiftX: 75,
+        shiftY: 60
+      });
+      new CloudBit({
+        width: 70,
+        height: 30,
+        deg: 0,
+        "class": 'c-grey-g',
+        shiftX: -100,
+        shiftY: 60
+      });
+      new CloudBit({
+        width: 80,
+        height: 50,
+        deg: 0,
+        "class": 'c-grey-g',
+        shiftX: -60,
+        shiftY: 55
+      });
+      return new CloudBit({
+        width: 40,
+        height: 30,
+        deg: 0,
+        "class": 'c-grey-g',
+        shiftX: 25,
+        shiftY: 55
       });
     };
 
@@ -428,12 +484,22 @@
 
   CloudBit = (function() {
     function CloudBit(o) {
+      var timer;
       this.o = o != null ? o : {};
       this.vars();
       this.createDiv();
       this.setAttrs();
-      this.loop();
+      timer = setTimeout((function(_this) {
+        return function() {
+          _this.loop();
+          return clearTimeout(timer);
+        };
+      })(this), this.rand(0, 200));
     }
+
+    CloudBit.prototype.rand = function(min, max) {
+      return Math.floor((Math.random() * ((max + 1) - min)) + min);
+    };
 
     CloudBit.prototype.vars = function() {};
 
@@ -444,14 +510,15 @@
     };
 
     CloudBit.prototype.setAttrs = function() {
+      var _base, _base1;
       return this.$el.css({
         left: '50%',
         top: '50%',
         width: this.o.width,
         height: this.o.height,
         'border-radius': '50%',
-        'margin-left': (-this.o.width / 2) + (this.o.shiftX || 0),
-        'margin-top': (-this.o.height / 2) + (this.o.shiftY || 0)
+        'margin-left': (-this.o.width / 2) + ((_base = this.o).shiftX != null ? _base.shiftX : _base.shiftX = 0),
+        'margin-top': (-this.o.height / 2) + ((_base1 = this.o).shiftY != null ? _base1.shiftY : _base1.shiftY = 0)
       });
     };
 
