@@ -1,7 +1,7 @@
 (function() {
   var Cross;
 
-  $.easing.quake = function(t, millisecondsSince, startValue, endValue, totalDuration) {
+  $.easing.quake = function(t) {
     var b;
     b = Math.exp(-t * 10) * Math.cos(Math.PI * 2 * t * 10);
     if (t >= 1) {
@@ -10,7 +10,7 @@
     return 1 - b;
   };
 
-  $.easing.elasticOut = function(t, millisecondsSince, startValue, endValue, totalDuration) {
+  $.easing.elasticOut = function(t) {
     var a, p, s;
     s = void 0;
     a = 0.1;
@@ -39,7 +39,7 @@
     Cross.prototype.vars = function() {};
 
     Cross.prototype.init = function() {
-      var $circle, $circleBit, $circleLine, $circleProto, $div1, $div2, $div3, $div4, $easy, $fast, $fastShade, $line2, $robust, $screen1, attr, attr2, circles, h, height, i, lineHeight, lines2, size, start, width, y, _i, _j, _len, _len1;
+      var $child, $circle, $circleBit, $circleLine, $circleProto, $cloudBit, $div1, $div2, $div3, $div4, $easy, $fast, $fastShade, $line, $line2, $robust, $screen1, $slice, $slices, $velocity, attr, attr2, childs, circles, h, height, i, intervals, lineHeight, lines, lines2, r, size, slice, start, width, y, _i, _j, _k, _l, _len, _len1, _len2, _len3, _m, _ref;
       $div1 = this.createDiv({
         "class": 'c-green-g'
       });
@@ -53,6 +53,7 @@
         "class": 'c-green-g'
       });
       $circle = this.createDiv();
+      $velocity = $('#js-velocity');
       $screen1 = $('#js-screen1');
       $circleLine = this.createDiv({
         "class": 'c-green-g',
@@ -194,6 +195,30 @@
       }, {
         duration: 100
       });
+      lines = this.cloneCircles($circleLine, 8);
+      r = 0;
+      for (i = _j = 0, _len1 = lines.length; _j < _len1; i = ++_j) {
+        $line = lines[i];
+        r += r + i;
+        $line.css({
+          'margin-left': "" + (-i) + "px",
+          height: lineHeight,
+          'transform': "translateY(" + (-lineHeight) + "px) translateX(" + (-r) + "px)",
+          opacity: 0
+        }, {
+          duration: 0
+        });
+        $line.velocity({
+          opacity: 1
+        }, {
+          duration: 20,
+          delay: 4500 + r
+        }).velocity({
+          opacity: 0
+        }, {
+          duration: 400
+        });
+      }
       $fast = $('#js-fast');
       $fastShade = $fast.find('.text-wrapper__shade');
       $robust = $('#js-robust');
@@ -282,11 +307,11 @@
         'margin-left': -300 - (width / 2),
         'transform': 'none'
       });
-      lines2 = this.cloneCircles($circleProto, 38, $screen1);
-      for (i = _j = 0, _len1 = lines2.length; _j < _len1; i = ++_j) {
+      lines2 = this.cloneCircles($circleProto, 32, $screen1);
+      for (i = _k = 0, _len2 = lines2.length; _k < _len2; i = ++_k) {
         $line2 = lines2[i];
         y = (i + 1) % 5 === 0 ? -200 : -100;
-        h = (i + 1) % 5 === 0 ? height : height - 80;
+        h = (i + 1) % 5 === 0 ? height : height - 100;
         $line2.css({
           'margin-left': "" + (-300 - (width / 2) + ((i + 1) * 100)) + "px",
           height: h
@@ -295,28 +320,68 @@
           translateY: y
         }, {
           easing: 'elasticOut',
-          duration: 700,
+          duration: i < 10 ? 700 : 1,
           delay: 6650 + (i * 50)
-        }).velocity({
+        });
+        $line2.velocity({
           rotateZ: -90
         }, {
-          delay: (lines2.length - i) * 120,
+          delay: 800 + ((lines2.length - i) * 120),
           easing: 'easeOutBounce',
-          duration: 300
+          duration: 600
         });
       }
       $screen1.velocity({
-        translateX: -3000
+        translateX: -2400
       }, {
         duration: 2000,
         delay: 7000
       });
-      return $easy.velocity({
-        translateX: -3000
+      $easy.velocity({
+        translateX: -2400
       }, {
         duration: 2000,
         delay: 7000
       });
+      $velocity.velocity({
+        'margin-left': 0
+      }, {
+        duration: 2000,
+        delay: 7000
+      });
+      childs = $velocity.children();
+      for (i = _l = _ref = childs.length - 1; _ref <= 0 ? _l <= 0 : _l >= 0; i = _ref <= 0 ? ++_l : --_l) {
+        $child = $(childs[i]);
+        $child.velocity({
+          translateX: -2000,
+          translateY: -200 - this.rand(0, 400),
+          rotateZ: this.rand(-500, 500)
+        }, {
+          delay: 9000 + ((childs.length - i) * 50),
+          duration: 2000
+        });
+      }
+      $slices = $('.slice');
+      for (i = _m = 0, _len3 = $slices.length; _m < _len3; i = ++_m) {
+        slice = $slices[i];
+        $slice = $(slice);
+        $slice.velocity({
+          rotateZ: -90
+        }, {
+          duration: 1500,
+          delay: 10200 + (i * 200),
+          easing: 'easeInExpo'
+        });
+      }
+      $cloudBit = this.createDiv({
+        "class": 'c-grey-g cloud-bit'
+      });
+      $cloudBit.css({
+        left: '50%',
+        top: '50%',
+        'border-radius': '50%'
+      });
+      return intervals = [];
     };
 
     Cross.prototype.cloneCircles = function($proto, cnt, $container) {

@@ -1,9 +1,9 @@
-$.easing.quake = (t, millisecondsSince, startValue, endValue, totalDuration)->
+$.easing.quake = (t)->
   b = Math.exp(-t*10)*Math.cos(Math.PI*2*t*10)
   if t >= 1 then return 1
   1 - b
 
-$.easing.elasticOut = (t, millisecondsSince, startValue, endValue, totalDuration)->
+$.easing.elasticOut = (t)->
   s = undefined
   a = 0.1
   p = 0.4
@@ -29,8 +29,9 @@ class Cross
     $div3   = @createDiv class: 'c-green-g'
     $div4   = @createDiv class: 'c-green-g'
     $circle = @createDiv()
+    $velocity = $('#js-velocity')
     $screen1 = $('#js-screen1')
-    $circleLine = @createDiv 
+    $circleLine = @createDiv
       class: 'c-green-g'
       container: $screen1
     width = 2
@@ -133,19 +134,19 @@ class Cross
     $circle.velocity {opacity:0}, duration: 100
 
     # # ===> line
-    # lines = @cloneCircles $circleLine, 8
-    # r = 0
-    # for $line, i in lines
-    #   r += r+i
-    #   $line.css {
-    #     'margin-left': "#{-i}px"
-    #     height: lineHeight
-    #     'transform': "translateY(#{-lineHeight}px) translateX(#{-r}px)"
-    #     opacity: 0
-    #   }, duration: 0
-    #   $line
-    #     .velocity( {opacity:1}, duration: 20, delay: 4500+(r))
-    #     .velocity( {opacity:0}, duration: 400)
+    lines = @cloneCircles $circleLine, 8
+    r = 0
+    for $line, i in lines
+      r += r+i
+      $line.css {
+        'margin-left': "#{-i}px"
+        height: lineHeight
+        'transform': "translateY(#{-lineHeight}px) translateX(#{-r}px)"
+        opacity: 0
+      }, duration: 0
+      $line
+        .velocity( {opacity:1}, duration: 20, delay: 4500+(r))
+        .velocity( {opacity:0}, duration: 400)
     
     $fast = $('#js-fast')
     $fastShade = $fast.find('.text-wrapper__shade')
@@ -213,56 +214,108 @@ class Cross
     $circleLine
       .velocity({top: '100%'}, delay: 200, duration: 500, easing: 'easeInExpo')
       .velocity { rotateZ: 20 }, duration: 1, delay: 0
-      .velocity { rotateZ: 0 }, {
-        duration: 1500,
-        easing: 'quake'
-      }
+      .velocity { rotateZ: 0 }, { duration: 1500, easing: 'quake' }
 
-    $circleProto.css 
+    $circleProto.css
       'margin-top': 0
       'top': '100%'
       # 'height': height
       'margin-left': -300 - (width/2)
       'transform': 'none'
 
-    lines2 = @cloneCircles $circleProto, 38, $screen1
+    lines2 = @cloneCircles $circleProto, 32, $screen1
     for $line2, i in lines2
       y = if (i+1) % 5 is 0 then -200 else -100
-      h = if (i+1) % 5 is 0 then height else height-80
-      $line2.css 
+      h = if (i+1) % 5 is 0 then height else height-100
+      $line2.css
         'margin-left': "#{-300 - (width/2) + ((i+1)*100)}px"
         height: h
 
+      
       $line2
         .velocity {
-            translateY: y
-          }, {
-            easing: 'elasticOut'
-            duration: 700
-            delay: 6650+(i*50)
-          }
-        .velocity {
-            rotateZ: -90
-          }, {
-            delay: (lines2.length-i)*120
-            easing: 'easeOutBounce'
-            duration: 300
-            # delay: 6650+(i*50)
-          }
+          translateY: y
+        }, {
+        easing: 'elasticOut'
+        duration: if i < 10 then 700 else 1
+        delay: 6650+(i*50)
+        }
+     
+
+      $line2.velocity {
+        rotateZ: -90
+      }, {
+        delay: 800+((lines2.length-i)*120)
+        easing: 'easeOutBounce'
+        duration: 600
+        # delay: 6650+(i*50)
+      }
 
     $screen1.velocity {
-      translateX: -3000
+      translateX: -2400
     }, {
       duration: 2000
       delay: 7000
     }
 
     $easy.velocity {
-      translateX: -3000
+      translateX: -2400
     }, {
       duration: 2000
       delay: 7000
     }
+
+    $velocity.velocity { 'margin-left': 0 }, { duration: 2000, delay: 7000 }
+
+    childs = $velocity.children()
+    for i in [childs.length-1..0]
+      $child = $ childs[i]
+      $child
+        .velocity {
+          translateX: -2000
+          translateY: -200-@rand(0,400)
+          rotateZ: @rand(-500,500)
+        }, {
+          delay: 9000+((childs.length-i)*50),
+          duration: 2000
+        }
+    $slices = $('.slice')
+    for slice, i in $slices
+      $slice = $ slice
+      $slice
+        .velocity { rotateZ: -90 }, {
+          duration: 1500, delay: 10200+(i*200), easing: 'easeInExpo'
+        }
+
+    $cloudBit = @createDiv class: 'c-grey-g cloud-bit'
+
+    $cloudBit.css
+      left: '50%'
+      top:  '50%'
+      'border-radius': '50%'
+    intervals = []
+    # clouds = @cloneCircles $cloudBit, 10
+    # for $bit, i in clouds
+    #   size = @rand(10,30)
+    #   $bit.css
+    #     'margin-left': "#{-(size/2)+@rand(-100,100)}px"
+    #     'margin-top':  "#{-(size/4)}px"
+    #     width:  "#{size}px"
+    #     height: "#{size}px"
+    #     'transform-origin': '55% 55%'
+    #   do ($bit, i)=>
+    #     setInterval ()=>
+    #       $bit
+    #         .velocity { 
+    #           rotateZ: -@rand(200,360)
+    #           # translateY: -@rand(-3,3)
+    #           # 'transform-origin': "#{@rand(80,100)}% #{@rand(80,100)}%"
+    #         }, {
+    #           easing: 'linear'
+    #           duration: 200
+    #         }
+    #     , 200
+
 
   cloneCircles:($proto, cnt=20, $container)->
     circles = []
