@@ -117,15 +117,15 @@ class Cross
     $circle.velocity attr, duration: 2800
 
     for $circleBit in circles
-      attr = { scale: @rand(2,8)/10  }
+      attr = { scale: window.helpers.rand(2,8)/10  }
       attr2 = {
-        translateX: @rand(-80,80),
+        translateX: window.helpers.rand(-80,80),
         'border-width': 0, opacity: 100,
-        translateY: -2*lineHeight+@rand(-100,100),
+        translateY: -2*lineHeight+window.helpers.rand(-100,100),
         scale: 1.15
       }
       $circleBit.velocity( attr, { duration: 0 })
-        .velocity attr2, { delay: 1200+@rand(0,1800), duration: 1200 }
+        .velocity attr2, { delay: 1200+window.helpers.rand(0,1800), duration: 1200 }
 
     $circleLine.velocity {
       height: lineHeight,
@@ -205,8 +205,8 @@ class Cross
     #     opacity: 100
     #   }, {
     #     easing: 'easeOutBounce',
-    #     duration: 1400+@rand(0,600),
-    #     delay: 7400+(i*100)+@rand(0,500)
+    #     duration: 1400+window.helpers.rand(0,600),
+    #     delay: 7400+(i*100)+window.helpers.rand(0,500)
     #     complete: ->
     #       $(this).fadeOut()
     #   }
@@ -273,95 +273,29 @@ class Cross
       $child
         .velocity {
           translateX: -2000
-          translateY: -200-@rand(0,400)
-          rotateZ: @rand(-500,500)
+          translateY: -200-window.helpers.rand(0,400)
+          rotateZ: window.helpers.rand(-500,500)
         }, {
         delay: 9000+((childs.length-i)*50),
         duration: 2000
         }
     $slices = $('.slice')
     for slice, i in $slices
-      $slice = $ slice
-      $slice
-        .velocity { rotateZ: -90 }, {
-          duration: 1500, delay: 10200+(i*200), easing: 'easeInExpo'
-        }
+      do (i)->
+        $slice = $ slice
+        $slice
+          .velocity { rotateZ: -90 }, {
+            duration: 1500, delay: 10200+(i*200)
+            easing: 'easeInExpo'
+            complete:->
+              (i is 0) and new Cloud
+          }
 
-    $cloudBit = @createDiv class: 'c-grey-g cloud-bit'
-
-    new CloudBit
-      width: 90
-      height: 120
-      deg: 5
-      class: 'c-grey-g'
-
-    new CloudBit
-      width: 80
-      height:  90
-      deg: 45
-      class: 'c-grey-g'
-      shiftY: 40
-      shiftX: -5
-
-    new CloudBit
-      width: 80
-      height:  100
-      deg: -35
-      class: 'c-grey-g'
-      shiftY: 20
-      shiftX: -90
-
-    new CloudBit
-      width: 60
-      height:  60
-      deg: 0
-      class: 'c-grey-g'
-      shiftY: 30
-      shiftX: -40
-
-    new CloudBit
-      width: 70
-      height: 70
-      deg: 10
-      class: 'c-grey-g'
-      shiftX: 55
-      shiftY: 40
-
-    new CloudBit
-      width: 60
-      height: 30
-      deg: 0
-      class: 'c-grey-g'
-      shiftX: 75
-      shiftY: 60
-
-    new CloudBit
-      width: 70
-      height: 30
-      deg: 0
-      class: 'c-grey-g'
-      shiftX: -100
-      shiftY: 60
-
-    new CloudBit
-      width: 80
-      height: 50
-      deg: 0
-      class: 'c-grey-g'
-      shiftX: -60
-      shiftY: 55
-    new CloudBit
-      width: 40
-      height: 30
-      deg: 0
-      class: 'c-grey-g'
-      shiftX: 25
-      shiftY: 55
     # clouds = @cloneCircles $cloudBit, 10
     # for $bit, i in clouds
-    #   size = @rand(10,30)
+    #   size = window.helpers.rand(10,30)
     #   $bit.css
-    #     'margin-left': "#{-(size/2)+@rand(-100,100)}px"
+    #     'margin-left': "#{-(size/2)+window.helpers.rand(-100,100)}px"
     #     'margin-top':  "#{-(size/4)}px"
     #     width:  "#{size}px"
     #     height: "#{size}px"
@@ -370,9 +304,9 @@ class Cross
     #     setInterval ()=>
     #       $bit
     #         .velocity {
-    #           rotateZ: -@rand(200,360)
-    #           # translateY: -@rand(-3,3)
-    #           # 'transform-origin': "#{@rand(80,100)}% #{@rand(80,100)}%"
+    #           rotateZ: -window.helpers.rand(200,360)
+    #           # translateY: -window.helpers.rand(-3,3)
+    #           # 'transform-origin': "#{window.helpers.rand(80,100)}% #{window.helpers.rand(80,100)}%"
     #         }, {
     #           easing: 'linear'
     #           duration: 200
@@ -396,64 +330,172 @@ class Cross
     $cont.append $div
     $div
 
-  rand:(min,max)->
-    Math.floor((Math.random() * ((max + 1) - min)) + min)
-
 window.Cross = Cross
 
+class Cloud
+  constructor:(@o={})->
+    @init()
 
+  init:->
+    new CloudBit
+      width: 90
+      height: 120
+      deg: 5
+      class: 'c-grey-g circle center'
 
+    new CloudBit
+      width: 80
+      height:  90
+      deg: 45
+      class: 'c-grey-g circle center'
+      shiftY: 40
+      shiftX: -5
+
+    new CloudBit
+      width: 80
+      height:  100
+      deg: -35
+      class: 'c-grey-g circle center'
+      shiftY: 20
+      shiftX: -90
+
+    new CloudBit
+      width: 60
+      height:  60
+      deg: 0
+      class: 'c-grey-g circle center'
+      shiftY: 30
+      shiftX: -40
+
+    new CloudBit
+      width: 70
+      height: 70
+      deg: 10
+      class: 'c-grey-g circle center'
+      shiftX: 55
+      shiftY: 40
+
+    new CloudBit
+      width: 60
+      height: 30
+      deg: 0
+      class: 'c-grey-g circle center'
+      shiftX: 75
+      shiftY: 60
+
+    new CloudBit
+      width: 70
+      height: 30
+      deg: 0
+      class: 'c-grey-g circle center'
+      shiftX: -100
+      shiftY: 60
+
+    new CloudBit
+      width: 80
+      height: 50
+      deg: 0
+      class: 'c-grey-g circle center'
+      shiftX: -60
+      shiftY: 55
+    new CloudBit
+      width: 40
+      height: 30
+      deg: 0
+      class: 'c-grey-g circle center'
+      shiftX: 25
+      shiftY: 55
+
+    new CloudBit
+      width: 10
+      height: 10
+      deg: 0
+      class: 'c-grey-g circle center'
+      shiftX: 103
+      shiftY: 65
+
+    new CloudBit
+      width: 5
+      height: 5
+      deg: 0
+      class: 'c-grey-g circle center'
+      shiftX: 110
+      shiftY: 66
+
+    new CloudBit
+      width: 10
+      height: 10
+      deg: 0
+      class: 'c-grey-g circle center'
+      shiftX: -128
+      shiftY: 65
+
+    new CloudBit
+      width: 8
+      height: 5
+      deg: 0
+      class: 'c-grey-g circle center'
+      shiftX: -135
+      shiftY: 65
 
 class CloudBit
   constructor:(@o={})->
     @vars()
     @createDiv()
     @setAttrs()
-    timer = setTimeout =>
-      @loop()
-      clearTimeout timer
-    , @rand(0,200)
-
-  rand:(min,max)->
-    Math.floor((Math.random() * ((max + 1) - min)) + min)
-
+    @loop(); @show()
   vars:->
+    @scale = 0
+    @opacity = 0
   createDiv:->
     @$el = $ '<div />'
     @o.class? and @$el.addClass @o.class
     $(document.body).append @$el
 
   setAttrs:->
-    @$el.css
-      left: '50%'
-      top:  '50%'
+    @$el.css(
       width:  @o.width
       height: @o.height
-      'border-radius': '50%'
-      'margin-left':  (-@o.width/2)  + (@o.shiftX ?= 0)
-      'margin-top':   (-@o.height/2) + (@o.shiftY ?= 0)
-      # transform: 'rotate(#{@o.deg}deg)'
+      marginLeft:  (-@o.width/2)  + (@o.shiftX ?= 0)
+      marginTop:   (-@o.height/2) + (@o.shiftY ?= 0)
+      'opacity': 0
+    ).velocity({
+      scale: 0
+    },{ duration: 0 })
+
+  show:->
+   @$el.velocity {
+    opacity: 100
+    scale: 1
+   }, { easing: 'easeOutElastic', delay: window.helpers.rand(0,100), duration: 1200 }
 
   loop:->
     @$el
       .velocity({
-        width: @o.width-(@o.width/10)
-        height: @o.height
+        scaleX: .9
+        scaleY: 1
         translateX: (@o.width/20)
         translateY: 0
         rotateZ: @o.deg
       }).velocity({
-      height: @o.height-(@o.height/10)
-      width: @o.width
-      translateX: 0
-      translateY: (@o.height/20)
-      complete:=> @loop()
+        scaleY: .9
+        scaleX: 1
+        translateX: 0
+        translateY: (@o.height/20)
+        rotateZ: @o.deg
+        complete:=> @loop()
       })
 
   destroy:->
     clearInterval @interval
 
-    
+class Thunder
+  constructor:(@o={})->
+    @vars()
+    init()
+  vars:->
+
+  init:->
 
 
 

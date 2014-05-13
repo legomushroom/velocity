@@ -1,5 +1,5 @@
 (function() {
-  var CloudBit, Cross;
+  var Cloud, CloudBit, Cross, Thunder;
 
   $.easing.quake = function(t) {
     var b;
@@ -39,7 +39,7 @@
     Cross.prototype.vars = function() {};
 
     Cross.prototype.init = function() {
-      var $child, $circle, $circleBit, $circleLine, $circleProto, $cloudBit, $div1, $div2, $div3, $div4, $easy, $fast, $fastShade, $line, $line2, $robust, $screen1, $slice, $slices, $velocity, attr, attr2, childs, circles, h, height, i, lineHeight, lines, lines2, r, size, slice, start, width, y, _i, _j, _k, _l, _len, _len1, _len2, _len3, _m, _ref;
+      var $child, $circle, $circleBit, $circleLine, $circleProto, $div1, $div2, $div3, $div4, $easy, $fast, $fastShade, $line, $line2, $robust, $screen1, $slices, $velocity, attr, attr2, childs, circles, h, height, i, lineHeight, lines, lines2, r, size, slice, start, width, y, _i, _j, _k, _l, _len, _len1, _len2, _len3, _m, _ref, _results;
       $div1 = this.createDiv({
         "class": 'c-green-g'
       });
@@ -167,19 +167,19 @@
       for (_i = 0, _len = circles.length; _i < _len; _i++) {
         $circleBit = circles[_i];
         attr = {
-          scale: this.rand(2, 8) / 10
+          scale: window.helpers.rand(2, 8) / 10
         };
         attr2 = {
-          translateX: this.rand(-80, 80),
+          translateX: window.helpers.rand(-80, 80),
           'border-width': 0,
           opacity: 100,
-          translateY: -2 * lineHeight + this.rand(-100, 100),
+          translateY: -2 * lineHeight + window.helpers.rand(-100, 100),
           scale: 1.15
         };
         $circleBit.velocity(attr, {
           duration: 0
         }).velocity(attr2, {
-          delay: 1200 + this.rand(0, 1800),
+          delay: 1200 + window.helpers.rand(0, 1800),
           duration: 1200
         });
       }
@@ -354,98 +354,33 @@
         $child = $(childs[i]);
         $child.velocity({
           translateX: -2000,
-          translateY: -200 - this.rand(0, 400),
-          rotateZ: this.rand(-500, 500)
+          translateY: -200 - window.helpers.rand(0, 400),
+          rotateZ: window.helpers.rand(-500, 500)
         }, {
           delay: 9000 + ((childs.length - i) * 50),
           duration: 2000
         });
       }
       $slices = $('.slice');
+      _results = [];
       for (i = _m = 0, _len3 = $slices.length; _m < _len3; i = ++_m) {
         slice = $slices[i];
-        $slice = $(slice);
-        $slice.velocity({
-          rotateZ: -90
-        }, {
-          duration: 1500,
-          delay: 10200 + (i * 200),
-          easing: 'easeInExpo'
-        });
+        _results.push((function(i) {
+          var $slice;
+          $slice = $(slice);
+          return $slice.velocity({
+            rotateZ: -90
+          }, {
+            duration: 1500,
+            delay: 10200 + (i * 200),
+            easing: 'easeInExpo',
+            complete: function() {
+              return (i === 0) && new Cloud;
+            }
+          });
+        })(i));
       }
-      $cloudBit = this.createDiv({
-        "class": 'c-grey-g cloud-bit'
-      });
-      new CloudBit({
-        width: 90,
-        height: 120,
-        deg: 5,
-        "class": 'c-grey-g'
-      });
-      new CloudBit({
-        width: 80,
-        height: 90,
-        deg: 45,
-        "class": 'c-grey-g',
-        shiftY: 40,
-        shiftX: -5
-      });
-      new CloudBit({
-        width: 80,
-        height: 100,
-        deg: -35,
-        "class": 'c-grey-g',
-        shiftY: 20,
-        shiftX: -90
-      });
-      new CloudBit({
-        width: 60,
-        height: 60,
-        deg: 0,
-        "class": 'c-grey-g',
-        shiftY: 30,
-        shiftX: -40
-      });
-      new CloudBit({
-        width: 70,
-        height: 70,
-        deg: 10,
-        "class": 'c-grey-g',
-        shiftX: 55,
-        shiftY: 40
-      });
-      new CloudBit({
-        width: 60,
-        height: 30,
-        deg: 0,
-        "class": 'c-grey-g',
-        shiftX: 75,
-        shiftY: 60
-      });
-      new CloudBit({
-        width: 70,
-        height: 30,
-        deg: 0,
-        "class": 'c-grey-g',
-        shiftX: -100,
-        shiftY: 60
-      });
-      new CloudBit({
-        width: 80,
-        height: 50,
-        deg: 0,
-        "class": 'c-grey-g',
-        shiftX: -60,
-        shiftY: 55
-      });
-      return new CloudBit({
-        width: 40,
-        height: 30,
-        deg: 0,
-        "class": 'c-grey-g',
-        shiftX: 25,
-        shiftY: 55
-      });
+      return _results;
     };
 
     Cross.prototype.cloneCircles = function($proto, cnt, $container) {
@@ -472,36 +407,141 @@
       return $div;
     };
 
-    Cross.prototype.rand = function(min, max) {
-      return Math.floor((Math.random() * ((max + 1) - min)) + min);
-    };
-
     return Cross;
 
   })();
 
   window.Cross = Cross;
 
+  Cloud = (function() {
+    function Cloud(o) {
+      this.o = o != null ? o : {};
+      this.init();
+    }
+
+    Cloud.prototype.init = function() {
+      new CloudBit({
+        width: 90,
+        height: 120,
+        deg: 5,
+        "class": 'c-grey-g circle center'
+      });
+      new CloudBit({
+        width: 80,
+        height: 90,
+        deg: 45,
+        "class": 'c-grey-g circle center',
+        shiftY: 40,
+        shiftX: -5
+      });
+      new CloudBit({
+        width: 80,
+        height: 100,
+        deg: -35,
+        "class": 'c-grey-g circle center',
+        shiftY: 20,
+        shiftX: -90
+      });
+      new CloudBit({
+        width: 60,
+        height: 60,
+        deg: 0,
+        "class": 'c-grey-g circle center',
+        shiftY: 30,
+        shiftX: -40
+      });
+      new CloudBit({
+        width: 70,
+        height: 70,
+        deg: 10,
+        "class": 'c-grey-g circle center',
+        shiftX: 55,
+        shiftY: 40
+      });
+      new CloudBit({
+        width: 60,
+        height: 30,
+        deg: 0,
+        "class": 'c-grey-g circle center',
+        shiftX: 75,
+        shiftY: 60
+      });
+      new CloudBit({
+        width: 70,
+        height: 30,
+        deg: 0,
+        "class": 'c-grey-g circle center',
+        shiftX: -100,
+        shiftY: 60
+      });
+      new CloudBit({
+        width: 80,
+        height: 50,
+        deg: 0,
+        "class": 'c-grey-g circle center',
+        shiftX: -60,
+        shiftY: 55
+      });
+      new CloudBit({
+        width: 40,
+        height: 30,
+        deg: 0,
+        "class": 'c-grey-g circle center',
+        shiftX: 25,
+        shiftY: 55
+      });
+      new CloudBit({
+        width: 10,
+        height: 10,
+        deg: 0,
+        "class": 'c-grey-g circle center',
+        shiftX: 103,
+        shiftY: 65
+      });
+      new CloudBit({
+        width: 5,
+        height: 5,
+        deg: 0,
+        "class": 'c-grey-g circle center',
+        shiftX: 110,
+        shiftY: 66
+      });
+      new CloudBit({
+        width: 10,
+        height: 10,
+        deg: 0,
+        "class": 'c-grey-g circle center',
+        shiftX: -128,
+        shiftY: 65
+      });
+      return new CloudBit({
+        width: 8,
+        height: 5,
+        deg: 0,
+        "class": 'c-grey-g circle center',
+        shiftX: -135,
+        shiftY: 65
+      });
+    };
+
+    return Cloud;
+
+  })();
+
   CloudBit = (function() {
     function CloudBit(o) {
-      var timer;
       this.o = o != null ? o : {};
       this.vars();
       this.createDiv();
       this.setAttrs();
-      timer = setTimeout((function(_this) {
-        return function() {
-          _this.loop();
-          return clearTimeout(timer);
-        };
-      })(this), this.rand(0, 200));
+      this.loop();
+      this.show();
     }
 
-    CloudBit.prototype.rand = function(min, max) {
-      return Math.floor((Math.random() * ((max + 1) - min)) + min);
+    CloudBit.prototype.vars = function() {
+      this.scale = 0;
+      return this.opacity = 0;
     };
-
-    CloudBit.prototype.vars = function() {};
 
     CloudBit.prototype.createDiv = function() {
       this.$el = $('<div />');
@@ -512,28 +552,42 @@
     CloudBit.prototype.setAttrs = function() {
       var _base, _base1;
       return this.$el.css({
-        left: '50%',
-        top: '50%',
         width: this.o.width,
         height: this.o.height,
-        'border-radius': '50%',
-        'margin-left': (-this.o.width / 2) + ((_base = this.o).shiftX != null ? _base.shiftX : _base.shiftX = 0),
-        'margin-top': (-this.o.height / 2) + ((_base1 = this.o).shiftY != null ? _base1.shiftY : _base1.shiftY = 0)
+        marginLeft: (-this.o.width / 2) + ((_base = this.o).shiftX != null ? _base.shiftX : _base.shiftX = 0),
+        marginTop: (-this.o.height / 2) + ((_base1 = this.o).shiftY != null ? _base1.shiftY : _base1.shiftY = 0),
+        'opacity': 0
+      }).velocity({
+        scale: 0
+      }, {
+        duration: 0
+      });
+    };
+
+    CloudBit.prototype.show = function() {
+      return this.$el.velocity({
+        opacity: 100,
+        scale: 1
+      }, {
+        easing: 'easeOutElastic',
+        delay: window.helpers.rand(0, 100),
+        duration: 1200
       });
     };
 
     CloudBit.prototype.loop = function() {
       return this.$el.velocity({
-        width: this.o.width - (this.o.width / 10),
-        height: this.o.height,
+        scaleX: .9,
+        scaleY: 1,
         translateX: this.o.width / 20,
         translateY: 0,
         rotateZ: this.o.deg
       }).velocity({
-        height: this.o.height - (this.o.height / 10),
-        width: this.o.width,
+        scaleY: .9,
+        scaleX: 1,
         translateX: 0,
         translateY: this.o.height / 20,
+        rotateZ: this.o.deg,
         complete: (function(_this) {
           return function() {
             return _this.loop();
@@ -547,6 +601,21 @@
     };
 
     return CloudBit;
+
+  })();
+
+  Thunder = (function() {
+    function Thunder(o) {
+      this.o = o != null ? o : {};
+      this.vars();
+      init();
+    }
+
+    Thunder.prototype.vars = function() {};
+
+    Thunder.prototype.init = function() {};
+
+    return Thunder;
 
   })();
 
