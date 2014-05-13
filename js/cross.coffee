@@ -92,22 +92,22 @@ class Cross
     $circleProto = $circle.clone()
     # $circleProto.css attr
 
-    circles = @cloneCircles $circleProto
+    circles = helpers.cloneBits $circleProto
 
     lineHeight = 200
     attr = { scale: .1 }
     $circle.velocity attr, duration: 2800
 
     for $circleBit in circles
-      attr = { scale: window.helpers.rand(2,8)/10  }
+      attr = { scale: helpers.rand(2,8)/10  }
       attr2 = {
-        translateX: window.helpers.rand(-80,80),
+        translateX: helpers.rand(-80,80),
         'border-width': 0, opacity: 100,
-        translateY: -2*lineHeight+window.helpers.rand(-100,100),
+        translateY: -2*lineHeight+helpers.rand(-100,100),
         scale: 1.15
       }
       $circleBit.velocity( attr, { duration: 0 })
-        .velocity attr2, { delay: 1200+window.helpers.rand(0,1800), duration: 1200 }
+        .velocity attr2, { delay: 1200+helpers.rand(0,1800), duration: 1200 }
 
     $circleLine.velocity {
       height: lineHeight,
@@ -116,7 +116,7 @@ class Cross
     $circle.velocity {opacity:0}, duration: 100
 
     # # ===> line
-    lines = @cloneCircles $circleLine, 8
+    lines = helpers.cloneBits $circleLine, 8
     r = 0
     for $line, i in lines
       r += r+i
@@ -179,7 +179,7 @@ class Cross
     #   'transform': 'none'
     #   'opacity': 0
 
-    # lines = @cloneCircles $circleProto, 6
+    # lines = helpers.cloneBits $circleProto, 6
     # for $line, i in lines
     #   angle = if i % 2 is 0 then 90 else -90
     #   $line.velocity {
@@ -187,8 +187,8 @@ class Cross
     #     opacity: 100
     #   }, {
     #     easing: 'easeOutBounce',
-    #     duration: 1400+window.helpers.rand(0,600),
-    #     delay: 7400+(i*100)+window.helpers.rand(0,500)
+    #     duration: 1400+helpers.rand(0,600),
+    #     delay: 7400+(i*100)+helpers.rand(0,500)
     #     complete: ->
     #       $(this).fadeOut()
     #   }
@@ -205,7 +205,7 @@ class Cross
       'margin-left': -300 - (width/2)
       'transform': 'none'
 
-    lines2 = @cloneCircles $circleProto, 32, $screen1
+    lines2 = helpers.cloneBits $circleProto, 32, $screen1
     for $line2, i in lines2
       y = if (i+1) % 5 is 0 then -200 else -100
       h = if (i+1) % 5 is 0 then height else height-100
@@ -255,8 +255,8 @@ class Cross
       $child
         .velocity {
           translateX: -2000
-          translateY: -200-window.helpers.rand(0,400)
-          rotateZ: window.helpers.rand(-500,500)
+          translateY: -200-helpers.rand(0,400)
+          rotateZ: helpers.rand(-500,500)
         }, {
         delay: 9000+((childs.length-i)*50),
         duration: 2000
@@ -272,17 +272,6 @@ class Cross
             complete:->
               (i is 0) and new Cloud
           }
-
-
-
-  cloneCircles:($proto, cnt=20, $container)->
-    circles = []
-    for i in [0...cnt]
-      $new = $proto.clone()
-      $cont = $container or $(document.body)
-      $cont.append $new
-      circles.push $new
-    circles
 
   createDiv:(o)->
     $div = $ '<div />'
@@ -424,7 +413,7 @@ class CloudBit
    @$el.velocity {
     opacity: 100
     scale: 1
-   }, { easing: 'easeOutElastic', delay: window.helpers.rand(0,100), duration: 1200 }
+   }, { easing: 'easeOutElastic', delay: helpers.rand(0,100), duration: 1200 }
 
   loop:->
     @$el
@@ -453,6 +442,11 @@ class Thunder
   vars:->
 
   init:->
+    $bit = helpers.createDiv class 'c-red-g center'
+    $bit.css
+      width: 2
+      height: 200
+
 
 
 

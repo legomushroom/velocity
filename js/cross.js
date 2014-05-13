@@ -127,7 +127,7 @@
         easing: 'spring'
       });
       $circleProto = $circle.clone();
-      circles = this.cloneCircles($circleProto);
+      circles = helpers.cloneBits($circleProto);
       lineHeight = 200;
       attr = {
         scale: .1
@@ -138,19 +138,19 @@
       for (_i = 0, _len = circles.length; _i < _len; _i++) {
         $circleBit = circles[_i];
         attr = {
-          scale: window.helpers.rand(2, 8) / 10
+          scale: helpers.rand(2, 8) / 10
         };
         attr2 = {
-          translateX: window.helpers.rand(-80, 80),
+          translateX: helpers.rand(-80, 80),
           'border-width': 0,
           opacity: 100,
-          translateY: -2 * lineHeight + window.helpers.rand(-100, 100),
+          translateY: -2 * lineHeight + helpers.rand(-100, 100),
           scale: 1.15
         };
         $circleBit.velocity(attr, {
           duration: 0
         }).velocity(attr2, {
-          delay: 1200 + window.helpers.rand(0, 1800),
+          delay: 1200 + helpers.rand(0, 1800),
           duration: 1200
         });
       }
@@ -166,7 +166,7 @@
       }, {
         duration: 100
       });
-      lines = this.cloneCircles($circleLine, 8);
+      lines = helpers.cloneBits($circleLine, 8);
       r = 0;
       for (i = _j = 0, _len1 = lines.length; _j < _len1; i = ++_j) {
         $line = lines[i];
@@ -278,7 +278,7 @@
         'margin-left': -300 - (width / 2),
         'transform': 'none'
       });
-      lines2 = this.cloneCircles($circleProto, 32, $screen1);
+      lines2 = helpers.cloneBits($circleProto, 32, $screen1);
       for (i = _k = 0, _len2 = lines2.length; _k < _len2; i = ++_k) {
         $line2 = lines2[i];
         y = (i + 1) % 5 === 0 ? -200 : -100;
@@ -325,8 +325,8 @@
         $child = $(childs[i]);
         $child.velocity({
           translateX: -2000,
-          translateY: -200 - window.helpers.rand(0, 400),
-          rotateZ: window.helpers.rand(-500, 500)
+          translateY: -200 - helpers.rand(0, 400),
+          rotateZ: helpers.rand(-500, 500)
         }, {
           delay: 9000 + ((childs.length - i) * 50),
           duration: 2000
@@ -352,21 +352,6 @@
         })(i));
       }
       return _results;
-    };
-
-    Cross.prototype.cloneCircles = function($proto, cnt, $container) {
-      var $cont, $new, circles, i, _i;
-      if (cnt == null) {
-        cnt = 20;
-      }
-      circles = [];
-      for (i = _i = 0; 0 <= cnt ? _i < cnt : _i > cnt; i = 0 <= cnt ? ++_i : --_i) {
-        $new = $proto.clone();
-        $cont = $container || $(document.body);
-        $cont.append($new);
-        circles.push($new);
-      }
-      return circles;
     };
 
     Cross.prototype.createDiv = function(o) {
@@ -537,7 +522,7 @@
         scale: 1
       }, {
         easing: 'easeOutElastic',
-        delay: window.helpers.rand(0, 100),
+        delay: helpers.rand(0, 100),
         duration: 1200
       });
     };

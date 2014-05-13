@@ -7,6 +7,15 @@ class Helpers
     $cont.append $el
     $el
 
+  cloneBits:($proto, cnt=20, $container)->
+    circles = []
+    for i in [0...cnt]
+      $new = $proto.clone()
+      $cont = $container or $(document.body)
+      $cont.append $new
+      circles.push $new
+    circles
+
 	rand:(min,max)->
     Math.floor((Math.random() * ((max + 1) - min)) + min)
 

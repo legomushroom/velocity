@@ -16,6 +16,21 @@
       return $el;
     };
 
+    Helpers.prototype.cloneBits = function($proto, cnt, $container) {
+      var $cont, $new, circles, i, _i;
+      if (cnt == null) {
+        cnt = 20;
+      }
+      circles = [];
+      for (i = _i = 0; 0 <= cnt ? _i < cnt : _i > cnt; i = 0 <= cnt ? ++_i : --_i) {
+        $new = $proto.clone();
+        $cont = $container || $(document.body);
+        $cont.append($new);
+        circles.push($new);
+      }
+      return circles;
+    };
+
     Helpers.prototype.rand = function(min, max) {
       return Math.floor((Math.random() * ((max + 1) - min)) + min);
     };
