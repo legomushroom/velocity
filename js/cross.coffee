@@ -1,21 +1,3 @@
-$.easing.quake = (t)->
-  b = Math.exp(-t*10)*Math.cos(Math.PI*2*t*10)
-  if t >= 1 then return 1
-  1 - b
-
-$.easing.elasticOut = (t)->
-  s = undefined
-  a = 0.1
-  p = 0.4
-  return 0  if t is 0
-  return 1  if t is 1
-  if not a or a < 1
-    a = 1
-    s = p / 4
-  else
-    s = p * Math.asin(1 / a) / (2 * Math.PI)
-  a * Math.pow(2, -10 * t) * Math.sin((t - s) * (2 * Math.PI) / p) + 1
-
 class Cross
   constructor:->
     @vars()
@@ -24,14 +6,14 @@ class Cross
   vars:->
 
   init:->
-    $div1   = @createDiv class: 'c-green-g'
-    $div2   = @createDiv class: 'c-green-g'
-    $div3   = @createDiv class: 'c-green-g'
-    $div4   = @createDiv class: 'c-green-g'
-    $circle = @createDiv()
+    $div1   = helpers.createDiv class: 'c-green-g'
+    $div2   = helpers.createDiv class: 'c-green-g'
+    $div3   = helpers.createDiv class: 'c-green-g'
+    $div4   = helpers.createDiv class: 'c-green-g'
+    $circle = helpers.createDiv()
     $velocity = $('#js-velocity')
     $screen1 = $('#js-screen1')
-    $circleLine = @createDiv
+    $circleLine = helpers.createDiv
       class: 'c-green-g'
       container: $screen1
     width = 2
@@ -291,27 +273,6 @@ class Cross
               (i is 0) and new Cloud
           }
 
-    # clouds = @cloneCircles $cloudBit, 10
-    # for $bit, i in clouds
-    #   size = window.helpers.rand(10,30)
-    #   $bit.css
-    #     'margin-left': "#{-(size/2)+window.helpers.rand(-100,100)}px"
-    #     'margin-top':  "#{-(size/4)}px"
-    #     width:  "#{size}px"
-    #     height: "#{size}px"
-    #     'transform-origin': '55% 55%'
-    #   do ($bit, i)=>
-    #     setInterval ()=>
-    #       $bit
-    #         .velocity {
-    #           rotateZ: -window.helpers.rand(200,360)
-    #           # translateY: -window.helpers.rand(-3,3)
-    #           # 'transform-origin': "#{window.helpers.rand(80,100)}% #{window.helpers.rand(80,100)}%"
-    #         }, {
-    #           easing: 'linear'
-    #           duration: 200
-    #         }
-    #     , 200
 
 
   cloneCircles:($proto, cnt=20, $container)->
@@ -441,16 +402,12 @@ class Cloud
 class CloudBit
   constructor:(@o={})->
     @vars()
-    @createDiv()
+    @$el = helpers.createDiv(class: 'c-grey-g circle center')
     @setAttrs()
     @loop(); @show()
   vars:->
     @scale = 0
     @opacity = 0
-  createDiv:->
-    @$el = $ '<div />'
-    @o.class? and @$el.addClass @o.class
-    $(document.body).append @$el
 
   setAttrs:->
     @$el.css(
@@ -477,14 +434,14 @@ class CloudBit
         translateX: (@o.width/20)
         translateY: 0
         rotateZ: @o.deg
-      }).velocity({
+      }, { duration: 500 }).velocity({
         scaleY: .9
         scaleX: 1
         translateX: 0
         translateY: (@o.height/20)
         rotateZ: @o.deg
         complete:=> @loop()
-      })
+      }, { duration: 500 })
 
   destroy:->
     clearInterval @interval
@@ -496,6 +453,7 @@ class Thunder
   vars:->
 
   init:->
+
 
 
 

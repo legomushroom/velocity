@@ -1,35 +1,6 @@
 (function() {
   var Cloud, CloudBit, Cross, Thunder;
 
-  $.easing.quake = function(t) {
-    var b;
-    b = Math.exp(-t * 10) * Math.cos(Math.PI * 2 * t * 10);
-    if (t >= 1) {
-      return 1;
-    }
-    return 1 - b;
-  };
-
-  $.easing.elasticOut = function(t) {
-    var a, p, s;
-    s = void 0;
-    a = 0.1;
-    p = 0.4;
-    if (t === 0) {
-      return 0;
-    }
-    if (t === 1) {
-      return 1;
-    }
-    if (!a || a < 1) {
-      a = 1;
-      s = p / 4;
-    } else {
-      s = p * Math.asin(1 / a) / (2 * Math.PI);
-    }
-    return a * Math.pow(2, -10 * t) * Math.sin((t - s) * (2 * Math.PI) / p) + 1;
-  };
-
   Cross = (function() {
     function Cross() {
       this.vars();
@@ -40,22 +11,22 @@
 
     Cross.prototype.init = function() {
       var $child, $circle, $circleBit, $circleLine, $circleProto, $div1, $div2, $div3, $div4, $easy, $fast, $fastShade, $line, $line2, $robust, $screen1, $slices, $velocity, attr, attr2, childs, circles, h, height, i, lineHeight, lines, lines2, r, size, slice, start, width, y, _i, _j, _k, _l, _len, _len1, _len2, _len3, _m, _ref, _results;
-      $div1 = this.createDiv({
+      $div1 = helpers.createDiv({
         "class": 'c-green-g'
       });
-      $div2 = this.createDiv({
+      $div2 = helpers.createDiv({
         "class": 'c-green-g'
       });
-      $div3 = this.createDiv({
+      $div3 = helpers.createDiv({
         "class": 'c-green-g'
       });
-      $div4 = this.createDiv({
+      $div4 = helpers.createDiv({
         "class": 'c-green-g'
       });
-      $circle = this.createDiv();
+      $circle = helpers.createDiv();
       $velocity = $('#js-velocity');
       $screen1 = $('#js-screen1');
-      $circleLine = this.createDiv({
+      $circleLine = helpers.createDiv({
         "class": 'c-green-g',
         container: $screen1
       });
@@ -532,7 +503,9 @@
     function CloudBit(o) {
       this.o = o != null ? o : {};
       this.vars();
-      this.createDiv();
+      this.$el = helpers.createDiv({
+        "class": 'c-grey-g circle center'
+      });
       this.setAttrs();
       this.loop();
       this.show();
@@ -541,12 +514,6 @@
     CloudBit.prototype.vars = function() {
       this.scale = 0;
       return this.opacity = 0;
-    };
-
-    CloudBit.prototype.createDiv = function() {
-      this.$el = $('<div />');
-      (this.o["class"] != null) && this.$el.addClass(this.o["class"]);
-      return $(document.body).append(this.$el);
     };
 
     CloudBit.prototype.setAttrs = function() {
@@ -582,6 +549,8 @@
         translateX: this.o.width / 20,
         translateY: 0,
         rotateZ: this.o.deg
+      }, {
+        duration: 500
       }).velocity({
         scaleY: .9,
         scaleX: 1,
@@ -593,6 +562,8 @@
             return _this.loop();
           };
         })(this)
+      }, {
+        duration: 500
       });
     };
 
