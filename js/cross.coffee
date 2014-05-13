@@ -193,6 +193,11 @@ class Cross
     #       $(this).fadeOut()
     #   }
 
+    # for i in [0..20]
+    setTimeout =>
+      new Thunder
+    , 500
+
     $circleLine
       .velocity({top: '100%'}, delay: 200, duration: 500, easing: 'easeInExpo')
       .velocity { rotateZ: 20 }, duration: 1, delay: 0
@@ -273,12 +278,6 @@ class Cross
               (i is 0) and new Cloud
           }
 
-  createDiv:(o)->
-    $div = $ '<div />'
-    o?.class? and $div.addClass o.class
-    $cont = o?.container or $(document.body)
-    $cont.append $div
-    $div
 
 window.Cross = Cross
 
@@ -438,14 +437,59 @@ class CloudBit
 class Thunder
   constructor:(@o={})->
     @vars()
-    init()
+    @init()
   vars:->
 
   init:->
-    $bit = helpers.createDiv class 'c-red-g center'
+    $bit = helpers.createDiv class: 'c-red-g center circle'
     $bit.css
       width: 2
-      height: 200
+      height: 0
+      marginLeft: -1
+      'transform-origin': 'top center'
+
+    thunder = helpers.cloneBits $bit, 15
+    @makeBoom thunder, $bit
+
+  makeBoom:(thunder, $bit)->
+    @prevAngle = 100
+    $prevBit = $bit
+    for $bit1,i in thunder
+      $bit1.css
+        top: '100%'
+        opacity: 0
+      $prevBit.append $bit1
+      size = @calcSize i
+      $bit1.velocity({
+        height:  size.height
+        rotateZ: size.angle
+        opacity: 1
+        width: 6
+        marginLeft: -3
+      }).velocity({ width: 0, marginLeft: 0 },{
+        duration: 100
+        # complete:=>
+      })
+      $prevBit = $bit1
+
+  calcSize:(i)->
+    angle = 0
+    # @prevAngle ?= 100
+    if i is 0
+      angle = helpers.rand(15,25)
+      height = 50
+    else
+      if i % 2 is 0
+        angle = -@prevAngle + helpers.rand(0,10)
+        @prevAngle = angle
+        height = helpers.rand(40, 150)
+      else
+        angle = -@prevAngle + helpers.rand(0,20)
+        height = helpers.rand(10, 40)
+        @prevAngle = angle
+
+    angle: angle
+    height: height
 
 
 

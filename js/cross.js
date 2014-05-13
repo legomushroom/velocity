@@ -255,6 +255,11 @@
         'transform-origin': '50% bottom'
       });
       $circleProto = $circleLine.clone();
+      setTimeout((function(_this) {
+        return function() {
+          return new Thunder;
+        };
+      })(this), 500);
       $circleLine.velocity({
         top: '100%'
       }, {
@@ -352,15 +357,6 @@
         })(i));
       }
       return _results;
-    };
-
-    Cross.prototype.createDiv = function(o) {
-      var $cont, $div;
-      $div = $('<div />');
-      ((o != null ? o["class"] : void 0) != null) && $div.addClass(o["class"]);
-      $cont = (o != null ? o.container : void 0) || $(document.body);
-      $cont.append($div);
-      return $div;
     };
 
     return Cross;
@@ -564,12 +560,78 @@
     function Thunder(o) {
       this.o = o != null ? o : {};
       this.vars();
-      init();
+      this.init();
     }
 
     Thunder.prototype.vars = function() {};
 
-    Thunder.prototype.init = function() {};
+    Thunder.prototype.init = function() {
+      var $bit, thunder;
+      $bit = helpers.createDiv({
+        "class": 'c-red-g center circle'
+      });
+      $bit.css({
+        width: 2,
+        height: 0,
+        marginLeft: -1,
+        'transform-origin': 'top center'
+      });
+      thunder = helpers.cloneBits($bit, 15);
+      return this.makeBoom(thunder, $bit);
+    };
+
+    Thunder.prototype.makeBoom = function(thunder, $bit) {
+      var $bit1, $prevBit, i, size, _i, _len, _results;
+      this.prevAngle = 100;
+      $prevBit = $bit;
+      _results = [];
+      for (i = _i = 0, _len = thunder.length; _i < _len; i = ++_i) {
+        $bit1 = thunder[i];
+        $bit1.css({
+          top: '100%',
+          opacity: 0
+        });
+        $prevBit.append($bit1);
+        size = this.calcSize(i);
+        $bit1.velocity({
+          height: size.height,
+          rotateZ: size.angle,
+          opacity: 1,
+          width: 6,
+          marginLeft: -3
+        }).velocity({
+          width: 0,
+          marginLeft: 0
+        }, {
+          duration: 100
+        });
+        _results.push($prevBit = $bit1);
+      }
+      return _results;
+    };
+
+    Thunder.prototype.calcSize = function(i) {
+      var angle, height;
+      angle = 0;
+      if (i === 0) {
+        angle = helpers.rand(15, 25);
+        height = 50;
+      } else {
+        if (i % 2 === 0) {
+          angle = -this.prevAngle + helpers.rand(0, 10);
+          this.prevAngle = angle;
+          height = helpers.rand(40, 150);
+        } else {
+          angle = -this.prevAngle + helpers.rand(0, 20);
+          height = helpers.rand(10, 40);
+          this.prevAngle = angle;
+        }
+      }
+      return {
+        angle: angle,
+        height: height
+      };
+    };
 
     return Thunder;
 
