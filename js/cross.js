@@ -259,7 +259,7 @@
         return function() {
           return new Thunder;
         };
-      })(this), 500);
+      })(this), 13500);
       $circleLine.velocity({
         top: '100%'
       }, {
@@ -568,7 +568,7 @@
     Thunder.prototype.init = function() {
       var $bit, thunder;
       $bit = helpers.createDiv({
-        "class": 'c-red-g center circle'
+        "class": 'c-grey-g center circle'
       });
       $bit.css({
         width: 2,
@@ -577,7 +577,15 @@
         'transform-origin': 'top center'
       });
       thunder = helpers.cloneBits($bit, 15);
-      return this.makeBoom(thunder, $bit);
+      this.makeBoom(thunder, $bit);
+      return setTimeout((function(_this) {
+        return function() {
+          _this.makeBoom(thunder, $bit);
+          return setTimeout(function() {
+            return _this.makeBoom(thunder, $bit);
+          }, 350);
+        };
+      })(this), 350);
     };
 
     Thunder.prototype.makeBoom = function(thunder, $bit) {
@@ -599,6 +607,8 @@
           opacity: 1,
           width: 6,
           marginLeft: -3
+        }, {
+          duration: 300
         }).velocity({
           width: 0,
           marginLeft: 0

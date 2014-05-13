@@ -196,7 +196,7 @@ class Cross
     # for i in [0..20]
     setTimeout =>
       new Thunder
-    , 500
+    , 13500
 
     $circleLine
       .velocity({top: '100%'}, delay: 200, duration: 500, easing: 'easeInExpo')
@@ -441,7 +441,7 @@ class Thunder
   vars:->
 
   init:->
-    $bit = helpers.createDiv class: 'c-red-g center circle'
+    $bit = helpers.createDiv class: 'c-grey-g center circle'
     $bit.css
       width: 2
       height: 0
@@ -450,6 +450,12 @@ class Thunder
 
     thunder = helpers.cloneBits $bit, 15
     @makeBoom thunder, $bit
+    setTimeout =>
+      @makeBoom thunder, $bit
+      setTimeout =>
+        @makeBoom thunder, $bit
+      , 350
+    , 350
 
   makeBoom:(thunder, $bit)->
     @prevAngle = 100
@@ -466,9 +472,8 @@ class Thunder
         opacity: 1
         width: 6
         marginLeft: -3
-      }).velocity({ width: 0, marginLeft: 0 },{
+      },{ duration: 300 }).velocity({ width: 0, marginLeft: 0 },{
         duration: 100
-        # complete:=>
       })
       $prevBit = $bit1
 
