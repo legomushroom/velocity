@@ -12,6 +12,18 @@ c-green = #00FFC6
 c-grey  = #777
 
 
+.arrow
+	width 2px
+	height 200px
+	transform-origin center bottom
+	background c-green
+	top -50%
+	left 100%
+	margin-top -175px
+
+	&--center
+		margin-left -20px
+
 .car
 	height 10px
 	width 40%
@@ -35,12 +47,28 @@ c-grey  = #777
 	font-weight 100
 	text-align center
 	&--fast
-		transform translateX(-50%) translateY(-50%)
-
-		span
+		rect 100%
+		hl green
+		nw 0
+		// transform translateX(-50%) translateY(-100%)
+		step = 45px
+		&__1
+			margin-left -(step*2)
+			nw 50%
+		&__2
+			margin-left -(step)
+			nw 50%
+		&__3
+			margin-left 0
+			nw 50%
+		&__4
+			margin-left step
+			nw 50%
+		span, div
 			letter-spacing 5px
 			display inline-block
 			transform-origin center bottom
+			margin-top -30px
 
 .c-green-g
 	background c-green
