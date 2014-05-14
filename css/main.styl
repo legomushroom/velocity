@@ -11,14 +11,41 @@
 c-green = #00FFC6
 c-grey  = #777
 
+
+.car
+	height 10px
+	width 20%
+	opacity 1
+	border-radius 50%
+	&--1
+		right 100%
+		top 40%
+	&--2
+		left 100%
+		top: 60%
+
+.text
+	font-family 'Open Sans'
+	font-size 60px
+	text-transform uppercase
+	font-weight 100
+	text-align center
+	&--fast
+		transform translateX(-50%) translateY(-50%)
+
+		span
+			letter-spacing 5px
+			display inline-block
+			transform-origin center bottom
+
 .c-green-g
 	background c-green
 
+.c-green-c-g
+	color c-green
+
 .c-grey-g
 	background c-grey
-	// background c-green
-	// background deeppink
-	// border 1px solid deeppink
 
 .c-red-g
 	background deeppink
