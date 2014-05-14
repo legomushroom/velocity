@@ -22,7 +22,7 @@ class Main
           delay: (160+(i*15))*@s, duration: 100*@s
         }).velocity({ rotateZ: 0 },  {
           delay: (60+(i*15))*@s,
-          duration: 4500*@s,
+          duration: 5000*@s,
           easing: 'quake',
         })
 
@@ -32,14 +32,15 @@ class Main
 
       for child, i in fastChilds
         $child = $ child
+        $child = $child.find('span')
         $child.css 'transform-origin': 'center top'
         $child
           .velocity({ rotateZ: 40 }, {
             delay: (160+(fastChilds.length-i)*15)*@s, duration: 100*@s
           }).velocity({ rotateZ: 0 },  {
-            delay: (60+(fastChilds.length-i)*15)*@s, duration: 4500*@s, easing: 'quake'
+            delay: (60+(fastChilds.length-i)*15)*@s, duration: 5000*@s, easing: 'quake'
           })
-    , 5000*@s
+    , 2000*@s
 
 
 setTimeout ->

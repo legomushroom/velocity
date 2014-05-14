@@ -36,7 +36,7 @@
           rotateZ: 0
         }, {
           delay: (60 + (i * 15)) * this.s,
-          duration: 4500 * this.s,
+          duration: 5000 * this.s,
           easing: 'quake'
         });
       }
@@ -54,6 +54,7 @@
           for (i = _j = 0, _len1 = fastChilds.length; _j < _len1; i = ++_j) {
             child = fastChilds[i];
             $child = $(child);
+            $child = $child.find('span');
             $child.css({
               'transform-origin': 'center top'
             });
@@ -66,13 +67,13 @@
               rotateZ: 0
             }, {
               delay: (60 + (fastChilds.length - i) * 15) * _this.s,
-              duration: 4500 * _this.s,
+              duration: 5000 * _this.s,
               easing: 'quake'
             }));
           }
           return _results;
         };
-      })(this), 5000 * this.s);
+      })(this), 2000 * this.s);
     };
 
     return Main;
