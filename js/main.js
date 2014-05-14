@@ -15,37 +15,64 @@
     };
 
     Main.prototype.init = function() {
-      var $child, child, i, _i, _len, _ref, _results;
+      var $child, child, fastChilds, i, _i, _len;
       this.s = 1;
-      this.start = 0 * this.s;
-      this.dur = 400 * this.s;
       this.$car1.velocity({
-        right: '-20%',
-        width: '0%',
-        opacity: 1,
-        duration: this.dur
+        right: '-40%',
+        opacity: 2
+      }, {
+        duration: 400 * this.s
       });
-      this.start = 0 * this.s;
-      this.dur = 4500 * this.s;
-      _ref = this.$fast.children();
-      _results = [];
-      for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-        child = _ref[i];
+      fastChilds = this.$fast.children();
+      for (i = _i = 0, _len = fastChilds.length; _i < _len; i = ++_i) {
+        child = fastChilds[i];
         $child = $(child);
-        _results.push($child.velocity({
+        $child.velocity({
           rotateZ: 40
         }, {
-          delay: 200 * this.s,
-          duration: 100
+          delay: (160 + (i * 15)) * this.s,
+          duration: 100 * this.s
         }).velocity({
           rotateZ: 0
         }, {
-          delay: 60 + helpers.rand(0, 50),
-          duration: this.dur,
+          delay: (60 + (i * 15)) * this.s,
+          duration: 4500 * this.s,
           easing: 'quake'
-        }));
+        });
       }
-      return _results;
+      return setTimeout((function(_this) {
+        return function() {
+          var _j, _len1, _results;
+          _this.$car2.velocity({
+            left: '-40%',
+            opacity: 1
+          }, {
+            delay: 0 * _this.s,
+            duration: 400 * _this.s
+          });
+          _results = [];
+          for (i = _j = 0, _len1 = fastChilds.length; _j < _len1; i = ++_j) {
+            child = fastChilds[i];
+            $child = $(child);
+            $child.css({
+              'transform-origin': 'center top'
+            });
+            _results.push($child.velocity({
+              rotateZ: 40
+            }, {
+              delay: (160 + (fastChilds.length - i) * 15) * _this.s,
+              duration: 100 * _this.s
+            }).velocity({
+              rotateZ: 0
+            }, {
+              delay: (60 + (fastChilds.length - i) * 15) * _this.s,
+              duration: 4500 * _this.s,
+              easing: 'quake'
+            }));
+          }
+          return _results;
+        };
+      })(this), 5000 * this.s);
     };
 
     return Main;

@@ -10,24 +10,37 @@ class Main
 
   init:->
     @s = 1
-    @start = 0*@s
-    @dur   = 400*@s
 
     @$car1
-      .velocity { right: '-20%', width: '0%', opacity: 1, duration: @dur }
-    @start = 0*@s
-    @dur   = 4500*@s
-    for child, i in @$fast.children()
+      .velocity { right: '-40%', opacity: 2 }, { duration: 400*@s }
+    
+    fastChilds = @$fast.children()
+    for child, i in fastChilds
       $child = $ child
       $child
         .velocity({ rotateZ: 40 }, {
-          (delay: 200+helpers.rand(0,300))*@s, duration: 100
+          delay: (160+(i*15))*@s, duration: 100*@s
         }).velocity({ rotateZ: 0 },  {
-          delay: (60+helpers.rand(0,50))*@s, duration: @dur, easing: 'quake'
+          delay: (60+(i*15))*@s,
+          duration: 4500*@s,
+          easing: 'quake',
         })
 
-    # @$car1
-    #   .velocity { right: '-20%', width: '0%', opacity: 1 }
+    setTimeout =>
+      @$car2
+        .velocity { left: '-40%', opacity: 1 }, { delay: 0*@s, duration: 400*@s }
+
+      for child, i in fastChilds
+        $child = $ child
+        $child.css 'transform-origin': 'center top'
+        $child
+          .velocity({ rotateZ: 40 }, {
+            delay: (160+(fastChilds.length-i)*15)*@s, duration: 100*@s
+          }).velocity({ rotateZ: 0 },  {
+            delay: (60+(fastChilds.length-i)*15)*@s, duration: 4500*@s, easing: 'quake'
+          })
+    , 5000*@s
+
 
 setTimeout ->
   new Main
