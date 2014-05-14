@@ -196,7 +196,7 @@ class Cross
     # for i in [0..20]
     setTimeout =>
       new Thunder
-    , 13500
+    , 14500
 
     $circleLine
       .velocity({top: '100%'}, delay: 200, duration: 500, easing: 'easeInExpo')
@@ -283,114 +283,139 @@ window.Cross = Cross
 
 class Cloud
   constructor:(@o={})->
+    @vars()
     @init()
+
+  vars:->
+    @$el = helpers.createDiv
+      class: 'center c-grey-g'
+
+    window.$cloud = @$el
 
   init:->
     new CloudBit
       width: 90
       height: 120
       deg: 5
-      class: 'c-grey-g circle center'
+      class: 'inherit-bg circle center'
+      container: @$el
 
     new CloudBit
       width: 80
       height:  90
       deg: 45
-      class: 'c-grey-g circle center'
+      class: 'inherit-bg circle center'
       shiftY: 40
       shiftX: -5
+      container: @$el
 
     new CloudBit
       width: 80
       height:  100
       deg: -35
-      class: 'c-grey-g circle center'
+      class: 'inherit-bg circle center'
       shiftY: 20
       shiftX: -90
+      container: @$el
 
     new CloudBit
       width: 60
       height:  60
       deg: 0
-      class: 'c-grey-g circle center'
+      class: 'inherit-bg circle center'
       shiftY: 30
       shiftX: -40
+      container: @$el
 
     new CloudBit
       width: 70
       height: 70
       deg: 10
-      class: 'c-grey-g circle center'
+      class: 'inherit-bg circle center'
       shiftX: 55
       shiftY: 40
+      container: @$el
 
     new CloudBit
       width: 60
       height: 30
       deg: 0
-      class: 'c-grey-g circle center'
+      class: 'inherit-bg circle center'
       shiftX: 75
       shiftY: 60
+      container: @$el
 
     new CloudBit
       width: 70
       height: 30
       deg: 0
-      class: 'c-grey-g circle center'
+      class: 'inherit-bg circle center'
       shiftX: -100
       shiftY: 60
+      container: @$el
 
     new CloudBit
       width: 80
       height: 50
       deg: 0
-      class: 'c-grey-g circle center'
+      class: 'inherit-bg circle center'
       shiftX: -60
       shiftY: 55
+      container: @$el
+
     new CloudBit
       width: 40
       height: 30
       deg: 0
-      class: 'c-grey-g circle center'
+      class: 'inherit-bg circle center'
       shiftX: 25
       shiftY: 55
+      container: @$el
 
     new CloudBit
       width: 10
       height: 10
       deg: 0
-      class: 'c-grey-g circle center'
+      class: 'inherit-bg circle center'
       shiftX: 103
       shiftY: 65
+      container: @$el
 
     new CloudBit
       width: 5
       height: 5
       deg: 0
-      class: 'c-grey-g circle center'
+      class: 'inherit-bg circle center'
       shiftX: 110
       shiftY: 66
+      container: @$el
 
     new CloudBit
       width: 10
       height: 10
       deg: 0
-      class: 'c-grey-g circle center'
+      class: 'inherit-bg circle center'
       shiftX: -128
       shiftY: 65
+      container: @$el
 
     new CloudBit
       width: 8
       height: 5
       deg: 0
-      class: 'c-grey-g circle center'
+      class: 'inherit-bg circle center'
       shiftX: -135
       shiftY: 65
+      container: @$el
+
 
 class CloudBit
   constructor:(@o={})->
     @vars()
-    @$el = helpers.createDiv(class: 'c-grey-g circle center')
+    @$el = helpers.createDiv(
+      class: @o.class
+      container: @o.container
+      )
     @setAttrs()
     @loop(); @show()
   vars:->
@@ -439,9 +464,10 @@ class Thunder
     @vars()
     @init()
   vars:->
+    @$slice = $('.slice1')
 
   init:->
-    $bit = helpers.createDiv class: 'c-grey-g center circle'
+    $bit = helpers.createDiv class: 'c-green-g center circle'
     $bit.css
       width: 2
       height: 0
@@ -455,26 +481,41 @@ class Thunder
       setTimeout =>
         @makeBoom thunder, $bit
       , 350
-    , 350
+    , 320
 
   makeBoom:(thunder, $bit)->
     @prevAngle = 100
     $prevBit = $bit
-    for $bit1,i in thunder
+    $bit.css 'z-index': 9
+    $cloud
+      .addClass('c-green-g')
+      .removeClass('c-grey-g')
+    @$slice
+      .velocity({'opacity': 0},{ duration:40 }).velocity({'opacity': 1},{
+        delay: 200
+        duration:40
+        complete: =>
+          $cloud
+            .removeClass('c-green-g')
+            .addClass('c-grey-g')
+      })
+
+    for $bit1, i in thunder
       $bit1.css
         top: '100%'
         opacity: 0
       $prevBit.append $bit1
       size = @calcSize i
-      $bit1.velocity({
-        height:  size.height
-        rotateZ: size.angle
-        opacity: 1
-        width: 6
-        marginLeft: -3
-      },{ duration: 300 }).velocity({ width: 0, marginLeft: 0 },{
-        duration: 100
-      })
+      do (i)=>
+        $bit1.velocity({
+          height:  size.height
+          rotateZ: size.angle
+          opacity: 1
+          width: 4
+          marginLeft: -2
+        },{ duration: 200 }).velocity({ width: 0, marginLeft: 0 },{
+          duration: 50
+        })
       $prevBit = $bit1
 
   calcSize:(i)->

@@ -259,7 +259,7 @@
         return function() {
           return new Thunder;
         };
-      })(this), 13500);
+      })(this), 14500);
       $circleLine.velocity({
         top: '100%'
       }, {
@@ -368,111 +368,132 @@
   Cloud = (function() {
     function Cloud(o) {
       this.o = o != null ? o : {};
+      this.vars();
       this.init();
     }
+
+    Cloud.prototype.vars = function() {
+      this.$el = helpers.createDiv({
+        "class": 'center c-grey-g'
+      });
+      return window.$cloud = this.$el;
+    };
 
     Cloud.prototype.init = function() {
       new CloudBit({
         width: 90,
         height: 120,
         deg: 5,
-        "class": 'c-grey-g circle center'
+        "class": 'inherit-bg circle center',
+        container: this.$el
       });
       new CloudBit({
         width: 80,
         height: 90,
         deg: 45,
-        "class": 'c-grey-g circle center',
+        "class": 'inherit-bg circle center',
         shiftY: 40,
-        shiftX: -5
+        shiftX: -5,
+        container: this.$el
       });
       new CloudBit({
         width: 80,
         height: 100,
         deg: -35,
-        "class": 'c-grey-g circle center',
+        "class": 'inherit-bg circle center',
         shiftY: 20,
-        shiftX: -90
+        shiftX: -90,
+        container: this.$el
       });
       new CloudBit({
         width: 60,
         height: 60,
         deg: 0,
-        "class": 'c-grey-g circle center',
+        "class": 'inherit-bg circle center',
         shiftY: 30,
-        shiftX: -40
+        shiftX: -40,
+        container: this.$el
       });
       new CloudBit({
         width: 70,
         height: 70,
         deg: 10,
-        "class": 'c-grey-g circle center',
+        "class": 'inherit-bg circle center',
         shiftX: 55,
-        shiftY: 40
+        shiftY: 40,
+        container: this.$el
       });
       new CloudBit({
         width: 60,
         height: 30,
         deg: 0,
-        "class": 'c-grey-g circle center',
+        "class": 'inherit-bg circle center',
         shiftX: 75,
-        shiftY: 60
+        shiftY: 60,
+        container: this.$el
       });
       new CloudBit({
         width: 70,
         height: 30,
         deg: 0,
-        "class": 'c-grey-g circle center',
+        "class": 'inherit-bg circle center',
         shiftX: -100,
-        shiftY: 60
+        shiftY: 60,
+        container: this.$el
       });
       new CloudBit({
         width: 80,
         height: 50,
         deg: 0,
-        "class": 'c-grey-g circle center',
+        "class": 'inherit-bg circle center',
         shiftX: -60,
-        shiftY: 55
+        shiftY: 55,
+        container: this.$el
       });
       new CloudBit({
         width: 40,
         height: 30,
         deg: 0,
-        "class": 'c-grey-g circle center',
+        "class": 'inherit-bg circle center',
         shiftX: 25,
-        shiftY: 55
+        shiftY: 55,
+        container: this.$el
       });
       new CloudBit({
         width: 10,
         height: 10,
         deg: 0,
-        "class": 'c-grey-g circle center',
+        "class": 'inherit-bg circle center',
         shiftX: 103,
-        shiftY: 65
+        shiftY: 65,
+        container: this.$el
       });
       new CloudBit({
         width: 5,
         height: 5,
         deg: 0,
-        "class": 'c-grey-g circle center',
+        "class": 'inherit-bg circle center',
         shiftX: 110,
-        shiftY: 66
+        shiftY: 66,
+        container: this.$el
       });
       new CloudBit({
         width: 10,
         height: 10,
         deg: 0,
-        "class": 'c-grey-g circle center',
+        "class": 'inherit-bg circle center',
         shiftX: -128,
-        shiftY: 65
+        shiftY: 65,
+        container: this.$el
       });
       return new CloudBit({
         width: 8,
         height: 5,
         deg: 0,
-        "class": 'c-grey-g circle center',
+        "class": 'inherit-bg circle center',
         shiftX: -135,
-        shiftY: 65
+        shiftY: 65,
+        container: this.$el
       });
     };
 
@@ -485,7 +506,8 @@
       this.o = o != null ? o : {};
       this.vars();
       this.$el = helpers.createDiv({
-        "class": 'c-grey-g circle center'
+        "class": this.o["class"],
+        container: this.o.container
       });
       this.setAttrs();
       this.loop();
@@ -563,12 +585,14 @@
       this.init();
     }
 
-    Thunder.prototype.vars = function() {};
+    Thunder.prototype.vars = function() {
+      return this.$slice = $('.slice1');
+    };
 
     Thunder.prototype.init = function() {
       var $bit, thunder;
       $bit = helpers.createDiv({
-        "class": 'c-grey-g center circle'
+        "class": 'c-green-g center circle'
       });
       $bit.css({
         width: 2,
@@ -585,13 +609,50 @@
             return _this.makeBoom(thunder, $bit);
           }, 350);
         };
-      })(this), 350);
+      })(this), 320);
     };
 
     Thunder.prototype.makeBoom = function(thunder, $bit) {
-      var $bit1, $prevBit, i, size, _i, _len, _results;
+      var $bit1, $prevBit, i, size, _fn, _i, _len, _results;
       this.prevAngle = 100;
       $prevBit = $bit;
+      $bit.css({
+        'z-index': 9
+      });
+      $cloud.addClass('c-green-g').removeClass('c-grey-g');
+      this.$slice.velocity({
+        'opacity': 0
+      }, {
+        duration: 40
+      }).velocity({
+        'opacity': 1
+      }, {
+        delay: 200,
+        duration: 40,
+        complete: (function(_this) {
+          return function() {
+            return $cloud.removeClass('c-green-g').addClass('c-grey-g');
+          };
+        })(this)
+      });
+      _fn = (function(_this) {
+        return function(i) {
+          return $bit1.velocity({
+            height: size.height,
+            rotateZ: size.angle,
+            opacity: 1,
+            width: 4,
+            marginLeft: -2
+          }, {
+            duration: 200
+          }).velocity({
+            width: 0,
+            marginLeft: 0
+          }, {
+            duration: 50
+          });
+        };
+      })(this);
       _results = [];
       for (i = _i = 0, _len = thunder.length; _i < _len; i = ++_i) {
         $bit1 = thunder[i];
@@ -601,20 +662,7 @@
         });
         $prevBit.append($bit1);
         size = this.calcSize(i);
-        $bit1.velocity({
-          height: size.height,
-          rotateZ: size.angle,
-          opacity: 1,
-          width: 6,
-          marginLeft: -3
-        }, {
-          duration: 300
-        }).velocity({
-          width: 0,
-          marginLeft: 0
-        }, {
-          duration: 100
-        });
+        _fn(i);
         _results.push($prevBit = $bit1);
       }
       return _results;
