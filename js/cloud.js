@@ -10,126 +10,141 @@
 
     Cloud.prototype.vars = function() {
       this.$el = helpers.createDiv({
-        "class": 'center c-grey-g'
+        "class": 'center c-green-g'
       });
       return window.$cloud = this.$el;
     };
 
     Cloud.prototype.init = function() {
+      var className;
+      className = 'inherit-bg circle center';
       new CloudBit({
         width: 90,
         height: 120,
         deg: 5,
-        "class": 'inherit-bg circle center',
-        container: this.$el
+        "class": className,
+        container: this.$el,
+        delay: this.o.delay
       });
       new CloudBit({
         width: 80,
         height: 90,
         deg: 45,
-        "class": 'inherit-bg circle center',
+        "class": className,
         shiftY: 40,
         shiftX: -5,
-        container: this.$el
+        container: this.$el,
+        delay: this.o.delay
       });
       new CloudBit({
         width: 80,
         height: 100,
         deg: -35,
-        "class": 'inherit-bg circle center',
+        "class": className,
         shiftY: 20,
         shiftX: -90,
-        container: this.$el
+        container: this.$el,
+        delay: this.o.delay
       });
       new CloudBit({
         width: 60,
         height: 60,
         deg: 0,
-        "class": 'inherit-bg circle center',
+        "class": className,
         shiftY: 30,
         shiftX: -40,
-        container: this.$el
+        container: this.$el,
+        delay: this.o.delay
       });
       new CloudBit({
         width: 70,
         height: 70,
         deg: 10,
-        "class": 'inherit-bg circle center',
+        "class": className,
         shiftX: 55,
         shiftY: 40,
-        container: this.$el
+        container: this.$el,
+        delay: this.o.delay
       });
       new CloudBit({
         width: 60,
         height: 30,
         deg: 0,
-        "class": 'inherit-bg circle center',
+        "class": className,
         shiftX: 75,
         shiftY: 60,
-        container: this.$el
+        container: this.$el,
+        delay: this.o.delay
       });
       new CloudBit({
         width: 70,
         height: 30,
         deg: 0,
-        "class": 'inherit-bg circle center',
+        "class": className,
         shiftX: -100,
         shiftY: 60,
-        container: this.$el
+        container: this.$el,
+        delay: this.o.delay
       });
       new CloudBit({
         width: 80,
         height: 50,
         deg: 0,
-        "class": 'inherit-bg circle center',
+        "class": className,
         shiftX: -60,
         shiftY: 55,
-        container: this.$el
+        container: this.$el,
+        delay: this.o.delay
       });
       new CloudBit({
         width: 40,
         height: 30,
         deg: 0,
-        "class": 'inherit-bg circle center',
+        "class": className,
         shiftX: 25,
         shiftY: 55,
-        container: this.$el
+        container: this.$el,
+        delay: this.o.delay
       });
       new CloudBit({
         width: 10,
         height: 10,
         deg: 0,
-        "class": 'inherit-bg circle center',
+        "class": className,
         shiftX: 103,
         shiftY: 65,
-        container: this.$el
+        container: this.$el,
+        delay: this.o.delay
       });
       new CloudBit({
         width: 5,
         height: 5,
         deg: 0,
-        "class": 'inherit-bg circle center',
+        "class": className,
         shiftX: 110,
         shiftY: 66,
-        container: this.$el
+        container: this.$el,
+        delay: this.o.delay
       });
       new CloudBit({
         width: 10,
         height: 10,
         deg: 0,
-        "class": 'inherit-bg circle center',
+        "class": className,
         shiftX: -128,
         shiftY: 65,
-        container: this.$el
+        container: this.$el,
+        delay: this.o.delay
       });
       return new CloudBit({
         width: 8,
         height: 5,
         deg: 0,
-        "class": 'inherit-bg circle center',
+        "class": className,
         shiftX: -135,
         shiftY: 65,
-        container: this.$el
+        container: this.$el,
+        delay: this.o.delay
       });
     };
 
@@ -176,7 +191,7 @@
         scale: 1
       }, {
         easing: 'easeOutElastic',
-        delay: helpers.rand(0, 100),
+        delay: this.o.delay + helpers.rand(0, 100),
         duration: 1200
       });
     };
@@ -213,5 +228,7 @@
     return CloudBit;
 
   })();
+
+  window.Cloud = Cloud;
 
 }).call(this);

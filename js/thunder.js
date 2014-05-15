@@ -9,13 +9,14 @@
     }
 
     Thunder.prototype.vars = function() {
-      return this.$slice = $('.slice1');
+      this.$background = $('#js-thunder-bg');
+      return this.$robust = $('#js-robust');
     };
 
     Thunder.prototype.init = function() {
       var $bit, thunder;
       $bit = helpers.createDiv({
-        "class": 'c-green-g center circle'
+        "class": 'c-grey-g center circle'
       });
       $bit.css({
         width: 2,
@@ -24,15 +25,17 @@
         'transform-origin': 'top center'
       });
       thunder = helpers.cloneBits($bit, 15);
-      this.makeBoom(thunder, $bit);
       return setTimeout((function(_this) {
         return function() {
           _this.makeBoom(thunder, $bit);
           return setTimeout(function() {
-            return _this.makeBoom(thunder, $bit);
-          }, 350);
+            _this.makeBoom(thunder, $bit);
+            return setTimeout(function() {
+              return _this.makeBoom(thunder, $bit);
+            }, 350);
+          }, 320);
         };
-      })(this), 320);
+      })(this), this.o.delay);
     };
 
     Thunder.prototype.makeBoom = function(thunder, $bit) {
@@ -42,19 +45,21 @@
       $bit.css({
         'z-index': 9
       });
-      $cloud.addClass('c-green-g').removeClass('c-grey-g');
-      this.$slice.velocity({
-        'opacity': 0
+      $cloud.addClass('c-grey-g').removeClass('c-green-g');
+      this.$robust.css('color', '#777');
+      this.$background.velocity({
+        'opacity': 1
       }, {
         duration: 40
       }).velocity({
-        'opacity': 1
+        'opacity': 0
       }, {
         delay: 200,
         duration: 40,
         complete: (function(_this) {
           return function() {
-            return $cloud.removeClass('c-green-g').addClass('c-grey-g');
+            $cloud.removeClass('c-grey-g').addClass('c-green-g');
+            return _this.$robust.css('color', '#00FFC6');
           };
         })(this)
       });
@@ -117,5 +122,7 @@
     return Thunder;
 
   })();
+
+  window.Thunder = Thunder;
 
 }).call(this);

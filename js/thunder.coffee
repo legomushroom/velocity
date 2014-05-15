@@ -3,10 +3,11 @@ class Thunder
     @vars()
     @init()
   vars:->
-    @$slice = $('.slice1')
+    @$background = $('#js-thunder-bg')
+    @$robust = $('#js-robust')
 
   init:->
-    $bit = helpers.createDiv class: 'c-green-g center circle'
+    $bit = helpers.createDiv class: 'c-grey-g center circle'
     $bit.css
       width: 2
       height: 0
@@ -14,29 +15,34 @@ class Thunder
       'transform-origin': 'top center'
 
     thunder = helpers.cloneBits $bit, 15
-    @makeBoom thunder, $bit
     setTimeout =>
       @makeBoom thunder, $bit
       setTimeout =>
         @makeBoom thunder, $bit
-      , 350
-    , 320
+        setTimeout =>
+          @makeBoom thunder, $bit
+        , 350
+      , 320
+    , @o.delay
 
   makeBoom:(thunder, $bit)->
     @prevAngle = 100
     $prevBit = $bit
     $bit.css 'z-index': 9
     $cloud
-      .addClass('c-green-g')
-      .removeClass('c-grey-g')
-    @$slice
-      .velocity({'opacity': 0},{ duration:40 }).velocity({'opacity': 1},{
+      .addClass('c-grey-g')
+      .removeClass('c-green-g')
+    @$robust.css 'color', '#777'
+    @$background
+      .velocity({'opacity': 1},{ duration:40 }).velocity({'opacity': 0},{
         delay: 200
         duration:40
         complete: =>
           $cloud
-            .removeClass('c-green-g')
-            .addClass('c-grey-g')
+            .removeClass('c-grey-g')
+            .addClass('c-green-g')
+          @$robust.css 'color', '#00FFC6'
+
       })
 
     for $bit1, i in thunder
@@ -75,3 +81,5 @@ class Thunder
 
     angle: angle
     height: height
+
+window.Thunder = Thunder

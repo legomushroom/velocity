@@ -30,10 +30,21 @@
       this.throwFA(2200);
       this.shiftRobustArrow(3400);
       this.fallRobust(3800);
-      return this.showCloud(4000);
+      this.showCloud(3200 * this.s);
+      return this.thunder(5200 * this.s);
     };
 
-    Main.prototype.showCloud = function(delay) {};
+    Main.prototype.thunder = function(delay) {
+      return new Thunder({
+        delay: delay
+      });
+    };
+
+    Main.prototype.showCloud = function(delay) {
+      return new Cloud({
+        delay: delay
+      });
+    };
 
     Main.prototype.car1 = function(delay) {
       var $child, child, i, _i, _len, _ref, _results;
@@ -102,7 +113,8 @@
     };
 
     Main.prototype.fallRobust = function(delay) {
-      return this.$robust.velocity({
+      var $arrow, arrows, i, _i, _len, _results;
+      this.$robust.velocity({
         top: '100%',
         rotateZ: -50,
         marginTop: -55
@@ -116,6 +128,27 @@
         duration: 500 * this.s,
         easing: 'easeOutBounce'
       });
+      arrows = [this.$arrow1, this.$arrow2, this.$arrow3, this.$arrow4];
+      _results = [];
+      for (i = _i = 0, _len = arrows.length; _i < _len; i = ++_i) {
+        $arrow = arrows[i];
+        _results.push($arrow.velocity({
+          'top': '100%',
+          marginTop: -200,
+          rotateZ: 60 + helpers.rand(0, 20)
+        }, {
+          easing: 'easeInQuad'
+        }).velocity({
+          rotateZ: 90
+        }, {
+          easing: 'easeOutBounce',
+          duration: 200 * this.s,
+          complete: function() {
+            return $(this).hide();
+          }
+        }));
+      }
+      return _results;
     };
 
     Main.prototype.shiftRobustArrow = function(delay) {

@@ -4,8 +4,6 @@ class Cross
     @init()
 
   vars:->
-    
-
   init:->
 
     # $div1   = helpers.createDiv class: 'c-green-g'

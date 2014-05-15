@@ -5,125 +5,139 @@ class Cloud
 
   vars:->
     @$el = helpers.createDiv
-      class: 'center c-grey-g'
+      class: 'center c-green-g'
 
     window.$cloud = @$el
 
   init:->
+    className = 'inherit-bg circle center'
     new CloudBit
       width: 90
       height: 120
       deg: 5
-      class: 'inherit-bg circle center'
+      class: className
       container: @$el
+      delay: @o.delay
 
     new CloudBit
       width: 80
       height:  90
       deg: 45
-      class: 'inherit-bg circle center'
+      class: className
       shiftY: 40
       shiftX: -5
       container: @$el
+      delay: @o.delay
 
     new CloudBit
       width: 80
       height:  100
       deg: -35
-      class: 'inherit-bg circle center'
+      class: className
       shiftY: 20
       shiftX: -90
       container: @$el
+      delay: @o.delay
 
     new CloudBit
       width: 60
       height:  60
       deg: 0
-      class: 'inherit-bg circle center'
+      class: className
       shiftY: 30
       shiftX: -40
       container: @$el
+      delay: @o.delay
 
     new CloudBit
       width: 70
       height: 70
       deg: 10
-      class: 'inherit-bg circle center'
+      class: className
       shiftX: 55
       shiftY: 40
       container: @$el
+      delay: @o.delay
 
     new CloudBit
       width: 60
       height: 30
       deg: 0
-      class: 'inherit-bg circle center'
+      class: className
       shiftX: 75
       shiftY: 60
       container: @$el
+      delay: @o.delay
 
     new CloudBit
       width: 70
       height: 30
       deg: 0
-      class: 'inherit-bg circle center'
+      class: className
       shiftX: -100
       shiftY: 60
       container: @$el
+      delay: @o.delay
 
     new CloudBit
       width: 80
       height: 50
       deg: 0
-      class: 'inherit-bg circle center'
+      class: className
       shiftX: -60
       shiftY: 55
       container: @$el
+      delay: @o.delay
 
     new CloudBit
       width: 40
       height: 30
       deg: 0
-      class: 'inherit-bg circle center'
+      class: className
       shiftX: 25
       shiftY: 55
       container: @$el
+      delay: @o.delay
 
     new CloudBit
       width: 10
       height: 10
       deg: 0
-      class: 'inherit-bg circle center'
+      class: className
       shiftX: 103
       shiftY: 65
       container: @$el
+      delay: @o.delay
 
     new CloudBit
       width: 5
       height: 5
       deg: 0
-      class: 'inherit-bg circle center'
+      class: className
       shiftX: 110
       shiftY: 66
       container: @$el
+      delay: @o.delay
 
     new CloudBit
       width: 10
       height: 10
       deg: 0
-      class: 'inherit-bg circle center'
+      class: className
       shiftX: -128
       shiftY: 65
       container: @$el
+      delay: @o.delay
 
     new CloudBit
       width: 8
       height: 5
       deg: 0
-      class: 'inherit-bg circle center'
+      class: className
       shiftX: -135
       shiftY: 65
       container: @$el
+      delay: @o.delay
 
 
 class CloudBit
@@ -154,7 +168,7 @@ class CloudBit
    @$el.velocity {
     opacity: 100
     scale: 1
-   }, { easing: 'easeOutElastic', delay: helpers.rand(0,100), duration: 1200 }
+   }, { easing: 'easeOutElastic', delay: @o.delay+helpers.rand(0,100), duration: 1200 }
 
   loop:->
     @$el
@@ -175,3 +189,5 @@ class CloudBit
 
   destroy:->
     clearInterval @interval
+
+window.Cloud = Cloud

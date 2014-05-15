@@ -24,9 +24,16 @@ class Main
     @throwFA(2200)
     @shiftRobustArrow(3400)
     @fallRobust(3800)
-    @showCloud(4000)
+    @showCloud(3200*@s)
+    @thunder(5200*@s)
+
+  thunder:(delay)->
+    new Thunder
+      delay: delay
 
   showCloud:(delay)->
+    new Cloud
+      delay: delay
 
   car1:(delay)->
     @$car1
@@ -80,6 +87,24 @@ class Main
         duration: 500*@s
         easing: 'easeOutBounce'
       })
+
+    arrows = [ @$arrow1, @$arrow2, @$arrow3, @$arrow4 ]
+    for $arrow, i in arrows
+      $arrow
+        .velocity({
+          'top': '100%',
+          marginTop: -200,
+          rotateZ: 60+helpers.rand(0,20)
+        },{
+          easing: 'easeInQuad'
+        }).velocity {
+          rotateZ: 90
+        }, {
+          easing: 'easeOutBounce',
+          duration: 200*@s,
+          complete: ->
+            $(this).hide()
+        }
 
 
   shiftRobustArrow:(delay)->
