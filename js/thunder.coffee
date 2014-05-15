@@ -5,8 +5,18 @@ class Thunder
   vars:->
     @$background = $('#js-thunder-bg')
     @$robust = $('#js-robust')
+    @boomCnt = 0
 
   init:->
+    @spark1 = new Spark
+      shiftY: -180
+      shiftX: -120
+      top: 100
+    @spark2 = new Spark
+      shiftY: -140
+      shiftX: -120
+      top: 100
+
     $bit = helpers.createDiv class: 'c-grey-g center circle'
     $bit.css
       width: 2
@@ -21,11 +31,12 @@ class Thunder
         @makeBoom thunder, $bit
         setTimeout =>
           @makeBoom thunder, $bit
-        , 350
+        , 380
       , 320
     , @o.delay
 
   makeBoom:(thunder, $bit)->
+    @boomCnt++
     @prevAngle = 100
     $prevBit = $bit
     $bit.css 'z-index': 9
@@ -51,7 +62,7 @@ class Thunder
         opacity: 0
       $prevBit.append $bit1
       size = @calcSize i
-      do (i)=>
+      do (i)->
         $bit1.velocity({
           height:  size.height
           rotateZ: size.angle
@@ -62,6 +73,30 @@ class Thunder
           duration: 50
         })
       $prevBit = $bit1
+
+    @s = 1
+    if @boomCnt is 1 or @boomCnt is 3
+      # @$robust.css 'transform-origin': 'right bottom'
+
+      @$robust
+        .velocity({
+          # translateY: -100
+          rotateZ: -30+helpers.rand(0,-30)
+        },{ 
+          duration: 50*@s,
+          delay: 160*@s
+        })
+
+        .velocity({
+          rotateZ: 0
+        },{
+          duration: 400*@s
+          easing: 'easeOutBounce'
+        })
+    if @boomCnt is 1
+      @spark1.run()
+    if @boomCnt is 3
+      @spark2.run()
 
   calcSize:(i)->
     angle = 0

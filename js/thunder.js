@@ -10,11 +10,22 @@
 
     Thunder.prototype.vars = function() {
       this.$background = $('#js-thunder-bg');
-      return this.$robust = $('#js-robust');
+      this.$robust = $('#js-robust');
+      return this.boomCnt = 0;
     };
 
     Thunder.prototype.init = function() {
       var $bit, thunder;
+      this.spark1 = new Spark({
+        shiftY: -180,
+        shiftX: -120,
+        top: 100
+      });
+      this.spark2 = new Spark({
+        shiftY: -140,
+        shiftX: -120,
+        top: 100
+      });
       $bit = helpers.createDiv({
         "class": 'c-grey-g center circle'
       });
@@ -32,14 +43,15 @@
             _this.makeBoom(thunder, $bit);
             return setTimeout(function() {
               return _this.makeBoom(thunder, $bit);
-            }, 350);
+            }, 380);
           }, 320);
         };
       })(this), this.o.delay);
     };
 
     Thunder.prototype.makeBoom = function(thunder, $bit) {
-      var $bit1, $prevBit, i, size, _fn, _i, _len, _results;
+      var $bit1, $prevBit, i, size, _fn, _i, _len;
+      this.boomCnt++;
       this.prevAngle = 100;
       $prevBit = $bit;
       $bit.css({
@@ -63,25 +75,22 @@
           };
         })(this)
       });
-      _fn = (function(_this) {
-        return function(i) {
-          return $bit1.velocity({
-            height: size.height,
-            rotateZ: size.angle,
-            opacity: 1,
-            width: 4,
-            marginLeft: -2
-          }, {
-            duration: 200
-          }).velocity({
-            width: 0,
-            marginLeft: 0
-          }, {
-            duration: 50
-          });
-        };
-      })(this);
-      _results = [];
+      _fn = function(i) {
+        return $bit1.velocity({
+          height: size.height,
+          rotateZ: size.angle,
+          opacity: 1,
+          width: 4,
+          marginLeft: -2
+        }, {
+          duration: 200
+        }).velocity({
+          width: 0,
+          marginLeft: 0
+        }, {
+          duration: 50
+        });
+      };
       for (i = _i = 0, _len = thunder.length; _i < _len; i = ++_i) {
         $bit1 = thunder[i];
         $bit1.css({
@@ -91,9 +100,28 @@
         $prevBit.append($bit1);
         size = this.calcSize(i);
         _fn(i);
-        _results.push($prevBit = $bit1);
+        $prevBit = $bit1;
       }
-      return _results;
+      this.s = 1;
+      if (this.boomCnt === 1 || this.boomCnt === 3) {
+        this.$robust.velocity({
+          rotateZ: -30 + helpers.rand(0, -30)
+        }, {
+          duration: 50 * this.s,
+          delay: 160 * this.s
+        }).velocity({
+          rotateZ: 0
+        }, {
+          duration: 400 * this.s,
+          easing: 'easeOutBounce'
+        });
+      }
+      if (this.boomCnt === 1) {
+        this.spark1.run();
+      }
+      if (this.boomCnt === 3) {
+        return this.spark2.run();
+      }
     };
 
     Thunder.prototype.calcSize = function(i) {
