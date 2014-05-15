@@ -22,8 +22,8 @@ class Main
     @$car1
       .velocity { right: '-40%', opacity: 2 }, { duration: 400*@s }
     
-    fastChilds = @$fast.children()
-    for child, i in fastChilds
+    @fastChilds = @$fast.children()
+    for child, i in @fastChilds
       $child = $ child
       $child = $child.find('#js-bit-inner')
       $child
@@ -35,73 +35,37 @@ class Main
           easing: 'quake',
         })
 
-    setTimeout =>
-      @$car2
-        .velocity { left: '-40%', opacity: 1 }, { delay: 0*@s, duration: 400*@s }
-
-      for child, i in fastChilds
-        $child = $ child
-        $child = $child.find('#js-span')
-        $child.css 'transform-origin': 'center top'
-        $child
-          .velocity({ rotateZ: 40 }, {
-            delay: (160+(fastChilds.length-i)*15)*@s, duration: 100*@s
-          }).velocity({ rotateZ: 0 },  {
-            delay: (60+(fastChilds.length-i)*15)*@s, duration: 5000*@s, easing: 'quake'
-          })
-    , 700*@s
-
+    
+    @car2(700)
     @arrows()
-    setTimeout =>
-      for i in [0..1]
-        $child = $ fastChilds[i]
-        $child.css 
-          'transform-origin': 'center center'
-          'position': 'absolute'
-        if i is 1
-          angle = 280
-          $child
-            .velocity({ rotateZ: angle/5, left: '45%', top: '55%' },{
-             duration: 50*@s
-             easing: 'linear'
-            }).velocity({ rotateZ: angle, left: '-10%', top: '110%' },{
-             duration: 1000*@s
-             easing: 'linear'
-            })
-        else
-          angle = 600
-          $child
-            .velocity({ rotateZ: angle/10, left: '50%', top: '50%' },{
-              duration: 50*@s
-              easing: 'linear'
-              # delay: 10
-            }).velocity({ 
-              rotateZ: angle+helpers.rand(0,40),
-              left: '-10%', top: '20%'
-            },{
-              duration: 1000*@s
-              easing: 'linear'
-            })
-    , 2200
+    @throwFA(2200)
+    @shiftRobustArrow(3400)
+    @fallRobust(3800)
 
-    @$arrowWrap
-      .velocity({ translateX: -200 },{ delay: 3400*@s })
+  car2:(delay)->
+    @$car2
+      .velocity { left: '-40%', opacity: 1 }, { delay: delay*@s, duration: 400*@s }
 
-    @$robustShade1
-      .velocity({ translateX: -200 },{ 
-        delay: 3400*@s
-        complete:=>
-          @$robustShade2.hide()
-          @$fast.hide()
-      })
+    for child, i in @fastChilds
+      $child = $ child
+      $child = $child.find('#js-span')
+      $child.css 'transform-origin': 'center top'
+      $child
+        .velocity({ rotateZ: 40 }, {
+          delay: (delay+160+(@fastChilds.length-i)*15)*@s, duration: 100*@s
+        }).velocity({ rotateZ: 0 },  {
+          delay: (60+(@fastChilds.length-i)*15)*@s, duration: 5000*@s, easing: 'quake'
+        })
 
+
+  fallRobust:(delay)->
     @$robust
       .velocity({
         top: '100%'
         rotateZ: -50
         marginTop: -55
       },{
-        delay: 3800*@s,
+        delay: delay*@s,
         easing: 'easeInQuad',
         duration: 300*@s,
       }).velocity({
@@ -110,6 +74,52 @@ class Main
         duration: 500*@s
         easing: 'easeOutBounce'
       })
+
+
+  shiftRobustArrow:(delay)->
+    @$arrowWrap
+      .velocity({ translateX: -200 },{ delay: delay*@s })
+
+    @$robustShade1
+      .velocity({ translateX: -200 },{ 
+        delay: delay*@s
+        complete:=>
+          @$robustShade2.hide()
+          @$fast.hide()
+      })
+
+
+  throwFA:(delay)->
+    for i in [0..1]
+      $child = $ @fastChilds[i]
+      $child.css 
+        'transform-origin': 'center center'
+        'position': 'absolute'
+      if i is 1
+        angle = 280
+        $child
+          .velocity({ rotateZ: angle/5, left: '45%', top: '55%' },{
+           duration: 50*@s
+           easing: 'linear'
+           delay: delay*@s
+          }).velocity({ rotateZ: angle, left: '-10%', top: '110%' },{
+           duration: 1000*@s
+           easing: 'linear'
+          })
+      else
+        angle = 600
+        $child
+          .velocity({ rotateZ: angle/10, left: '50%', top: '50%' },{
+            duration: 50*@s
+            easing: 'linear'
+            delay: delay*@s
+          }).velocity({ 
+            rotateZ: angle+helpers.rand(0,40),
+            left: '-10%', top: '20%'
+          },{
+            duration: 1000*@s
+            easing: 'linear'
+          })
 
 
 
