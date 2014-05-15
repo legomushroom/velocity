@@ -11,6 +11,10 @@ class Main
     @$arrow2 = $('#js-arrow2')
     @$arrow3 = $('#js-arrow3')
     @$arrow4 = $('#js-arrow4')
+    @$arrowWrap = $('#js-arrow-wrap')
+    @$robust = $('#js-robust')
+    @$robustShade1 =  @$robust.find('#js-robust-shade1')
+    @$robustShade2 =  @$robust.find('#js-robust-shade2')
 
   init:->
     @s = 1
@@ -19,32 +23,33 @@ class Main
       .velocity { right: '-40%', opacity: 2 }, { duration: 400*@s }
     
     fastChilds = @$fast.children()
-    # for child, i in fastChilds
-    #   $child = $ child
-    #   $child
-    #     .velocity({ rotateZ: 40 }, {
-    #       delay: (160+(i*15))*@s, duration: 100*@s
-    #     }).velocity({ rotateZ: 0 },  {
-    #       delay: (60+(i*15))*@s,
-    #       duration: 5000*@s,
-    #       easing: 'quake',
-    #     })
+    for child, i in fastChilds
+      $child = $ child
+      $child = $child.find('#js-bit-inner')
+      $child
+        .velocity({ rotateZ: 40 }, {
+          delay: (160+(i*15))*@s, duration: 100*@s
+        }).velocity({ rotateZ: 0 },  {
+          delay: (60+(i*15))*@s,
+          duration: 5000*@s,
+          easing: 'quake',
+        })
 
-    # setTimeout =>
-    #   @$car2
-    #     .velocity { left: '-40%', opacity: 1 }, { delay: 0*@s, duration: 400*@s }
+    setTimeout =>
+      @$car2
+        .velocity { left: '-40%', opacity: 1 }, { delay: 0*@s, duration: 400*@s }
 
-    #   for child, i in fastChilds
-    #     $child = $ child
-    #     $child = $child.children('span')
-    #     $child.css 'transform-origin': 'center top'
-    #     $child
-    #       .velocity({ rotateZ: 40 }, {
-    #         delay: (160+(fastChilds.length-i)*15)*@s, duration: 100*@s
-    #       }).velocity({ rotateZ: 0 },  {
-    #         delay: (60+(fastChilds.length-i)*15)*@s, duration: 5000*@s, easing: 'quake'
-    #       })
-    # , 700*@s
+      for child, i in fastChilds
+        $child = $ child
+        $child = $child.find('#js-span')
+        $child.css 'transform-origin': 'center top'
+        $child
+          .velocity({ rotateZ: 40 }, {
+            delay: (160+(fastChilds.length-i)*15)*@s, duration: 100*@s
+          }).velocity({ rotateZ: 0 },  {
+            delay: (60+(fastChilds.length-i)*15)*@s, duration: 5000*@s, easing: 'quake'
+          })
+    , 700*@s
 
     @arrows()
     setTimeout =>
@@ -79,6 +84,33 @@ class Main
             })
     , 2200
 
+    @$arrowWrap
+      .velocity({ translateX: -200 },{ delay: 3400*@s })
+
+    @$robustShade1
+      .velocity({ translateX: -200 },{ 
+        delay: 3400*@s
+        complete:=>
+          @$robustShade2.hide()
+          @$fast.hide()
+      })
+
+    @$robust
+      .velocity({
+        top: '100%'
+        rotateZ: -50
+        marginTop: -55
+      },{
+        delay: 3800*@s,
+        easing: 'easeInQuad',
+        duration: 300*@s,
+      }).velocity({
+        rotateZ: 0
+      },{
+        duration: 500*@s
+        easing: 'easeOutBounce'
+      })
+
 
 
   arrows:->
@@ -106,7 +138,7 @@ class Main
       .velocity({ rotateZ: 1.5*angle }, { duration: 1 })
       .velocity({ rotateZ: angle }, { duration: duration*@s, easing: 'quake' })
 
-    angle = arrowAngle+helpers.rand(0,arrowAngle)
+    angle = 20
     @$arrow4
       .velocity({ rotateZ: 90, left: '150%' }, { duration: 1, delay: (delay+400)*@s })
       .velocity({ left: '50%', top: '50%', rotateZ: angle }, { duration: 400*@s })

@@ -17,12 +17,19 @@ c-grey  = #777
 	height 200px
 	transform-origin center bottom
 	background c-green
-	top -50%
+	top -100%
 	left 100%
 	margin-top -175px
 
 	&--center
-		margin-left -20px
+		margin-left -25px
+		margin-top -120px
+	&--wrap
+		rect 100%
+		nw 0
+		margin-top 0
+		// rect auto
+		background transparent
 
 .car
 	height 10px
@@ -46,28 +53,44 @@ c-grey  = #777
 	text-transform uppercase
 	font-weight 100
 	text-align center
+	letter-spacing 10px
 	&--fast
 		rect 100%
-		hl green
 		nw 0
-		// transform translateX(-50%) translateY(-100%)
-		step = 45px
-		&__1
+	&--robust
+		nw 50%
+		margin-left -200px
+		z-index 8
+		overflow hidden
+		transform-origin left bottom
+		&__shade
+			background c-grey
+			top 0
+			rect 100%
+			&--1
+				transform skew(-20deg)
+				left -90px
+			&--2
+				width 90px
+				right 0
+				
+	step = 45px
+	&__bit
+		nw 50%
+		&--1
 			margin-left -(step*2)
-			nw 50%
-		&__2
+		&--2
 			margin-left -(step)
-			nw 50%
-		&__3
+		&--3
 			margin-left 0
-			nw 50%
-		&__4
+		&--4
 			margin-left step
-			nw 50%
-		span, div
-			letter-spacing 5px
+		&__inner
 			display inline-block
+			position static
 			transform-origin center bottom
+		span
+			display inline-block
 			margin-top -30px
 
 .c-green-g
