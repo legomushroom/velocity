@@ -18,9 +18,22 @@ class Main
 
   init:->
     @s = 1
+    @car1(0)
+    @car2(700)
+    @arrows()
+    @throwFA(2200)
+    @shiftRobustArrow(3400)
+    @fallRobust(3800)
+    @showCloud(4000)
 
+  showCloud:(delay)->
+
+  car1:(delay)->
     @$car1
-      .velocity { right: '-40%', opacity: 2 }, { duration: 400*@s }
+      .velocity { right: '-40%', opacity: 2 }, {
+        duration: 400*@s,
+        delay: delay*@s
+      }
     
     @fastChilds = @$fast.children()
     for child, i in @fastChilds
@@ -28,19 +41,12 @@ class Main
       $child = $child.find('#js-bit-inner')
       $child
         .velocity({ rotateZ: 40 }, {
-          delay: (160+(i*15))*@s, duration: 100*@s
+          delay: (delay+160+(i*15))*@s, duration: 100*@s
         }).velocity({ rotateZ: 0 },  {
           delay: (60+(i*15))*@s,
           duration: 5000*@s,
           easing: 'quake',
         })
-
-    
-    @car2(700)
-    @arrows()
-    @throwFA(2200)
-    @shiftRobustArrow(3400)
-    @fallRobust(3800)
 
   car2:(delay)->
     @$car2

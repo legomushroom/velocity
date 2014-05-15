@@ -23,24 +23,38 @@
     };
 
     Main.prototype.init = function() {
-      var $child, child, i, _i, _len, _ref;
       this.s = 1;
+      this.car1(0);
+      this.car2(700);
+      this.arrows();
+      this.throwFA(2200);
+      this.shiftRobustArrow(3400);
+      this.fallRobust(3800);
+      return this.showCloud(4000);
+    };
+
+    Main.prototype.showCloud = function(delay) {};
+
+    Main.prototype.car1 = function(delay) {
+      var $child, child, i, _i, _len, _ref, _results;
       this.$car1.velocity({
         right: '-40%',
         opacity: 2
       }, {
-        duration: 400 * this.s
+        duration: 400 * this.s,
+        delay: delay * this.s
       });
       this.fastChilds = this.$fast.children();
       _ref = this.fastChilds;
+      _results = [];
       for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
         child = _ref[i];
         $child = $(child);
         $child = $child.find('#js-bit-inner');
-        $child.velocity({
+        _results.push($child.velocity({
           rotateZ: 40
         }, {
-          delay: (160 + (i * 15)) * this.s,
+          delay: (delay + 160 + (i * 15)) * this.s,
           duration: 100 * this.s
         }).velocity({
           rotateZ: 0
@@ -48,13 +62,9 @@
           delay: (60 + (i * 15)) * this.s,
           duration: 5000 * this.s,
           easing: 'quake'
-        });
+        }));
       }
-      this.car2(700);
-      this.arrows();
-      this.throwFA(2200);
-      this.shiftRobustArrow(3400);
-      return this.fallRobust(3800);
+      return _results;
     };
 
     Main.prototype.car2 = function(delay) {
