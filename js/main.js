@@ -68,8 +68,8 @@
             duration: 1400 * _this.s
           });
           _this.$easy.velocity({
-            width: 2,
-            height: 2
+            width: 0,
+            height: 0
           }, {
             duration: 1400 * _this.s
           });
