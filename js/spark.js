@@ -15,15 +15,15 @@
       $proto = helpers.createDiv({
         "class": 'spark'
       });
-      this.sparks = helpers.cloneBits($proto, this.o.cnt || 10);
+      this.sparks = helpers.cloneBits($proto, this.o.cnt || helpers.rand(10, 20));
       size = this.o.size || 2;
       _ref = this.sparks;
       _results = [];
       for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
         $spark = _ref[i];
         _results.push($spark.css({
-          width: size + helpers.rand(0, 2 * size),
-          height: size + helpers.rand(0, 2 * size),
+          width: size + helpers.rand(0, size),
+          height: size + helpers.rand(0, size),
           left: this.o.left || '50%',
           top: "" + (this.o.top || 50) + "%",
           marginTop: this.o.shiftY,
@@ -39,7 +39,7 @@
       _results = [];
       for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
         $spark = _ref[i];
-        blowSize = this.o.blowSize || 100;
+        blowSize = this.o.blowSize || 50;
         top = 2 * this.o.top || 100;
         if (top < 100) {
           top = 100;
@@ -49,7 +49,7 @@
           translateY: helpers.rand(-blowSize, blowSize),
           opacity: 1
         }, {
-          duration: 100,
+          duration: 500,
           easing: 'easeOutQuad',
           delay: (this.o.delay || 0) + helpers.rand(0, 100)
         }).velocity({

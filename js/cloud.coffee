@@ -2,6 +2,10 @@ class Cloud
   constructor:(@o={})->
     @vars()
     @init()
+    timeout = setTimeout =>
+      clearTimeout timeout
+      @hide()
+    , @o.hideDelay
 
   vars:->
     @$el = helpers.createDiv
@@ -11,15 +15,17 @@ class Cloud
 
   init:->
     className = 'inherit-bg circle center'
-    new CloudBit
+    @bits = []
+    @bits.push new CloudBit
       width: 90
       height: 120
       deg: 5
       class: className
       container: @$el
       delay: @o.delay
+      hideDelay: @o.hideDelay
 
-    new CloudBit
+    @bits.push new CloudBit
       width: 80
       height:  90
       deg: 45
@@ -28,8 +34,9 @@ class Cloud
       shiftX: -5
       container: @$el
       delay: @o.delay
+      hideDelay: @o.hideDelay
 
-    new CloudBit
+    @bits.push new CloudBit
       width: 80
       height:  100
       deg: -35
@@ -38,8 +45,9 @@ class Cloud
       shiftX: -90
       container: @$el
       delay: @o.delay
+      hideDelay: @o.hideDelay
 
-    new CloudBit
+    @bits.push new CloudBit
       width: 60
       height:  60
       deg: 0
@@ -48,8 +56,9 @@ class Cloud
       shiftX: -40
       container: @$el
       delay: @o.delay
+      hideDelay: @o.hideDelay
 
-    new CloudBit
+    @bits.push new CloudBit
       width: 70
       height: 70
       deg: 10
@@ -58,8 +67,9 @@ class Cloud
       shiftY: 40
       container: @$el
       delay: @o.delay
+      hideDelay: @o.hideDelay
 
-    new CloudBit
+    @bits.push new CloudBit
       width: 60
       height: 30
       deg: 0
@@ -68,8 +78,9 @@ class Cloud
       shiftY: 60
       container: @$el
       delay: @o.delay
+      hideDelay: @o.hideDelay
 
-    new CloudBit
+    @bits.push new CloudBit
       width: 70
       height: 30
       deg: 0
@@ -78,8 +89,9 @@ class Cloud
       shiftY: 60
       container: @$el
       delay: @o.delay
+      hideDelay: @o.hideDelay
 
-    new CloudBit
+    @bits.push new CloudBit
       width: 80
       height: 50
       deg: 0
@@ -88,8 +100,9 @@ class Cloud
       shiftY: 55
       container: @$el
       delay: @o.delay
+      hideDelay: @o.hideDelay
 
-    new CloudBit
+    @bits.push new CloudBit
       width: 40
       height: 30
       deg: 0
@@ -98,8 +111,9 @@ class Cloud
       shiftY: 55
       container: @$el
       delay: @o.delay
+      hideDelay: @o.hideDelay
 
-    new CloudBit
+    @bits.push new CloudBit
       width: 10
       height: 10
       deg: 0
@@ -108,8 +122,9 @@ class Cloud
       shiftY: 65
       container: @$el
       delay: @o.delay
+      hideDelay: @o.hideDelay
 
-    new CloudBit
+    @bits.push new CloudBit
       width: 5
       height: 5
       deg: 0
@@ -118,8 +133,9 @@ class Cloud
       shiftY: 66
       container: @$el
       delay: @o.delay
+      hideDelay: @o.hideDelay
 
-    new CloudBit
+    @bits.push new CloudBit
       width: 10
       height: 10
       deg: 0
@@ -128,8 +144,9 @@ class Cloud
       shiftY: 65
       container: @$el
       delay: @o.delay
+      hideDelay: @o.hideDelay
 
-    new CloudBit
+    @bits.push new CloudBit
       width: 8
       height: 5
       deg: 0
@@ -138,6 +155,11 @@ class Cloud
       shiftY: 65
       container: @$el
       delay: @o.delay
+      hideDelay: @o.hideDelay
+
+  hide:->
+    for bit, i in @bits
+      bit.hide()
 
 
 class CloudBit
@@ -184,10 +206,19 @@ class CloudBit
         translateX: 0
         translateY: (@o.height/20)
         rotateZ: @o.deg
-        complete:=> @loop()
+        complete:=> !@disallowAnimation and @loop()
       }, { duration: 500 })
 
   destroy:->
-    clearInterval @interval
+    @disallowAnimation = true
+
+  hide:->
+    @destroy()
+    @$el
+      .velocity({
+        scale: 0
+      },{
+      })
+
 
 window.Cloud = Cloud

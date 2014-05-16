@@ -9,6 +9,7 @@
     }
 
     Main.prototype.vars = function() {
+      var i;
       this.$fast = $('#js-fast');
       this.$car1 = $('#js-car1');
       this.$car2 = $('#js-car2');
@@ -19,7 +20,22 @@
       this.$arrowWrap = $('#js-arrow-wrap');
       this.$robust = $('#js-robust');
       this.$robustShade1 = this.$robust.find('#js-robust-shade1');
-      return this.$robustShade2 = this.$robust.find('#js-robust-shade2');
+      this.$robustShade2 = this.$robust.find('#js-robust-shade2');
+      this.$easy = $('#js-easy');
+      this.$easyText = $('#js-easy-text');
+      this.thunder = new Thunder;
+      this.drops = (function() {
+        var _i, _results;
+        _results = [];
+        for (i = _i = 0; _i <= 10; i = ++_i) {
+          _results.push(new Drop({
+            radius: i * 50,
+            i: i
+          }));
+        }
+        return _results;
+      })();
+      return this.bubbles = new Bubbles;
     };
 
     Main.prototype.init = function() {
@@ -31,18 +47,73 @@
       this.shiftRobustArrow(3400);
       this.fallRobust(3800);
       this.showCloud(3200 * this.s);
-      return this.thunder(5200 * this.s);
+      this.showThunder(5200 * this.s);
+      this.waterDrop(7000 * this.s);
+      return this.showBubbles(8500 * this.s);
     };
 
-    Main.prototype.thunder = function(delay) {
-      return new Thunder({
-        delay: delay
-      });
+    Main.prototype.showBubbles = function(delay) {
+      this.bubbles.run(delay);
+      setTimeout((function(_this) {
+        return function() {
+          _this.$easyText.css({
+            height: 240,
+            width: 240
+          }).velocity({
+            translateX: -120,
+            translateY: -120
+          }, {
+            duration: 1400 * _this.s
+          });
+          return _this.$easy.velocity({
+            width: 2,
+            height: 2
+          }, {
+            duration: 1400 * _this.s
+          });
+        };
+      })(this), delay);
+      return this;
+    };
+
+    Main.prototype.waterDrop = function(delay) {
+      return setTimeout((function(_this) {
+        return function() {
+          _this.$easy.velocity({
+            width: 240,
+            height: 240
+          }, {
+            easing: 'easeOutElastic',
+            duration: 1500 * _this.s
+          });
+          return setTimeout(function() {
+            var drop, _i, _len, _ref;
+            _ref = _this.drops;
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              drop = _ref[_i];
+              drop.run();
+            }
+            return _this.$robust.velocity({
+              top: '100%',
+              marginTop: 0
+            });
+          }, 100);
+        };
+      })(this), delay);
+    };
+
+    Main.prototype.showThunder = function(delay) {
+      return setTimeout((function(_this) {
+        return function() {
+          return _this.thunder.run();
+        };
+      })(this), delay);
     };
 
     Main.prototype.showCloud = function(delay) {
-      return new Cloud({
-        delay: delay
+      return this.cloud = new Cloud({
+        delay: delay,
+        hideDelay: 6000 * this.s
       });
     };
 
@@ -142,7 +213,7 @@
           rotateZ: 90
         }, {
           easing: 'easeOutBounce',
-          duration: 200 * this.s,
+          duration: 400 * this.s,
           complete: function() {
             return $(this).hide();
           }

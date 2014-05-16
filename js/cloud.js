@@ -3,9 +3,16 @@
 
   Cloud = (function() {
     function Cloud(o) {
+      var timeout;
       this.o = o != null ? o : {};
       this.vars();
       this.init();
+      timeout = setTimeout((function(_this) {
+        return function() {
+          clearTimeout(timeout);
+          return _this.hide();
+        };
+      })(this), this.o.hideDelay);
     }
 
     Cloud.prototype.vars = function() {
@@ -18,15 +25,17 @@
     Cloud.prototype.init = function() {
       var className;
       className = 'inherit-bg circle center';
-      new CloudBit({
+      this.bits = [];
+      this.bits.push(new CloudBit({
         width: 90,
         height: 120,
         deg: 5,
         "class": className,
         container: this.$el,
-        delay: this.o.delay
-      });
-      new CloudBit({
+        delay: this.o.delay,
+        hideDelay: this.o.hideDelay
+      }));
+      this.bits.push(new CloudBit({
         width: 80,
         height: 90,
         deg: 45,
@@ -34,9 +43,10 @@
         shiftY: 40,
         shiftX: -5,
         container: this.$el,
-        delay: this.o.delay
-      });
-      new CloudBit({
+        delay: this.o.delay,
+        hideDelay: this.o.hideDelay
+      }));
+      this.bits.push(new CloudBit({
         width: 80,
         height: 100,
         deg: -35,
@@ -44,9 +54,10 @@
         shiftY: 20,
         shiftX: -90,
         container: this.$el,
-        delay: this.o.delay
-      });
-      new CloudBit({
+        delay: this.o.delay,
+        hideDelay: this.o.hideDelay
+      }));
+      this.bits.push(new CloudBit({
         width: 60,
         height: 60,
         deg: 0,
@@ -54,9 +65,10 @@
         shiftY: 30,
         shiftX: -40,
         container: this.$el,
-        delay: this.o.delay
-      });
-      new CloudBit({
+        delay: this.o.delay,
+        hideDelay: this.o.hideDelay
+      }));
+      this.bits.push(new CloudBit({
         width: 70,
         height: 70,
         deg: 10,
@@ -64,9 +76,10 @@
         shiftX: 55,
         shiftY: 40,
         container: this.$el,
-        delay: this.o.delay
-      });
-      new CloudBit({
+        delay: this.o.delay,
+        hideDelay: this.o.hideDelay
+      }));
+      this.bits.push(new CloudBit({
         width: 60,
         height: 30,
         deg: 0,
@@ -74,9 +87,10 @@
         shiftX: 75,
         shiftY: 60,
         container: this.$el,
-        delay: this.o.delay
-      });
-      new CloudBit({
+        delay: this.o.delay,
+        hideDelay: this.o.hideDelay
+      }));
+      this.bits.push(new CloudBit({
         width: 70,
         height: 30,
         deg: 0,
@@ -84,9 +98,10 @@
         shiftX: -100,
         shiftY: 60,
         container: this.$el,
-        delay: this.o.delay
-      });
-      new CloudBit({
+        delay: this.o.delay,
+        hideDelay: this.o.hideDelay
+      }));
+      this.bits.push(new CloudBit({
         width: 80,
         height: 50,
         deg: 0,
@@ -94,9 +109,10 @@
         shiftX: -60,
         shiftY: 55,
         container: this.$el,
-        delay: this.o.delay
-      });
-      new CloudBit({
+        delay: this.o.delay,
+        hideDelay: this.o.hideDelay
+      }));
+      this.bits.push(new CloudBit({
         width: 40,
         height: 30,
         deg: 0,
@@ -104,9 +120,10 @@
         shiftX: 25,
         shiftY: 55,
         container: this.$el,
-        delay: this.o.delay
-      });
-      new CloudBit({
+        delay: this.o.delay,
+        hideDelay: this.o.hideDelay
+      }));
+      this.bits.push(new CloudBit({
         width: 10,
         height: 10,
         deg: 0,
@@ -114,9 +131,10 @@
         shiftX: 103,
         shiftY: 65,
         container: this.$el,
-        delay: this.o.delay
-      });
-      new CloudBit({
+        delay: this.o.delay,
+        hideDelay: this.o.hideDelay
+      }));
+      this.bits.push(new CloudBit({
         width: 5,
         height: 5,
         deg: 0,
@@ -124,9 +142,10 @@
         shiftX: 110,
         shiftY: 66,
         container: this.$el,
-        delay: this.o.delay
-      });
-      new CloudBit({
+        delay: this.o.delay,
+        hideDelay: this.o.hideDelay
+      }));
+      this.bits.push(new CloudBit({
         width: 10,
         height: 10,
         deg: 0,
@@ -134,9 +153,10 @@
         shiftX: -128,
         shiftY: 65,
         container: this.$el,
-        delay: this.o.delay
-      });
-      return new CloudBit({
+        delay: this.o.delay,
+        hideDelay: this.o.hideDelay
+      }));
+      return this.bits.push(new CloudBit({
         width: 8,
         height: 5,
         deg: 0,
@@ -144,8 +164,20 @@
         shiftX: -135,
         shiftY: 65,
         container: this.$el,
-        delay: this.o.delay
-      });
+        delay: this.o.delay,
+        hideDelay: this.o.hideDelay
+      }));
+    };
+
+    Cloud.prototype.hide = function() {
+      var bit, i, _i, _len, _ref, _results;
+      _ref = this.bits;
+      _results = [];
+      for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+        bit = _ref[i];
+        _results.push(bit.hide());
+      }
+      return _results;
     };
 
     return Cloud;
@@ -213,7 +245,7 @@
         rotateZ: this.o.deg,
         complete: (function(_this) {
           return function() {
-            return _this.loop();
+            return !_this.disallowAnimation && _this.loop();
           };
         })(this)
       }, {
@@ -222,7 +254,14 @@
     };
 
     CloudBit.prototype.destroy = function() {
-      return clearInterval(this.interval);
+      return this.disallowAnimation = true;
+    };
+
+    CloudBit.prototype.hide = function() {
+      this.destroy();
+      return this.$el.velocity({
+        scale: 0
+      }, {});
     };
 
     return CloudBit;

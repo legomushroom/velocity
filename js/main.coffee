@@ -15,6 +15,17 @@ class Main
     @$robust = $('#js-robust')
     @$robustShade1 =  @$robust.find('#js-robust-shade1')
     @$robustShade2 =  @$robust.find('#js-robust-shade2')
+    @$easy = $('#js-easy')
+    @$easyText = $('#js-easy-text')
+
+    @thunder = new Thunder
+
+    @drops = for i in [0..10]
+          new Drop
+            radius: i*50
+            i: i
+
+    @bubbles = new Bubbles
 
   init:->
     @s = 1
@@ -25,15 +36,63 @@ class Main
     @shiftRobustArrow(3400)
     @fallRobust(3800)
     @showCloud(3200*@s)
-    @thunder(5200*@s)
+    @showThunder(5200*@s)
+    @waterDrop(7000*@s)
+    @showBubbles(8500*@s)
 
-  thunder:(delay)->
-    new Thunder
-      delay: delay
+  showBubbles:(delay)->
+    @bubbles.run(delay)
+    setTimeout =>
+      @$easyText.css(
+        height: 240
+        width:  240
+      ).velocity({
+        translateX: -120
+        translateY: -120
+      },{
+        duration: 1400*@s
+        # delay: 750*@s
+      })
+      @$easy
+        .velocity({
+          width: 2
+          height: 2
+        },{
+          duration: 1400*@s
+        })
+      
+    , delay
+    @
+
+  waterDrop:(delay)->
+    setTimeout =>
+      @$easy
+        .velocity({
+          width: 240
+          height: 240
+        },{
+          easing: 'easeOutElastic'
+          duration: 1500*@s
+        })
+
+      setTimeout =>
+        for drop in @drops
+          drop.run()
+
+        @$robust
+          .velocity top: '100%', marginTop: 0
+      , 100
+    , delay
+
+  showThunder:(delay)->
+    setTimeout =>
+      @thunder.run()
+    , delay
 
   showCloud:(delay)->
-    new Cloud
+    @cloud = new Cloud
       delay: delay
+      hideDelay: 6000*@s
 
   car1:(delay)->
     @$car1
@@ -70,7 +129,6 @@ class Main
           delay: (60+(@fastChilds.length-i)*15)*@s, duration: 5000*@s, easing: 'quake'
         })
 
-
   fallRobust:(delay)->
     @$robust
       .velocity({
@@ -101,7 +159,7 @@ class Main
           rotateZ: 90
         }, {
           easing: 'easeOutBounce',
-          duration: 200*@s,
+          duration: 400*@s,
           complete: ->
             $(this).hide()
         }

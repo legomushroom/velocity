@@ -15,34 +15,36 @@
     };
 
     Thunder.prototype.init = function() {
-      var $bit, thunder;
       this.spark1 = new Spark({
-        shiftY: -180,
-        shiftX: -120,
-        top: 100
-      });
-      this.spark2 = new Spark({
         shiftY: -140,
         shiftX: -120,
         top: 100
       });
-      $bit = helpers.createDiv({
+      this.spark2 = new Spark({
+        shiftY: -120,
+        shiftX: -150,
+        top: 100
+      });
+      this.$bit = helpers.createDiv({
         "class": 'c-grey-g center circle'
       });
-      $bit.css({
+      this.$bit.css({
         width: 2,
         height: 0,
         marginLeft: -1,
         'transform-origin': 'top center'
       });
-      thunder = helpers.cloneBits($bit, 15);
+      return this.thunder = helpers.cloneBits(this.$bit, 20);
+    };
+
+    Thunder.prototype.run = function() {
       return setTimeout((function(_this) {
         return function() {
-          _this.makeBoom(thunder, $bit);
+          _this.makeBoom(_this.thunder, _this.$bit);
           return setTimeout(function() {
-            _this.makeBoom(thunder, $bit);
+            _this.makeBoom(_this.thunder, _this.$bit);
             return setTimeout(function() {
-              return _this.makeBoom(thunder, $bit);
+              return _this.makeBoom(_this.thunder, _this.$bit);
             }, 380);
           }, 320);
         };
@@ -112,7 +114,7 @@
         }).velocity({
           rotateZ: 0
         }, {
-          duration: 400 * this.s,
+          duration: 600 * this.s,
           easing: 'easeOutBounce'
         });
       }

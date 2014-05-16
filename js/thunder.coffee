@@ -9,28 +9,30 @@ class Thunder
 
   init:->
     @spark1 = new Spark
-      shiftY: -180
-      shiftX: -120
-      top: 100
-    @spark2 = new Spark
       shiftY: -140
       shiftX: -120
       top: 100
+    @spark2 = new Spark
+      shiftY: -120
+      shiftX: -150
+      top: 100
 
-    $bit = helpers.createDiv class: 'c-grey-g center circle'
-    $bit.css
+    @$bit = helpers.createDiv class: 'c-grey-g center circle'
+    @$bit.css
       width: 2
       height: 0
       marginLeft: -1
       'transform-origin': 'top center'
 
-    thunder = helpers.cloneBits $bit, 15
+    @thunder = helpers.cloneBits @$bit, 20
+
+  run:->
     setTimeout =>
-      @makeBoom thunder, $bit
+      @makeBoom @thunder, @$bit
       setTimeout =>
-        @makeBoom thunder, $bit
+        @makeBoom @thunder, @$bit
         setTimeout =>
-          @makeBoom thunder, $bit
+          @makeBoom @thunder, @$bit
         , 380
       , 320
     , @o.delay
@@ -90,7 +92,7 @@ class Thunder
         .velocity({
           rotateZ: 0
         },{
-          duration: 400*@s
+          duration: 600*@s
           easing: 'easeOutBounce'
         })
     if @boomCnt is 1

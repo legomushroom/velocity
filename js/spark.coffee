@@ -9,12 +9,12 @@ class Spark
   init:->
     $proto = helpers.createDiv class: 'spark'
 
-    @sparks = helpers.cloneBits $proto, @o.cnt or 10
+    @sparks = helpers.cloneBits $proto, @o.cnt or helpers.rand(10,20)
     size = @o.size or 2
     for $spark, i in @sparks
       $spark.css
-        width:  size+helpers.rand(0,2*size)
-        height: size+helpers.rand(0,2*size)
+        width:  size+helpers.rand(0,size)
+        height: size+helpers.rand(0,size)
         left: @o.left or '50%'
         top:  "#{@o.top or 50}%"
         marginTop:  @o.shiftY
@@ -22,7 +22,7 @@ class Spark
 
   run:->
     for $spark, i in @sparks
-      blowSize = @o.blowSize or 100
+      blowSize = @o.blowSize or 50
       top = 2*@o.top or 100
       if top < 100 then top = 100
       $spark
@@ -31,7 +31,7 @@ class Spark
           translateY: helpers.rand(-blowSize,blowSize)
           opacity: 1
         },{
-          duration: 100
+          duration: 500
           easing: 'easeOutQuad'
           delay: (@o.delay or 0)+helpers.rand(0,100)
         })
