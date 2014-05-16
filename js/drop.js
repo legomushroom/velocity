@@ -15,7 +15,7 @@
     Drop.prototype.init = function() {
       this.radius = this.o.radius || 200;
       this.cnt = this.radius / 10;
-      return this.$els = helpers.cloneBits(this.$proto, this.cnt);
+      return this.$els = helpers.cloneBits(this.$proto, this.cnt, this.o.$container);
     };
 
     Drop.prototype.run = function() {

@@ -4,11 +4,12 @@ class Bubbles
 		@init()
 
 	vars:->
-		@$el 		= helpers.createDiv(class: 'bubbles')
+		@$el 		= helpers.createDiv class: "bubbles"
+
 		@$proto = $ '<div class="bubble" />'
 
 	init:->
-		@bits = helpers.cloneBits @$proto, 25, @$el
+		@bits = helpers.cloneBits @$proto, 30, @$el
 		for $bit, i in @bits
 			size = helpers.rand(12,24)
 			$bit.css
@@ -22,12 +23,12 @@ class Bubbles
 				.velocity({
 					top: '-10%'
 					borderWidth: 0
-					translateX: helpers.rand(-100,100)
+					translateX: helpers.rand(-120,120)
 					translateY: helpers.rand(0,300)
 					opacity: 100
 				},{
-					duration: 1000
-					delay: helpers.rand(i*50,i*50 + 1000) + delay
+					duration: 1400
+					delay: helpers.rand(i*25,i*25 + 1000) + delay
 				})
 
 		@$el

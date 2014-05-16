@@ -9,7 +9,7 @@
     }
 
     Main.prototype.vars = function() {
-      var i;
+      var $lineProto, i;
       this.$fast = $('#js-fast');
       this.$car1 = $('#js-car1');
       this.$car2 = $('#js-car2');
@@ -23,7 +23,16 @@
       this.$robustShade2 = this.$robust.find('#js-robust-shade2');
       this.$easy = $('#js-easy');
       this.$easyText = $('#js-easy-text');
+      this.$screen1 = $('#js-screen1');
+      this.$screen2 = $('#js-screen2');
+      this.$velocity = $('#js-velocity');
       this.$line = $('#js-line');
+      $lineProto = this.$line.clone();
+      $lineProto.css({
+        top: '100%',
+        transform: "none"
+      });
+      this.lines = helpers.cloneBits($lineProto, 20, this.$screen1);
       this.thunder = new Thunder;
       this.drops = (function() {
         var _i, _results;
@@ -31,11 +40,12 @@
         for (i = _i = 0; _i <= 10; i = ++_i) {
           _results.push(new Drop({
             radius: i * 50,
-            i: i
+            i: i,
+            $container: this.$screen2
           }));
         }
         return _results;
-      })();
+      }).call(this);
       return this.bubbles = new Bubbles;
     };
 
@@ -50,14 +60,75 @@
       this.showCloud(3200 * this.s);
       this.showThunder(5200 * this.s);
       this.waterDrop(7000 * this.s);
-      return this.showBubbles(8500 * this.s);
+      this.showBubbles(8300 * this.s);
+      this.shiftScreen(11000 * this.s);
+      return this.blow(13000 * this.s);
+    };
+
+    Main.prototype.blow = function(delay) {
+      var $child, childs, i, _i, _ref;
+      childs = this.$velocity.children();
+      for (i = _i = _ref = childs.length - 1; _ref <= 0 ? _i <= 0 : _i >= 0; i = _ref <= 0 ? ++_i : --_i) {
+        $child = $(childs[i]);
+        $child.velocity({
+          translateX: -2000,
+          translateY: -200 - helpers.rand(0, 400),
+          rotateZ: helpers.rand(-500, 500)
+        }, {
+          delay: delay + ((childs.length - i) * 50),
+          duration: 2000 * this.s
+        });
+      }
+      return setTimeout((function(_this) {
+        return function() {
+          var $line, _j, _len, _ref1, _results;
+          _ref1 = _this.lines;
+          _results = [];
+          for (i = _j = 0, _len = _ref1.length; _j < _len; i = ++_j) {
+            $line = _ref1[i];
+            _results.push((function(i) {
+              return $line.velocity({
+                rotateZ: -90
+              }, {
+                duration: 600 * _this.s,
+                delay: (_this.lines.length - i) * 60,
+                easing: 'easeOutBounce'
+              });
+            })(i));
+          }
+          return _results;
+        };
+      })(this), delay + (200 * this.s));
+    };
+
+    Main.prototype.shiftScreen = function(delay) {
+      var dur;
+      dur = 1400 * this.s;
+      this.$screen1.velocity({
+        translateX: -2000
+      }, {
+        delay: delay,
+        duration: dur
+      });
+      this.$screen2.velocity({
+        translateX: -800
+      }, {
+        delay: delay,
+        duration: dur
+      });
+      return this.$velocity.velocity({
+        translateX: -1500
+      }, {
+        delay: delay,
+        duration: dur
+      });
     };
 
     Main.prototype.showBubbles = function(delay) {
       this.bubbles.run(delay);
       return setTimeout((function(_this) {
         return function() {
-          var $line, $lineProto, h, i, lines, y, _i, _len, _results;
+          var $line, h, i, y, _i, _len, _ref, _results;
           _this.$easyText.css({
             height: 240,
             width: 240
@@ -77,8 +148,8 @@
             height: 200,
             translateY: -200
           }, {
-            delay: 1800 * _this.s,
-            duration: 1000 * _this.s
+            delay: 1000 * _this.s,
+            duration: 700 * _this.s
           }).velocity({
             top: '100%'
           }, {
@@ -94,15 +165,10 @@
             easing: 'quake',
             duration: 1500 * _this.s
           });
-          $lineProto = _this.$line.clone();
-          $lineProto.css({
-            top: '100%',
-            transform: "none"
-          });
-          lines = helpers.cloneBits($lineProto);
+          _ref = _this.lines;
           _results = [];
-          for (i = _i = 0, _len = lines.length; _i < _len; i = ++_i) {
-            $line = lines[i];
+          for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+            $line = _ref[i];
             y = (i + 1) % 5 === 0 ? -200 : -100;
             h = (i + 1) % 5 === 0 ? 200 : 100;
             $line.css({
@@ -113,9 +179,9 @@
             _results.push($line.velocity({
               translateY: y
             }, {
-              delay: 3350 + (i * 60),
+              delay: 2350 + (i * 60),
               easing: 'easeOutElastic',
-              duration: 600 * _this.s
+              duration: i < 10 ? 600 * _this.s : 1
             }));
           }
           return _results;

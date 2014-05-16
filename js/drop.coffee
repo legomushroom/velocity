@@ -9,7 +9,7 @@ class Drop
   init:->
     @radius = @o.radius or 200
     @cnt = @radius/10
-    @$els = helpers.cloneBits @$proto, @cnt
+    @$els = helpers.cloneBits @$proto, @cnt, @o.$container
 
   run:->
     step = (2*Math.PI)/@cnt

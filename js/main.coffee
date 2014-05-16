@@ -18,7 +18,20 @@ class Main
     @$easy = $('#js-easy')
     @$easyText = $('#js-easy-text')
 
+    @$screen1 = $('#js-screen1')
+    @$screen2 = $('#js-screen2')
+
+    @$velocity = $('#js-velocity')
+
+
     @$line = $('#js-line')
+
+    $lineProto = @$line.clone()
+    $lineProto.css
+      top: '100%'
+      transform: "none"
+
+    @lines = helpers.cloneBits $lineProto, 20, @$screen1
 
     @thunder = new Thunder
 
@@ -26,6 +39,7 @@ class Main
           new Drop
             radius: i*50
             i: i
+            $container: @$screen2
 
     @bubbles = new Bubbles
 
@@ -40,7 +54,50 @@ class Main
     @showCloud(3200*@s)
     @showThunder(5200*@s)
     @waterDrop(7000*@s)
-    @showBubbles(8500*@s)
+    @showBubbles(8300*@s)
+    @shiftScreen(11000*@s)
+    @blow(13000*@s)
+
+  blow:(delay)->
+    childs = @$velocity.children()
+    for i in [childs.length-1..0]
+      $child = $ childs[i]
+      $child
+        .velocity {
+          translateX: -2000
+          translateY: -200-helpers.rand(0,400)
+          rotateZ: helpers.rand(-500,500)
+        }, {
+        delay:delay+((childs.length-i)*50),
+        duration: 2000*@s
+        }
+
+    setTimeout =>
+      for $line, i in @lines
+        do (i)=>
+          $line
+            .velocity { rotateZ: -90 }, {
+              duration: 600*@s, delay: ((@lines.length-i)*60)
+              easing: 'easeOutBounce'
+            }
+    , delay+(200*@s)
+
+  shiftScreen:(delay)->
+    dur = 1400*@s
+    @$screen1
+      .velocity({
+        translateX: -2000
+      },{delay: delay, duration: dur})
+
+    @$screen2
+      .velocity({
+        translateX: -800
+      },{delay: delay, duration: dur})
+
+    @$velocity
+      .velocity({
+        translateX: -1500
+      },{delay: delay, duration: dur})
 
   showBubbles:(delay)->
     @bubbles.run(delay)
@@ -68,8 +125,8 @@ class Main
           height: 200
           translateY: -200
         },{
-          delay: 1800*@s
-          duration: 1000*@s
+          delay: 1000*@s
+          duration: 700*@s
         })
 
         .velocity({
@@ -85,13 +142,7 @@ class Main
           rotateZ: 0
         },{ easing: 'quake', duration: 1500*@s })
 
-      $lineProto = @$line.clone()
-      $lineProto.css
-        top: '100%'
-        transform: "none"
-
-      lines = helpers.cloneBits $lineProto
-      for $line, i in lines
+      for $line, i in @lines
         y = if (i+1) % 5 is 0 then -200 else -100
         h = if (i+1) % 5 is 0 then 200 else 100
         $line.css
@@ -103,10 +154,11 @@ class Main
           .velocity({
             translateY: y
           },{
-            delay: 3350+(i*60),
+            delay: 2350+(i*60),
             easing: 'easeOutElastic',
-            duration: 600*@s
+            duration: if i < 10 then 600*@s else 1
           })
+
 
     , delay
 
