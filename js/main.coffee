@@ -167,10 +167,10 @@ class Main
 
   shiftRobustArrow:(delay)->
     @$arrowWrap
-      .velocity({ translateX: -200 },{ delay: delay*@s })
+      .velocity({ translateX: -206 },{ delay: delay*@s })
 
     @$robustShade1
-      .velocity({ translateX: -200 },{ 
+      .velocity({ marginLeft: -206 },{ 
         delay: delay*@s
         complete:=>
           @$robustShade2.hide()

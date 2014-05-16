@@ -224,12 +224,12 @@
 
     Main.prototype.shiftRobustArrow = function(delay) {
       this.$arrowWrap.velocity({
-        translateX: -200
+        translateX: -206
       }, {
         delay: delay * this.s
       });
       return this.$robustShade1.velocity({
-        translateX: -200
+        marginLeft: -206
       }, {
         delay: delay * this.s,
         complete: (function(_this) {
