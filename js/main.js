@@ -23,6 +23,7 @@
       this.$robustShade2 = this.$robust.find('#js-robust-shade2');
       this.$easy = $('#js-easy');
       this.$easyText = $('#js-easy-text');
+      this.$line = $('#js-line');
       this.thunder = new Thunder;
       this.drops = (function() {
         var _i, _results;
@@ -54,8 +55,9 @@
 
     Main.prototype.showBubbles = function(delay) {
       this.bubbles.run(delay);
-      setTimeout((function(_this) {
+      return setTimeout((function(_this) {
         return function() {
+          var $line, $lineProto, h, i, lines, y, _i, _len, _results;
           _this.$easyText.css({
             height: 240,
             width: 240
@@ -65,15 +67,60 @@
           }, {
             duration: 1400 * _this.s
           });
-          return _this.$easy.velocity({
+          _this.$easy.velocity({
             width: 2,
             height: 2
           }, {
             duration: 1400 * _this.s
           });
+          _this.$line.velocity({
+            height: 200,
+            translateY: -200
+          }, {
+            delay: 1800 * _this.s,
+            duration: 1000 * _this.s
+          }).velocity({
+            top: '100%'
+          }, {
+            easing: 'easeInExpo',
+            duration: 500 * _this.s
+          }).velocity({
+            rotateZ: 20
+          }, {
+            duration: 1
+          }).velocity({
+            rotateZ: 0
+          }, {
+            easing: 'quake',
+            duration: 1500 * _this.s
+          });
+          $lineProto = _this.$line.clone();
+          $lineProto.css({
+            top: '100%',
+            transform: "none"
+          });
+          lines = helpers.cloneBits($lineProto);
+          _results = [];
+          for (i = _i = 0, _len = lines.length; _i < _len; i = ++_i) {
+            $line = lines[i];
+            y = (i + 1) % 5 === 0 ? -200 : -100;
+            h = (i + 1) % 5 === 0 ? 200 : 100;
+            $line.css({
+              height: h,
+              marginLeft: "" + (-1 + ((i + 1) * 100)) + "px",
+              transform: "rotate(20deg)"
+            });
+            _results.push($line.velocity({
+              translateY: y
+            }, {
+              delay: 3350 + (i * 60),
+              easing: 'easeOutElastic',
+              duration: 600 * _this.s
+            }));
+          }
+          return _results;
         };
       })(this), delay);
-      return this;
     };
 
     Main.prototype.waterDrop = function(delay) {

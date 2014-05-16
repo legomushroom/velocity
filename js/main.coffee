@@ -18,6 +18,8 @@ class Main
     @$easy = $('#js-easy')
     @$easyText = $('#js-easy-text')
 
+    @$line = $('#js-line')
+
     @thunder = new Thunder
 
     @drops = for i in [0..10]
@@ -60,9 +62,53 @@ class Main
         },{
           duration: 1400*@s
         })
-      
+
+      @$line
+        .velocity({
+          height: 200
+          translateY: -200
+        },{
+          delay: 1800*@s
+          duration: 1000*@s
+        })
+
+        .velocity({
+          top: '100%'
+          # rotateZ: 20
+        },{ easing: 'easeInExpo', duration: 500*@s })
+
+        .velocity({
+          rotateZ: 20
+        },{ duration: 1 })
+
+        .velocity({
+          rotateZ: 0
+        },{ easing: 'quake', duration: 1500*@s })
+
+      $lineProto = @$line.clone()
+      $lineProto.css
+        top: '100%'
+        transform: "none"
+
+      lines = helpers.cloneBits $lineProto
+      for $line, i in lines
+        y = if (i+1) % 5 is 0 then -200 else -100
+        h = if (i+1) % 5 is 0 then 200 else 100
+        $line.css
+          height: h
+          marginLeft: "#{ -1 + ((i+1)*100)}px"
+          transform: "rotate(20deg)"
+
+        $line
+          .velocity({
+            translateY: y
+          },{
+            delay: 3350+(i*60),
+            easing: 'easeOutElastic',
+            duration: 600*@s
+          })
+
     , delay
-    @
 
   waterDrop:(delay)->
     setTimeout =>
