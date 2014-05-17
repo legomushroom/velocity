@@ -38,6 +38,17 @@ class Drop
           duration: 1500
         })
 
+      if left2 > 0
+      	$el
+        .velocity({
+          translateX: -200 - helpers.rand(0,200)
+          translateY: helpers.rand(-400,400)
+        },{
+          delay: helpers.rand(0,500)+3000,
+          duration: 1500
+        })
+
+
       angle += step
 
 

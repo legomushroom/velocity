@@ -55,8 +55,8 @@ class Main
     @showThunder(5200*@s)
     @waterDrop(7000*@s)
     @showBubbles(8300*@s)
-    @shiftScreen(11000*@s)
-    @blow(13000*@s)
+    @shiftScreen(10500*@s)
+    @blow(11800*@s)
 
   blow:(delay)->
     childs = @$velocity.children()
@@ -77,10 +77,11 @@ class Main
         do (i)=>
           $line
             .velocity { rotateZ: -90 }, {
-              duration: 600*@s, delay: ((@lines.length-i)*60)
+              duration: 500*@s
+              delay: 200+((@lines.length-i)*75)
               easing: 'easeOutBounce'
             }
-    , delay+(200*@s)
+    , delay
 
   shiftScreen:(delay)->
     dur = 1400*@s
@@ -91,7 +92,7 @@ class Main
 
     @$screen2
       .velocity({
-        translateX: -800
+        left: '-50%'
       },{delay: delay, duration: dur})
 
     @$velocity
@@ -110,7 +111,7 @@ class Main
         translateY: -120
       },{
         duration: 1400*@s
-        # delay: 750*@s
+        delay: 150*@s
       })
       @$easy
         .velocity({
@@ -157,6 +158,7 @@ class Main
             delay: 2250+(i*50),
             easing: 'easeOutElastic',
             duration: if i < 10 then 500*@s else 1
+            # duration: 500*@s
           })
 
 

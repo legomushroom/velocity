@@ -61,8 +61,8 @@
       this.showThunder(5200 * this.s);
       this.waterDrop(7000 * this.s);
       this.showBubbles(8300 * this.s);
-      this.shiftScreen(11000 * this.s);
-      return this.blow(13000 * this.s);
+      this.shiftScreen(10500 * this.s);
+      return this.blow(11800 * this.s);
     };
 
     Main.prototype.blow = function(delay) {
@@ -90,15 +90,15 @@
               return $line.velocity({
                 rotateZ: -90
               }, {
-                duration: 600 * _this.s,
-                delay: (_this.lines.length - i) * 60,
+                duration: 500 * _this.s,
+                delay: 200 + ((_this.lines.length - i) * 75),
                 easing: 'easeOutBounce'
               });
             })(i));
           }
           return _results;
         };
-      })(this), delay + (200 * this.s));
+      })(this), delay);
     };
 
     Main.prototype.shiftScreen = function(delay) {
@@ -111,7 +111,7 @@
         duration: dur
       });
       this.$screen2.velocity({
-        translateX: -800
+        left: '-50%'
       }, {
         delay: delay,
         duration: dur
@@ -136,7 +136,8 @@
             translateX: -120,
             translateY: -120
           }, {
-            duration: 1400 * _this.s
+            duration: 1400 * _this.s,
+            delay: 150 * _this.s
           });
           _this.$easy.velocity({
             width: 0,
