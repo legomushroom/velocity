@@ -49,7 +49,7 @@
         });
         if (left2 > 0) {
           $el.velocity({
-            translateX: -200 - helpers.rand(0, 200),
+            translateX: -500 - helpers.rand(0, 200),
             translateY: helpers.rand(-400, 400),
             rotate: 0
           }, {
