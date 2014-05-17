@@ -13,13 +13,16 @@
     };
 
     Drop.prototype.init = function() {
-      this.radius = this.o.radius || 200;
+      this.radius = this.o.radius;
+      if (this.radius == null) {
+        this.radius = 200;
+      }
       this.cnt = this.radius / 10;
       return this.$els = helpers.cloneBits(this.$proto, this.cnt, this.o.$container);
     };
 
     Drop.prototype.run = function() {
-      var $el, angle, centerX, centerY, i, left, left2, step, top, top2, _i, _len, _ref, _results;
+      var $el, angle, centerX, centerY, delay, delayStep, i, left, left2, step, stepCalc, top, top2, _i, _j, _len, _ref, _results;
       step = (2 * Math.PI) / this.cnt;
       angle = 0;
       centerX = 0;
@@ -47,14 +50,24 @@
           easing: 'easeOutElastic',
           duration: 1500
         });
-        if (left2 > 0) {
+        if (left >= 0) {
+          delayStep = 100;
+          stepCalc = 50;
+          for (i = _j = 0; _j <= 1200; i = _j += stepCalc) {
+            if ((top > i) && (top < i + stepCalc) || (top < -i) && (top > -i - stepCalc)) {
+              delay = (i / stepCalc) * delayStep;
+            }
+          }
+          if (delay == null) {
+            delay = 100;
+          }
           $el.velocity({
-            translateX: -500 - helpers.rand(0, 200),
-            translateY: helpers.rand(-400, 400),
-            rotate: 0
+            translateX: -helpers.rand(20, 400),
+            translateY: helpers.rand(-600, 600),
+            left: 0
           }, {
-            delay: helpers.rand(0, 500) + 3000,
-            duration: 1500
+            delay: ((10 - this.o.i) * 50) + delay + helpers.rand(0, delayStep) + 3450,
+            duration: 1000
           });
         }
         _results.push(angle += step);

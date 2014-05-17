@@ -37,7 +37,7 @@
       this.drops = (function() {
         var _i, _results;
         _results = [];
-        for (i = _i = 0; _i <= 10; i = ++_i) {
+        for (i = _i = 0; _i < 10; i = ++_i) {
           _results.push(new Drop({
             radius: i * 50,
             i: i,
@@ -91,7 +91,7 @@
                 rotateZ: -90
               }, {
                 duration: 500 * _this.s,
-                delay: 200 + ((_this.lines.length - i) * 75),
+                delay: 500 + ((_this.lines.length - i) * 75),
                 easing: 'easeOutBounce'
               });
             })(i));

@@ -7,7 +7,8 @@ class Drop
     @$proto = $ '<div class="circle c-green-g drop" />'
 
   init:->
-    @radius = @o.radius or 200
+    @radius = @o.radius
+    @radius ?= 200
     @cnt = @radius/10
     @$els = helpers.cloneBits @$proto, @cnt, @o.$container
 
@@ -38,19 +39,26 @@ class Drop
           duration: 1500
         })
 
-      if left2 > 0
-      	$el
-        .velocity({
-          translateX: -500 - helpers.rand(0,200)
-          translateY: helpers.rand(-400,400)
-          rotate: 0
-        },{
-          delay: helpers.rand(0,500)+3000,
-          duration: 1500
-        })
+      if left >= 0
+        delayStep = 100
+        stepCalc = 50
+        for i in [0..1200] by stepCalc
+          if (top > i) and (top < i+stepCalc) or (top < -i) and (top > -i-stepCalc)
+            delay = (i/stepCalc)*delayStep
+        delay ?= 100
+        $el
+          .velocity({
+            translateX: -helpers.rand(20,400)
+            translateY: helpers.rand(-600,600)
+            left: 0
+          },{
+            delay: ((10-@o.i)*50)+delay+helpers.rand(0,delayStep)+3450
+            duration: 1000
+          })
 
 
       angle += step
+
 
 
 window.Drop = Drop

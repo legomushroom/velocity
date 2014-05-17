@@ -35,7 +35,7 @@ class Main
 
     @thunder = new Thunder
 
-    @drops = for i in [0..10]
+    @drops = for i in [0...10]
           new Drop
             radius: i*50
             i: i
@@ -78,7 +78,7 @@ class Main
           $line
             .velocity { rotateZ: -90 }, {
               duration: 500*@s
-              delay: 200+((@lines.length-i)*75)
+              delay: 500+((@lines.length-i)*75)
               easing: 'easeOutBounce'
             }
     , delay
