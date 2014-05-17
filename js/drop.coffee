@@ -43,6 +43,7 @@ class Drop
         .velocity({
           translateX: -200 - helpers.rand(0,200)
           translateY: helpers.rand(-400,400)
+          rotate: 0
         },{
           delay: helpers.rand(0,500)+3000,
           duration: 1500
