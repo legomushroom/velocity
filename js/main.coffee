@@ -154,9 +154,9 @@ class Main
           .velocity({
             translateY: y
           },{
-            delay: 2350+(i*60),
+            delay: 2250+(i*50),
             easing: 'easeOutElastic',
-            duration: if i < 10 then 600*@s else 1
+            duration: if i < 10 then 500*@s else 1
           })
 
 

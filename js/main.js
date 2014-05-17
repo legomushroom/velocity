@@ -179,9 +179,9 @@
             _results.push($line.velocity({
               translateY: y
             }, {
-              delay: 2350 + (i * 60),
+              delay: 2250 + (i * 50),
               easing: 'easeOutElastic',
-              duration: i < 10 ? 600 * _this.s : 1
+              duration: i < 10 ? 500 * _this.s : 1
             }));
           }
           return _results;
