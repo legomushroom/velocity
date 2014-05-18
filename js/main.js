@@ -91,7 +91,7 @@
                 rotateZ: -90
               }, {
                 duration: 500 * _this.s,
-                delay: 500 + ((_this.lines.length - i) * 75),
+                delay: 300 + ((_this.lines.length - i) * 75),
                 easing: 'easeOutBounce'
               });
             })(i));

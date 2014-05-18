@@ -66,7 +66,7 @@
             translateY: helpers.rand(-600, 600),
             left: 0
           }, {
-            delay: ((10 - this.o.i) * 50) + delay + helpers.rand(0, delayStep) + 3450,
+            delay: ((10 - this.o.i) * 50) + delay + helpers.rand(0, delayStep) + 3350,
             duration: 1000
           });
         }

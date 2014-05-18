@@ -78,7 +78,7 @@ class Main
           $line
             .velocity { rotateZ: -90 }, {
               duration: 500*@s
-              delay: 500+((@lines.length-i)*75)
+              delay: 300+((@lines.length-i)*75)
               easing: 'easeOutBounce'
             }
     , delay
