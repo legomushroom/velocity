@@ -66,7 +66,8 @@
     };
 
     Main.prototype.blow = function(delay) {
-      var $child, childs, i, _i, _ref;
+      var $child, childs, coef, i, _i, _ref;
+      coef = 1;
       childs = this.$velocity.children();
       for (i = _i = _ref = childs.length - 1; _ref <= 0 ? _i <= 0 : _i >= 0; i = _ref <= 0 ? ++_i : --_i) {
         $child = $(childs[i]);
@@ -75,8 +76,8 @@
           translateY: -200 - helpers.rand(0, 400),
           rotateZ: helpers.rand(-500, 500)
         }, {
-          delay: delay + ((childs.length - i) * 50),
-          duration: 2000 * this.s
+          delay: delay + ((childs.length - i) * 75),
+          duration: 2000 * this.s * coef
         });
       }
       return setTimeout((function(_this) {
@@ -90,8 +91,8 @@
               return $line.velocity({
                 rotateZ: -90
               }, {
-                duration: 500 * _this.s,
-                delay: 300 + ((_this.lines.length - i) * 75),
+                duration: 600 * _this.s * coef,
+                delay: 500 + ((_this.lines.length - i) * 75 * coef),
                 easing: 'easeOutBounce'
               });
             })(i));

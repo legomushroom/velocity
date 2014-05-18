@@ -38,27 +38,27 @@ class Drop
           easing: 'easeOutElastic',
           duration: 1500
         })
-
+      coef = 1
       if left >= 0
-        delayStep = 100
+        delayStep = 100*coef
         stepCalc = 50
         for i in [0..1200] by stepCalc
           if (top >= i) and (top <= i+stepCalc)
             delay = (i/stepCalc)*delayStep
 
-        delayStep = 50
+        delayStep = 20*coef
         for i in [0..1200] by stepCalc
           if (top <= -i) and (top >= -i-stepCalc)
             delay = (i/stepCalc)*delayStep
-        delay ?= 100
+        delay ?= 100*coef
         $el
           .velocity({
             translateX: -helpers.rand(20,400)
             translateY: helpers.rand(-600,600)
             left: 0
           },{
-            delay: ((10-@o.i)*50)+delay+helpers.rand(0,delayStep)+3750
-            duration: 1200
+            delay: (((10-@o.i)*75*coef)+delay+helpers.rand(0,delayStep)+3450)
+            duration: 1000*coef
           })
 
 

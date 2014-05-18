@@ -59,6 +59,7 @@ class Main
     @blow(11800*@s)
 
   blow:(delay)->
+    coef = 1
     childs = @$velocity.children()
     for i in [childs.length-1..0]
       $child = $ childs[i]
@@ -68,8 +69,8 @@ class Main
           translateY: -200-helpers.rand(0,400)
           rotateZ: helpers.rand(-500,500)
         }, {
-        delay:delay+((childs.length-i)*50),
-        duration: 2000*@s
+        delay:delay+((childs.length-i)*75),
+        duration: 2000*@s*coef
         }
 
     setTimeout =>
@@ -77,8 +78,8 @@ class Main
         do (i)=>
           $line
             .velocity { rotateZ: -90 }, {
-              duration: 500*@s
-              delay: 300+((@lines.length-i)*75)
+              duration: 600*@s*coef
+              delay: 500+((@lines.length-i)*75*coef)
               easing: 'easeOutBounce'
             }
     , delay
