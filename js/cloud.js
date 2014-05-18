@@ -260,8 +260,11 @@
     CloudBit.prototype.hide = function() {
       this.destroy();
       return this.$el.velocity({
-        scale: 0
-      }, {});
+        scale: 0,
+        translateX: -500
+      }, {
+        duration: 750
+      });
     };
 
     return CloudBit;

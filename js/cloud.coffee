@@ -217,7 +217,9 @@ class CloudBit
     @$el
       .velocity({
         scale: 0
+        translateX: -500
       },{
+        duration: 750
       })
 
 

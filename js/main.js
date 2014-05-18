@@ -61,10 +61,10 @@
       this.fallRobust(3800);
       this.showCloud(3200 * this.s);
       this.showThunder(5200 * this.s);
-      this.waterDrop(7500 * this.s);
-      this.showBubbles(8550 * this.s);
-      this.shiftScreen(10800 * this.s);
-      return this.blow(11800 * this.s);
+      this.waterDrop(7400 * this.s);
+      this.showBubbles(8800 * this.s);
+      this.shiftScreen(10900 * this.s);
+      return this.blow(11900 * this.s);
     };
 
     Main.prototype.blow = function(delay) {
@@ -140,7 +140,7 @@
             translateY: -120
           }, {
             duration: 1400 * _this.s,
-            delay: 550 * _this.s
+            delay: 115 * _this.s
           });
           _this.$easy.velocity({
             width: 0,

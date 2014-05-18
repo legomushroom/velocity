@@ -55,10 +55,10 @@ class Main
     @fallRobust(3800)
     @showCloud(3200*@s)
     @showThunder(5200*@s)
-    @waterDrop(7500*@s)
-    @showBubbles(8550*@s)
-    @shiftScreen(10800*@s)
-    @blow(11800*@s)
+    @waterDrop(7400*@s)
+    @showBubbles(8800*@s)
+    @shiftScreen(10900*@s)
+    @blow(11900*@s)
 
   blow:(delay)->
     coef = 1
@@ -114,7 +114,7 @@ class Main
         translateY: -120
       },{
         duration: 1400*@s
-        delay: 550*@s
+        delay: 115*@s
       })
 
       # @$easyWrapper
