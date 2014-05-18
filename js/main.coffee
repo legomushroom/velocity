@@ -16,7 +16,9 @@ class Main
     @$robustShade1 =  @$robust.find('#js-robust-shade1')
     @$robustShade2 =  @$robust.find('#js-robust-shade2')
     @$easy = $('#js-easy')
+    @$easyWrapper = $('#js-easy-wrapper')
     @$easyText = $('#js-easy-text')
+    @$easyScreen = $('#js-easy-screen')
 
     @$screen1 = $('#js-screen1')
     @$screen2 = $('#js-screen2')
@@ -53,9 +55,9 @@ class Main
     @fallRobust(3800)
     @showCloud(3200*@s)
     @showThunder(5200*@s)
-    @waterDrop(7000*@s)
-    @showBubbles(8300*@s)
-    @shiftScreen(10500*@s)
+    @waterDrop(7500*@s)
+    @showBubbles(8550*@s)
+    @shiftScreen(10800*@s)
     @blow(11800*@s)
 
   blow:(delay)->
@@ -79,7 +81,7 @@ class Main
           $line
             .velocity { rotateZ: -90 }, {
               duration: 600*@s*coef
-              delay: 500+((@lines.length-i)*75*coef)
+              delay: 350+((@lines.length-i)*100*coef)
               easing: 'easeOutBounce'
             }
     , delay
@@ -112,8 +114,13 @@ class Main
         translateY: -120
       },{
         duration: 1400*@s
-        delay: 150*@s
+        delay: 550*@s
       })
+
+      # @$easyWrapper
+      #   .velocity({
+      #     scale: 0
+      #   },{ duration: 1400*@s, delay: 550*@s })
       @$easy
         .velocity({
           width: 0
@@ -157,13 +164,20 @@ class Main
             translateY: y
           },{
             delay: 2250+(i*50),
-            easing: 'easeOutElastic',
-            duration: if i < 10 then 500*@s else 1
+            # easing: 'easeOutElastic',
+            # easing: 'linear',
+            # duration: if i < 10 then 500*@s else 1
+            duration: 100*@s
             # duration: 500*@s
           })
 
 
     , delay
+
+    # setTimeout =>
+    #   # console.log @$easyScreen[0]
+      
+    # , delay - 500*@s
 
   waterDrop:(delay)->
     setTimeout =>

@@ -22,7 +22,9 @@
       this.$robustShade1 = this.$robust.find('#js-robust-shade1');
       this.$robustShade2 = this.$robust.find('#js-robust-shade2');
       this.$easy = $('#js-easy');
+      this.$easyWrapper = $('#js-easy-wrapper');
       this.$easyText = $('#js-easy-text');
+      this.$easyScreen = $('#js-easy-screen');
       this.$screen1 = $('#js-screen1');
       this.$screen2 = $('#js-screen2');
       this.$velocity = $('#js-velocity');
@@ -59,9 +61,9 @@
       this.fallRobust(3800);
       this.showCloud(3200 * this.s);
       this.showThunder(5200 * this.s);
-      this.waterDrop(7000 * this.s);
-      this.showBubbles(8300 * this.s);
-      this.shiftScreen(10500 * this.s);
+      this.waterDrop(7500 * this.s);
+      this.showBubbles(8550 * this.s);
+      this.shiftScreen(10800 * this.s);
       return this.blow(11800 * this.s);
     };
 
@@ -92,7 +94,7 @@
                 rotateZ: -90
               }, {
                 duration: 600 * _this.s * coef,
-                delay: 500 + ((_this.lines.length - i) * 75 * coef),
+                delay: 350 + ((_this.lines.length - i) * 100 * coef),
                 easing: 'easeOutBounce'
               });
             })(i));
@@ -138,7 +140,7 @@
             translateY: -120
           }, {
             duration: 1400 * _this.s,
-            delay: 150 * _this.s
+            delay: 550 * _this.s
           });
           _this.$easy.velocity({
             width: 0,
@@ -182,8 +184,7 @@
               translateY: y
             }, {
               delay: 2250 + (i * 50),
-              easing: 'easeOutElastic',
-              duration: i < 10 ? 500 * _this.s : 1
+              duration: 100 * _this.s
             }));
           }
           return _results;

@@ -11,6 +11,8 @@
     Thunder.prototype.vars = function() {
       this.$background = $('#js-thunder-bg');
       this.$robust = $('#js-robust');
+      this.$robustScreen = $('#js-robust-screen');
+      this.$robustScreen2 = $('#js-robust-screen2');
       return this.boomCnt = 0;
     };
 
@@ -18,11 +20,24 @@
       this.spark1 = new Spark({
         shiftY: -140,
         shiftX: -120,
-        top: 100
+        top: 100,
+        blowSize: 50
       });
       this.spark2 = new Spark({
+        shiftY: -80,
+        shiftX: -210,
+        top: 100,
+        blowSize: 50
+      });
+      this.spark3 = new Spark({
+        shiftY: -100,
+        shiftX: 50,
+        top: 100,
+        blowSize: 75
+      });
+      this.spark4 = new Spark({
         shiftY: -120,
-        shiftX: -150,
+        shiftX: -190,
         top: 100
       });
       this.$bit = helpers.createDiv({
@@ -42,17 +57,14 @@
         return function() {
           _this.makeBoom(_this.thunder, _this.$bit);
           return setTimeout(function() {
-            _this.makeBoom(_this.thunder, _this.$bit);
-            return setTimeout(function() {
-              return _this.makeBoom(_this.thunder, _this.$bit);
-            }, 380);
+            return _this.makeBoom(_this.thunder, _this.$bit);
           }, 320);
         };
       })(this), this.o.delay);
     };
 
     Thunder.prototype.makeBoom = function(thunder, $bit) {
-      var $bit1, $prevBit, i, size, _fn, _i, _len;
+      var $bit1, $prevBit, i, jump, sign, size, _fn, _i, _len;
       this.boomCnt++;
       this.prevAngle = 100;
       $prevBit = $bit;
@@ -105,24 +117,53 @@
         $prevBit = $bit1;
       }
       this.s = 1;
-      if (this.boomCnt === 1 || this.boomCnt === 3) {
+      if (this.boomCnt === 1) {
+        this.$robust.css({
+          'transform-origin': 'center bottom'
+        });
+        sign = helpers.rand(-1, 1);
+        (sign === 0) && (sign = 1);
         this.$robust.velocity({
-          rotateZ: -30 + helpers.rand(0, -30)
+          rotateZ: helpers.rand(15, 25) * sign
         }, {
-          duration: 50 * this.s,
+          duration: 100 * this.s,
           delay: 160 * this.s
         }).velocity({
           rotateZ: 0
         }, {
-          duration: 600 * this.s,
+          duration: 500 * this.s,
+          easing: 'easeOutBounce'
+        });
+        jump = 100;
+        this.$robustScreen.velocity({
+          marginTop: -jump
+        }, {
+          duration: 50 * this.s,
+          delay: 160 * this.s
+        });
+        this.$robustScreen2.velocity({
+          marginTop: jump
+        }, {
+          duration: 900 * this.s,
+          delay: 150 * this.s,
           easing: 'easeOutBounce'
         });
       }
       if (this.boomCnt === 1) {
         this.spark1.run();
+        setTimeout((function(_this) {
+          return function() {
+            return _this.spark3.run();
+          };
+        })(this), 200);
       }
-      if (this.boomCnt === 3) {
-        return this.spark2.run();
+      if (this.boomCnt === 2) {
+        this.spark2.run();
+        return setTimeout((function(_this) {
+          return function() {
+            return _this.spark4.run();
+          };
+        })(this), 100);
       }
     };
 

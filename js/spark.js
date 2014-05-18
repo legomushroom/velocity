@@ -39,7 +39,7 @@
       _results = [];
       for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
         $spark = _ref[i];
-        blowSize = this.o.blowSize || 50;
+        blowSize = this.o.blowSize || 100;
         top = 2 * this.o.top || 100;
         if (top < 100) {
           top = 100;
@@ -49,7 +49,7 @@
           translateY: helpers.rand(-blowSize, blowSize),
           opacity: 1
         }, {
-          duration: 500,
+          duration: 500 + blowSize,
           easing: 'easeOutQuad',
           delay: (this.o.delay || 0) + helpers.rand(0, 100)
         }).velocity({

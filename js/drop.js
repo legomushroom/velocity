@@ -73,7 +73,7 @@
             translateY: helpers.rand(-600, 600),
             left: 0
           }, {
-            delay: ((10 - this.o.i) * 50 * coef) + delay + helpers.rand(0, delayStep) + 3450,
+            delay: ((10 - this.o.i) * 50 * coef) + delay + helpers.rand(0, delayStep) + 3050,
             duration: 1000 * coef
           });
         }

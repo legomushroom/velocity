@@ -5,6 +5,8 @@ class Thunder
   vars:->
     @$background = $('#js-thunder-bg')
     @$robust = $('#js-robust')
+    @$robustScreen = $('#js-robust-screen')
+    @$robustScreen2 = $('#js-robust-screen2')
     @boomCnt = 0
 
   init:->
@@ -12,9 +14,21 @@ class Thunder
       shiftY: -140
       shiftX: -120
       top: 100
+      blowSize: 50
     @spark2 = new Spark
+      shiftY: -80
+      shiftX: -210
+      top: 100
+      blowSize: 50
+
+    @spark3 = new Spark
+      shiftY: -100
+      shiftX: 50
+      top: 100
+      blowSize: 75
+    @spark4 = new Spark
       shiftY: -120
-      shiftX: -150
+      shiftX: -190
       top: 100
 
     @$bit = helpers.createDiv class: 'c-grey-g center circle'
@@ -31,9 +45,9 @@ class Thunder
       @makeBoom @thunder, @$bit
       setTimeout =>
         @makeBoom @thunder, @$bit
-        setTimeout =>
-          @makeBoom @thunder, @$bit
-        , 380
+        # setTimeout =>
+        #   @makeBoom @thunder, @$bit
+        # , 380
       , 320
     , @o.delay
 
@@ -77,28 +91,60 @@ class Thunder
       $prevBit = $bit1
 
     @s = 1
-    if @boomCnt is 1 or @boomCnt is 3
-      # @$robust.css 'transform-origin': 'right bottom'
+    if @boomCnt is 1
+      @$robust.css 'transform-origin': 'center bottom'
 
+
+      sign = helpers.rand(-1,1)
+      (sign is 0) and sign = 1
       @$robust
+
         .velocity({
-          # translateY: -100
-          rotateZ: -30+helpers.rand(0,-30)
+          rotateZ: helpers.rand(15,25)*sign
         },{ 
-          duration: 50*@s,
-          delay: 160*@s
+          duration: 100*@s,
+          delay: 160*@s,
         })
 
         .velocity({
           rotateZ: 0
         },{
-          duration: 600*@s
+          duration: 500*@s
           easing: 'easeOutBounce'
         })
+
+      jump = 100
+      @$robustScreen
+        .velocity({
+          marginTop: -jump
+        },{ 
+          duration: 50*@s,
+          delay: 160*@s,
+        })
+
+      @$robustScreen2
+        .velocity({
+          marginTop: jump
+        },{ 
+          duration:900*@s,
+          delay: 150*@s,
+          easing: 'easeOutBounce'
+        })
+        
+        
+
+        
     if @boomCnt is 1
       @spark1.run()
-    if @boomCnt is 3
+      setTimeout =>
+        @spark3.run()
+      , 200
+    if @boomCnt is 2
       @spark2.run()
+
+      setTimeout =>
+        @spark4.run()
+      , 100
 
   calcSize:(i)->
     angle = 0

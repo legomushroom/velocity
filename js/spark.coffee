@@ -22,7 +22,7 @@ class Spark
 
   run:->
     for $spark, i in @sparks
-      blowSize = @o.blowSize or 50
+      blowSize = @o.blowSize or 100
       top = 2*@o.top or 100
       if top < 100 then top = 100
       $spark
@@ -31,7 +31,7 @@ class Spark
           translateY: helpers.rand(-blowSize,blowSize)
           opacity: 1
         },{
-          duration: 500
+          duration: 500+blowSize
           easing: 'easeOutQuad'
           delay: (@o.delay or 0)+helpers.rand(0,100)
         })
