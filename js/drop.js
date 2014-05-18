@@ -22,7 +22,7 @@
     };
 
     Drop.prototype.run = function() {
-      var $el, angle, centerX, centerY, delay, delayStep, i, left, left2, step, stepCalc, top, top2, _i, _j, _len, _ref, _results;
+      var $el, angle, centerX, centerY, delay, delayStep, i, left, left2, step, stepCalc, top, top2, _i, _j, _k, _len, _ref, _results;
       step = (2 * Math.PI) / this.cnt;
       angle = 0;
       centerX = 0;
@@ -54,7 +54,13 @@
           delayStep = 100;
           stepCalc = 50;
           for (i = _j = 0; _j <= 1200; i = _j += stepCalc) {
-            if ((top > i) && (top < i + stepCalc) || (top < -i) && (top > -i - stepCalc)) {
+            if ((top >= i) && (top <= i + stepCalc)) {
+              delay = (i / stepCalc) * delayStep;
+            }
+          }
+          delayStep = 50;
+          for (i = _k = 0; _k <= 1200; i = _k += stepCalc) {
+            if ((top <= -i) && (top >= -i - stepCalc)) {
               delay = (i / stepCalc) * delayStep;
             }
           }
@@ -66,8 +72,8 @@
             translateY: helpers.rand(-600, 600),
             left: 0
           }, {
-            delay: ((10 - this.o.i) * 50) + delay + helpers.rand(0, delayStep) + 3350,
-            duration: 1000
+            delay: ((10 - this.o.i) * 50) + delay + helpers.rand(0, delayStep) + 3750,
+            duration: 1200
           });
         }
         _results.push(angle += step);

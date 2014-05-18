@@ -43,7 +43,12 @@ class Drop
         delayStep = 100
         stepCalc = 50
         for i in [0..1200] by stepCalc
-          if (top > i) and (top < i+stepCalc) or (top < -i) and (top > -i-stepCalc)
+          if (top >= i) and (top <= i+stepCalc)
+            delay = (i/stepCalc)*delayStep
+
+        delayStep = 50
+        for i in [0..1200] by stepCalc
+          if (top <= -i) and (top >= -i-stepCalc)
             delay = (i/stepCalc)*delayStep
         delay ?= 100
         $el
@@ -52,8 +57,8 @@ class Drop
             translateY: helpers.rand(-600,600)
             left: 0
           },{
-            delay: ((10-@o.i)*50)+delay+helpers.rand(0,delayStep)+3350
-            duration: 1000
+            delay: ((10-@o.i)*50)+delay+helpers.rand(0,delayStep)+3750
+            duration: 1200
           })
 
 
