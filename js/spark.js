@@ -50,7 +50,7 @@
           opacity: 1
         }, {
           duration: 500 + blowSize,
-          easing: 'easeOutQuad',
+          easing: 'easeInOutQuad',
           delay: (this.o.delay || 0) + helpers.rand(0, 100)
         }).velocity({
           top: "" + top + "%",
