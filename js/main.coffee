@@ -76,15 +76,15 @@ class Main
           @$logosScreen.show()
           amount = 25
           @$github
-            .velocity({ translateY: -amount },{duration: 1})
-            .velocity({ translateY: 0, opacity: 1},{
+            .velocity({ translateX: -amount },{duration: 1})
+            .velocity({ translateX: 0, opacity: 1},{
               easing: 'easeOutExpo'
               duration: 2500*@s
             })
 
           @$lego
-            .velocity({ translateY: amount },{duration: 1})
-            .velocity({ translateY: 0, opacity: 1},{
+            .velocity({ translateX: amount },{duration: 1})
+            .velocity({ translateX: 0, opacity: 1},{
               easing: 'easeOutExpo'
               duration: 2500*@s
               delay: 500*@s

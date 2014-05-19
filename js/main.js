@@ -86,22 +86,22 @@
             _this.$logosScreen.show();
             amount = 25;
             _this.$github.velocity({
-              translateY: -amount
+              translateX: -amount
             }, {
               duration: 1
             }).velocity({
-              translateY: 0,
+              translateX: 0,
               opacity: 1
             }, {
               easing: 'easeOutExpo',
               duration: 2500 * _this.s
             });
             _this.$lego.velocity({
-              translateY: amount
+              translateX: amount
             }, {
               duration: 1
             }).velocity({
-              translateY: 0,
+              translateX: 0,
               opacity: 1
             }, {
               easing: 'easeOutExpo',
