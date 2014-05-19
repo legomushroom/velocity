@@ -72,7 +72,7 @@
       this.showBubbles(8800 * this.s);
       this.shiftScreen(10900 * this.s);
       this.blow(12100 * this.s);
-      return this.showLogos(13200 * this.s);
+      return this.showLogos(14000 * this.s);
     };
 
     Main.prototype.showLogos = function(delay) {
@@ -84,29 +84,29 @@
           return function() {
             var amount;
             _this.$logosScreen.show();
-            amount = 25;
+            amount = 15;
             _this.$github.velocity({
-              translateX: -amount
+              translateY: amount
             }, {
               duration: 1
             }).velocity({
-              translateX: 0,
+              translateY: 0,
               opacity: 1
             }, {
               easing: 'easeOutExpo',
               duration: 2500 * _this.s
             });
             _this.$lego.velocity({
-              translateX: amount
+              translateY: -amount
             }, {
               duration: 1
             }).velocity({
-              translateX: 0,
+              translateY: 0,
               opacity: 1
             }, {
               easing: 'easeOutExpo',
               duration: 2500 * _this.s,
-              delay: 500 * _this.s
+              delay: 400 * _this.s
             });
             return _this.$restart.velocity({
               rotateZ: 60
@@ -118,7 +118,7 @@
             }, {
               easing: 'easeOutExpo',
               duration: 2500 * _this.s,
-              delay: 1000 * _this.s
+              delay: 800 * _this.s
             });
           };
         })(this)

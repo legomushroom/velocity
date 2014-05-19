@@ -138,13 +138,13 @@ class Thunder
       @spark1.run()
       setTimeout =>
         @spark3.run()
-      , 200
+      , 100
     if @boomCnt is 2
       @spark2.run()
 
       setTimeout =>
         @spark4.run()
-      , 100
+      , 50
 
   calcSize:(i)->
     angle = 0

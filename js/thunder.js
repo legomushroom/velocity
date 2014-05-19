@@ -155,7 +155,7 @@
           return function() {
             return _this.spark3.run();
           };
-        })(this), 200);
+        })(this), 100);
       }
       if (this.boomCnt === 2) {
         this.spark2.run();
@@ -163,7 +163,7 @@
           return function() {
             return _this.spark4.run();
           };
-        })(this), 100);
+        })(this), 50);
       }
     };
 

@@ -66,7 +66,7 @@ class Main
     @showBubbles(8800*@s)
     @shiftScreen(10900*@s)
     @blow(12100*@s)
-    @showLogos(13200*@s)
+    @showLogos(14000*@s)
 
   showLogos:(delay)->
     @$logosScreen
@@ -74,20 +74,20 @@ class Main
         delay: delay
         complete:=> 
           @$logosScreen.show()
-          amount = 25
+          amount = 15
           @$github
-            .velocity({ translateX: -amount },{duration: 1})
-            .velocity({ translateX: 0, opacity: 1},{
+            .velocity({ translateY: amount },{duration: 1})
+            .velocity({ translateY: 0, opacity: 1},{
               easing: 'easeOutExpo'
               duration: 2500*@s
             })
 
           @$lego
-            .velocity({ translateX: amount },{duration: 1})
-            .velocity({ translateX: 0, opacity: 1},{
+            .velocity({ translateY: -amount },{duration: 1})
+            .velocity({ translateY: 0, opacity: 1},{
               easing: 'easeOutExpo'
               duration: 2500*@s
-              delay: 500*@s
+              delay: 400*@s
             })
 
           @$restart
@@ -95,7 +95,7 @@ class Main
             .velocity({ opacity: 1, rotateZ: 0 },{
               easing: 'easeOutExpo'
               duration: 2500*@s
-              delay: 1000*@s
+              delay: 800*@s
             })
       })
 
