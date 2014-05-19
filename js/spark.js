@@ -59,7 +59,7 @@
           opacity: -2
         }, {
           duration: this.o.duration || 2500,
-          easing: 'easeInExp'
+          easing: 'easeInOutExp'
         }));
       }
       return _results;

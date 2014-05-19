@@ -43,7 +43,7 @@ class Spark
           opacity: -2
         },{
           duration: @o.duration or 2500
-          easing: 'easeInExp'
+          easing: 'easeInOutExp'
         })
 
 window.Spark = Spark
