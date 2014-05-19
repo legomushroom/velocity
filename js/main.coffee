@@ -58,7 +58,7 @@ class Main
     @waterDrop(7400*@s)
     @showBubbles(8800*@s)
     @shiftScreen(10900*@s)
-    @blow(11900*@s)
+    @blow(12100*@s)
 
   blow:(delay)->
     coef = 1
@@ -81,7 +81,7 @@ class Main
           $line
             .velocity { rotateZ: -90 }, {
               duration: 600*@s*coef
-              delay: 350+((@lines.length-i)*100*coef)
+              delay: 450+((@lines.length-i)*100*coef)
               easing: 'easeOutBounce'
             }
     , delay
@@ -117,10 +117,7 @@ class Main
         delay: 115*@s
       })
 
-      # @$easyWrapper
-      #   .velocity({
-      #     scale: 0
-      #   },{ duration: 1400*@s, delay: 550*@s })
+      
       @$easy
         .velocity({
           width: 0
@@ -175,9 +172,11 @@ class Main
     , delay
 
     # setTimeout =>
-    #   # console.log @$easyScreen[0]
-      
-    # , delay - 500*@s
+    #   @$easyScreen
+    #     .velocity({
+    #       scale: 0
+    #     },{ duration: 4000*@s, delay: 0*@s })
+    # , delay - 1500*@s
 
   waterDrop:(delay)->
     setTimeout =>
@@ -261,12 +260,12 @@ class Main
         easing: 'easeOutBounce'
       })
 
-    arrows = [ @$arrow1, @$arrow2, @$arrow3, @$arrow4 ]
+    arrows = [ @$arrow1, @$arrow2, @$arrow3 ]
     for $arrow, i in arrows
       $arrow
         .velocity({
           'top': '100%',
-          marginTop: -200,
+          marginTop: 0,
           rotateZ: 60+helpers.rand(0,20)
         },{
           easing: 'easeInQuad'
@@ -278,6 +277,22 @@ class Main
           complete: ->
             $(this).hide()
         }
+
+    @$arrow4
+      .velocity({
+        'top': '100%',
+        marginTop: 0,
+        rotateZ: 60+helpers.rand(0,20)
+      },{
+        easing: 'easeInQuad'
+      }).velocity {
+        rotateZ: 90
+      }, {
+        easing: 'easeOutBounce',
+        duration: 400*@s,
+        complete: ->
+          $(this).hide()
+      }
 
 
   shiftRobustArrow:(delay)->

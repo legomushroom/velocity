@@ -72,7 +72,7 @@
         'z-index': 9
       });
       $cloud.addClass('c-grey-g').removeClass('c-green-g');
-      this.$robust.css('color', '#777');
+      this.$robust.css('color', '#383838');
       this.$background.velocity({
         'opacity': 1
       }, {

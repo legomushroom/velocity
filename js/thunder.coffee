@@ -59,7 +59,7 @@ class Thunder
     $cloud
       .addClass('c-grey-g')
       .removeClass('c-green-g')
-    @$robust.css 'color', '#777'
+    @$robust.css 'color', '#383838'
     @$background
       .velocity({'opacity': 1},{ duration:40 }).velocity({'opacity': 0},{
         delay: 200

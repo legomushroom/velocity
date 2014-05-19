@@ -64,7 +64,7 @@
       this.waterDrop(7400 * this.s);
       this.showBubbles(8800 * this.s);
       this.shiftScreen(10900 * this.s);
-      return this.blow(11900 * this.s);
+      return this.blow(12100 * this.s);
     };
 
     Main.prototype.blow = function(delay) {
@@ -94,7 +94,7 @@
                 rotateZ: -90
               }, {
                 duration: 600 * _this.s * coef,
-                delay: 350 + ((_this.lines.length - i) * 100 * coef),
+                delay: 450 + ((_this.lines.length - i) * 100 * coef),
                 easing: 'easeOutBounce'
               });
             })(i));
@@ -300,7 +300,7 @@
     };
 
     Main.prototype.fallRobust = function(delay) {
-      var $arrow, arrows, i, _i, _len, _results;
+      var $arrow, arrows, i, _i, _len;
       this.$robust.velocity({
         top: '100%',
         rotateZ: -50,
@@ -315,13 +315,12 @@
         duration: 500 * this.s,
         easing: 'easeOutBounce'
       });
-      arrows = [this.$arrow1, this.$arrow2, this.$arrow3, this.$arrow4];
-      _results = [];
+      arrows = [this.$arrow1, this.$arrow2, this.$arrow3];
       for (i = _i = 0, _len = arrows.length; _i < _len; i = ++_i) {
         $arrow = arrows[i];
-        _results.push($arrow.velocity({
+        $arrow.velocity({
           'top': '100%',
-          marginTop: -200,
+          marginTop: 0,
           rotateZ: 60 + helpers.rand(0, 20)
         }, {
           easing: 'easeInQuad'
@@ -333,9 +332,23 @@
           complete: function() {
             return $(this).hide();
           }
-        }));
+        });
       }
-      return _results;
+      return this.$arrow4.velocity({
+        'top': '100%',
+        marginTop: 0,
+        rotateZ: 60 + helpers.rand(0, 20)
+      }, {
+        easing: 'easeInQuad'
+      }).velocity({
+        rotateZ: 90
+      }, {
+        easing: 'easeOutBounce',
+        duration: 400 * this.s,
+        complete: function() {
+          return $(this).hide();
+        }
+      });
     };
 
     Main.prototype.shiftRobustArrow = function(delay) {
