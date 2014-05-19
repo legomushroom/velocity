@@ -27,6 +27,13 @@
       this.$easyScreen = $('#js-easy-screen');
       this.$screen1 = $('#js-screen1');
       this.$screen2 = $('#js-screen2');
+      this.$logosScreen = $('#js-logos-screen');
+      this.$restart = $('#js-restart');
+      this.$github = $('#js-github');
+      this.$lego = $('#js-lego');
+      this.$restart.on('click', function() {
+        return location.reload();
+      });
       this.$velocity = $('#js-velocity');
       this.$line = $('#js-line');
       $lineProto = this.$line.clone();
@@ -64,7 +71,58 @@
       this.waterDrop(7400 * this.s);
       this.showBubbles(8800 * this.s);
       this.shiftScreen(10900 * this.s);
-      return this.blow(12100 * this.s);
+      this.blow(12100 * this.s);
+      return this.showLogos(13200 * this.s);
+    };
+
+    Main.prototype.showLogos = function(delay) {
+      return this.$logosScreen.velocity({
+        opacity: 1
+      }, {
+        delay: delay,
+        complete: (function(_this) {
+          return function() {
+            var amount;
+            _this.$logosScreen.show();
+            amount = 25;
+            _this.$github.velocity({
+              translateY: -amount
+            }, {
+              duration: 1
+            }).velocity({
+              translateY: 0,
+              opacity: 1
+            }, {
+              easing: 'easeOutExpo',
+              duration: 2500 * _this.s
+            });
+            _this.$lego.velocity({
+              translateY: amount
+            }, {
+              duration: 1
+            }).velocity({
+              translateY: 0,
+              opacity: 1
+            }, {
+              easing: 'easeOutExpo',
+              duration: 2500 * _this.s,
+              delay: 500 * _this.s
+            });
+            return _this.$restart.velocity({
+              rotateZ: 60
+            }, {
+              duration: 1
+            }).velocity({
+              opacity: 1,
+              rotateZ: 0
+            }, {
+              easing: 'easeOutExpo',
+              duration: 2500 * _this.s,
+              delay: 1000 * _this.s
+            });
+          };
+        })(this)
+      });
     };
 
     Main.prototype.blow = function(delay) {

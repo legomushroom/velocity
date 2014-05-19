@@ -22,6 +22,13 @@ class Main
 
     @$screen1 = $('#js-screen1')
     @$screen2 = $('#js-screen2')
+    @$logosScreen = $('#js-logos-screen')
+    @$restart = $('#js-restart')
+    @$github = $('#js-github')
+    @$lego = $('#js-lego')
+
+    @$restart.on 'click', ->
+      location.reload()
 
     @$velocity = $('#js-velocity')
 
@@ -59,6 +66,43 @@ class Main
     @showBubbles(8800*@s)
     @shiftScreen(10900*@s)
     @blow(12100*@s)
+    @showLogos(13200*@s)
+
+  showLogos:(delay)->
+    @$logosScreen
+      .velocity({ opacity: 1 },{
+        delay: delay
+        complete:=> 
+          @$logosScreen.show()
+          amount = 25
+          @$github
+            .velocity({ translateY: -amount },{duration: 1})
+            .velocity({ translateY: 0, opacity: 1},{
+              easing: 'easeOutExpo'
+              duration: 2500*@s
+            })
+
+          @$lego
+            .velocity({ translateY: amount },{duration: 1})
+            .velocity({ translateY: 0, opacity: 1},{
+              easing: 'easeOutExpo'
+              duration: 2500*@s
+              delay: 500*@s
+            })
+
+          @$restart
+            .velocity({ rotateZ: 60 },{ duration: 1 })
+            .velocity({ opacity: 1, rotateZ: 0 },{
+              easing: 'easeOutExpo'
+              duration: 2500*@s
+              delay: 1000*@s
+            })
+      })
+
+    
+
+
+
 
   blow:(delay)->
     coef = 1
