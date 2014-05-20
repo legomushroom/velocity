@@ -73,7 +73,7 @@
       this.waterDrop(7400 * this.s);
       this.showBubbles(8800 * this.s);
       this.shiftScreen(10900 * this.s);
-      this.blow(12300 * this.s);
+      this.blow(12100 * this.s);
       return this.showLogos(14000 * this.s);
     };
 

@@ -67,7 +67,7 @@ class Main
     @waterDrop(7400*@s)
     @showBubbles(8800*@s)
     @shiftScreen(10900*@s)
-    @blow(12300*@s)
+    @blow(12100*@s)
     @showLogos(14000*@s)
 
   showLogos:(delay)->
