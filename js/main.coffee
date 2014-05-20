@@ -47,10 +47,10 @@ class Main
     @thunder = new Thunder
 
     @drops = for i in [0...10]
-          new Drop
-            radius: i*50
-            i: i
-            $container: @$screen2
+      new Drop
+        radius: i*50
+        i: i
+        $container: @$screen2
 
     @bubbles = new Bubbles
 
@@ -72,38 +72,36 @@ class Main
 
   showLogos:(delay)->
     @$logosScreen
-      .velocity({ opacity: 1 },{
-        delay: delay
-        complete:=> 
-          @$logosScreen.show()
-          amount = 15
-          @$github
-            .velocity({ translateY: -amount },{duration: 1})
-            .velocity({ translateY: 0, opacity: 1},{
-              easing: 'easeInOutQuad'
-              duration: 1500*@s
-              delay: 0*@s
-            })
+      .velocity(
+        { opacity: 1 },{
+          delay: delay
+          complete:=>
+            @$logosScreen.show()
+            amount = 15
+            @$github
+              .velocity({ translateY: -amount },{duration: 1})
+              .velocity({ translateY: 0, opacity: 1},{
+                easing: 'easeInOutQuad'
+                duration: 1500*@s
+                delay: 0*@s
+              })
 
-          @$lego
-            .velocity({ translateY: amount },{duration: 1})
-            .velocity({ translateY: 0, opacity: 1},{
-              easing: 'easeInOutQuad'
-              duration: 1500*@s
-              delay: 300*@s
-            })
+            @$lego
+              .velocity({ translateY: amount },{duration: 1})
+              .velocity({ translateY: 0, opacity: 1},{
+                easing: 'easeInOutQuad'
+                duration: 1500*@s
+                delay: 300*@s
+              })
 
-          @$restart
-            .velocity({  translateY: -amount  },{ duration: 1 })
-            .velocity({ opacity: 1, translateY: 0 },{
-              easing: 'easeInOutQuad'
-              duration: 1500*@s
-              delay: 0*@s
-            })
+            @$restart
+              .velocity({  translateY: -amount  },{ duration: 1 })
+              .velocity({ opacity: 1, translateY: 0 },{
+                easing: 'easeInOutQuad'
+                duration: 1500*@s
+                delay: 0*@s
+              })
       })
-
-
-
 
   blow:(delay)->
     coef = 1
@@ -169,7 +167,8 @@ class Main
         .velocity({
           width: 0
           height: 0
-        },{
+        },
+        {
           duration: 1400*@s
         })
 
@@ -177,7 +176,8 @@ class Main
         .velocity({
           height: 200
           translateY: -200
-        },{
+        },
+        {
           delay: 1000*@s
           duration: 700*@s
         })
@@ -206,7 +206,8 @@ class Main
         $line
           .velocity({
             translateY: y
-          },{
+          },
+          {
             delay: 2250+(i*50),
             # easing: 'easeOutElastic',
             # easing: 'linear',
@@ -231,7 +232,8 @@ class Main
         .velocity({
           width: 240
           height: 240
-        },{
+        },
+        {
           easing: 'easeOutElastic'
           duration: 1500*@s
         })
@@ -239,13 +241,15 @@ class Main
       @$easyWrapper
         .velocity({
           rotateZ: -30
-        },{
+        },
+        {
           duration: 1
         })
 
         .velocity({
           rotateZ: 0
-        },{
+        },
+        {
           easing: 'quake'
           duration: 6000*@s
         })
@@ -310,15 +314,19 @@ class Main
       $child
         .velocity({ rotateZ: 40 }, {
           delay: (delay+160+(i*15))*@s, duration: 100*@s
-        }).velocity({ rotateZ: 0 },  {
-          delay: (60+(i*15))*@s,
-          duration: 5000*@s,
-          easing: 'quake',
+        }).velocity({ rotateZ: 0 },
+          {
+            delay: (60+(i*15))*@s,
+            duration: 5000*@s,
+            easing: 'quake',
         })
 
   car2:(delay)->
     @$car2
-      .velocity { left: '-40%', opacity: 1 }, { delay: delay*@s, duration: 400*@s }
+      .velocity({ left: '-40%', opacity: 1 },{
+        delay: delay*@s,
+        duration: 400*@s
+      })
 
     for child, i in @fastChilds
       $child = $ child
@@ -327,8 +335,11 @@ class Main
       $child
         .velocity({ rotateZ: 40 }, {
           delay: (delay+160+(@fastChilds.length-i)*15)*@s, duration: 100*@s
-        }).velocity({ rotateZ: 0 },  {
-          delay: (60+(@fastChilds.length-i)*15)*@s, duration: 5000*@s, easing: 'quake'
+        }).velocity({ rotateZ: 0 },
+          {
+            delay: (60+(@fastChilds.length-i)*15)*@s
+            duration: 5000*@s
+            easing: 'quake'
         })
 
   fallRobust:(delay)->

@@ -101,14 +101,16 @@ class Thunder
 
         .velocity({
           rotateZ: helpers.rand(15,25)*sign
-        },{ 
+        },
+        {
           duration: 100*@s,
           delay: 160*@s,
         })
 
         .velocity({
           rotateZ: 0
-        },{
+        },
+        {
           duration: 500*@s
           easing: 'easeOutBounce'
         })
@@ -117,7 +119,8 @@ class Thunder
       @$robustScreen
         .velocity({
           marginTop: -jump
-        },{ 
+        },
+        {
           duration: 50*@s,
           delay: 160*@s,
         })
@@ -125,7 +128,8 @@ class Thunder
       @$robustScreen2
         .velocity({
           marginTop: jump
-        },{ 
+        },
+        {
           duration:900*@s,
           delay: 150*@s,
           easing: 'easeOutBounce'
