@@ -447,7 +447,7 @@
     };
 
     Main.prototype.throwFA = function(delay) {
-      var $child, angle, i, _i, _results;
+      var $child, angle, attrs2, i, _i, _results;
       _results = [];
       for (i = _i = 0; _i <= 1; i = ++_i) {
         $child = $(this.fastChilds[i]);
@@ -475,6 +475,11 @@
           }));
         } else {
           angle = 600;
+          attrs2 = {
+            rotateZ: angle + helpers.rand(0, 40),
+            left: '-10%',
+            top: '20%'
+          };
           _results.push($child.velocity({
             rotateZ: angle / 10,
             left: '50%',
@@ -483,11 +488,7 @@
             duration: 50 * this.s,
             easing: 'linear',
             delay: delay * this.s
-          }).velocity({
-            rotateZ: angle + helpers.rand(0, 40),
-            left: '-10%',
-            top: '20%'
-          }, {
+          }).velocity(attrs2, {
             duration: 1000 * this.s,
             easing: 'linear'
           }));

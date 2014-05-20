@@ -348,16 +348,16 @@ class Main
         top: '100%'
         rotateZ: -50
         marginTop: -55
-      },{
+      },
+      {
         delay: delay*@s,
         easing: 'easeInQuad',
         duration: 300*@s,
-      }).velocity({
-        rotateZ: 0
-      },{
-        duration: 500*@s
-        easing: 'easeOutBounce'
-      })
+      }).velocity({rotateZ: 0},
+        {
+          duration: 500*@s
+          easing: 'easeOutBounce'
+        })
 
     arrows = [ @$arrow1, @$arrow2, @$arrow3 ]
     for $arrow, i in arrows
@@ -366,80 +366,82 @@ class Main
           'top': '100%',
           marginTop: 0,
           rotateZ: 60+helpers.rand(0,20)
-        },{
-          easing: 'easeInQuad'
-        }).velocity {
-          rotateZ: 90
-        }, {
-          easing: 'easeOutBounce',
-          duration: 400*@s,
-          complete: ->
-            $(this).hide()
-        }
+        },{ easing: 'easeInQuad' })
+        .velocity { rotateZ: 90 },
+          {
+            easing: 'easeOutBounce',
+            duration: 400*@s,
+            complete: ->
+              $(this).hide()
+          }
 
     @$arrow4
       .velocity({
         'top': '100%',
         marginTop: 0,
         rotateZ: 60+helpers.rand(0,20)
-      },{
-        easing: 'easeInQuad'
-      }).velocity {
+      },{ easing: 'easeInQuad'})
+      .velocity {
         rotateZ: 90
-      }, {
+      },
+      {
         easing: 'easeOutBounce',
         duration: 400*@s,
         complete: ->
           $(this).hide()
       }
 
-
   shiftRobustArrow:(delay)->
     @$arrowWrap
       .velocity({ translateX: -206 },{ delay: delay*@s })
 
     @$robustShade1
-      .velocity({ marginLeft: -206 },{ 
-        delay: delay*@s
-        complete:=>
-          @$robustShade2.hide()
-          @$fast.hide()
-      })
+      .velocity({ marginLeft: -206 },
+        {
+          delay: delay*@s
+          complete:=>
+            @$robustShade2.hide()
+            @$fast.hide()
+        })
 
 
   throwFA:(delay)->
     for i in [0..1]
       $child = $ @fastChilds[i]
-      $child.css 
+      $child.css
         'transform-origin': 'center center'
         'position': 'absolute'
       if i is 1
         angle = 280
         $child
-          .velocity({ rotateZ: angle/5, left: '45%', top: '55%' },{
-           duration: 50*@s
-           easing: 'linear'
-           delay: delay*@s
-          }).velocity({ rotateZ: angle, left: '-10%', top: '110%' },{
-           duration: 1000*@s
-           easing: 'linear'
-          })
+          .velocity({ rotateZ: angle/5, left: '45%', top: '55%' },
+            {
+              duration: 50*@s
+              easing: 'linear'
+              delay: delay*@s
+            }).velocity({ rotateZ: angle, left: '-10%', top: '110%' },
+              {
+                duration: 1000*@s
+                easing: 'linear'
+              })
       else
         angle = 600
+        attrs2 = {
+          rotateZ:angle+helpers.rand(0,40)
+          left: '-10%'
+          top: '20%'
+        }
         $child
-          .velocity({ rotateZ: angle/10, left: '50%', top: '50%' },{
-            duration: 50*@s
-            easing: 'linear'
-            delay: delay*@s
-          }).velocity({ 
-            rotateZ: angle+helpers.rand(0,40),
-            left: '-10%', top: '20%'
-          },{
-            duration: 1000*@s
-            easing: 'linear'
-          })
-
-
+          .velocity({ rotateZ: angle/10, left: '50%', top: '50%' },
+            {
+              duration: 50*@s
+              easing: 'linear'
+              delay: delay*@s
+            }).velocity(attrs2,
+              {
+                duration: 1000*@s
+                easing: 'linear'
+            })
 
   arrows:->
     arrowAngle = 20
@@ -447,29 +449,40 @@ class Main
     duration = 2000
     angle = arrowAngle+helpers.rand(0,arrowAngle)
     @$arrow1
-      .velocity({ rotateZ: 90, left: '150%' }, { duration: 1, delay: delay*@s })
-      .velocity({ left: '70%', top: '50%', rotateZ: angle }, { duration: 400*@s })
+      .velocity({ rotateZ: 90, left: '150%' },
+        { duration: 1, delay: delay*@s })
+      .velocity({ left: '70%', top: '50%', rotateZ: angle },
+        { duration: 400*@s })
       .velocity({ rotateZ: 1.5*angle }, { duration: 1 })
-      .velocity({ rotateZ: angle }, { duration: duration*@s, easing: 'quake' })
-
+      .velocity({ rotateZ: angle },
+        {
+          duration: duration*@s, easing: 'quake'
+      })
     angle = arrowAngle+helpers.rand(0,arrowAngle)
     @$arrow2
-      .velocity({ rotateZ: 90, left: '150%' }, { duration: 1, delay: (delay+200)*@s })
-      .velocity({ left: '10%', top: '50%', rotateZ: angle }, { duration: 400*@s })
+      .velocity({ rotateZ: 90, left: '150%' },
+        { duration: 1, delay: (delay+200)*@s })
+      .velocity({ left: '10%', top: '50%', rotateZ: angle },
+        { duration: 400*@s })
       .velocity({ rotateZ: 1.5*angle }, { duration: 1 })
-      .velocity({ rotateZ: angle }, { duration: duration*@s, easing: 'quake' })
+      .velocity({ rotateZ: angle },
+        { duration: duration*@s, easing: 'quake' })
 
     angle = arrowAngle+helpers.rand(0,arrowAngle)
     @$arrow3
-      .velocity({ rotateZ: 90, left: '150%' }, { duration: 1, delay: (delay+250)*@s })
-      .velocity({ left: '20%', top: '50%', rotateZ: angle }, { duration: 400*@s })
+      .velocity({ rotateZ: 90, left: '150%' },
+        { duration: 1, delay: (delay+250)*@s })
+      .velocity({ left: '20%', top: '50%', rotateZ: angle },
+        { duration: 400*@s })
       .velocity({ rotateZ: 1.5*angle }, { duration: 1 })
       .velocity({ rotateZ: angle }, { duration: duration*@s, easing: 'quake' })
 
     angle = 20
     @$arrow4
-      .velocity({ rotateZ: 90, left: '150%' }, { duration: 1, delay: (delay+400)*@s })
-      .velocity({ left: '50%', top: '50%', rotateZ: angle }, { duration: 400*@s })
+      .velocity({ rotateZ: 90, left: '150%' },
+        { duration: 1, delay: (delay+400)*@s })
+      .velocity({ left: '50%', top: '50%', rotateZ: angle },
+        { duration: 400*@s })
       .velocity({ rotateZ: 1.5*angle }, { duration: 1 })
       .velocity({ rotateZ: angle }, { duration: duration*@s, easing: 'quake' })
 
