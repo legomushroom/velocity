@@ -8,10 +8,10 @@ var coffee 				= require('gulp-coffee');
 var changed 			= require('gulp-changed');
 var jade 					= require('gulp-jade');
 var watch 				= require('gulp-jade');
-var watch 				= require('gulp-jade');
 var coffeelint 		= require('gulp-coffeelint');
 var plumber 			= require('gulp-plumber');
 var karma 				= require('gulp-karma');
+var concat 				= require('gulp-concat');
 
 var devFolder 	= '';
 var distFolder  = '';
@@ -37,6 +37,24 @@ var paths = {
 	}
 }
 
+
+var jsFiles = [	'bower_components/jquery/jquery.js',
+								'bower_components/velocity/jquery.velocity.js',
+								'js/helpers.js',
+								'js/spark.js',
+								'js/bubbles.js',
+								'js/drop.js',
+								'js/cloud.js',
+								'js/thunder.js',
+								'js/cross.js',
+								'js/main.js',
+							];
+							
+gulp.task('build', function(){
+	return gulp.src(jsFiles)
+					.pipe(concat('main.min.js'))
+					.pipe(gulp.dest(distFolder+'js/'))
+});
 
 gulp.task('stylus', function(){
 	return gulp.src(devFolder + 'css/main.styl')

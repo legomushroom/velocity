@@ -46,7 +46,6 @@ class Cloud
       container: @$el
       delay: @o.delay
       hideDelay: @o.hideDelay
-
     @bits.push new CloudBit
       width: 60
       height:  60
@@ -187,10 +186,14 @@ class CloudBit
     },{ duration: 0 })
 
   show:->
-   @$el.velocity {
-    opacity: 100
-    scale: 1
-   }, { easing: 'easeOutElastic', delay: @o.delay+helpers.rand(0,100), duration: 1200 }
+    @$el.velocity {
+      opacity: 100
+      scale: 1
+    },{
+      easing: 'easeOutElastic'
+      delay: @o.delay+helpers.rand(0,100)
+      duration: 1200
+    }
 
   loop:->
     @$el
@@ -200,7 +203,8 @@ class CloudBit
         translateX: (@o.width/20)
         translateY: 0
         rotateZ: @o.deg
-      }, { duration: 500 }).velocity({
+      },{ duration: 500 })
+      .velocity({
         scaleY: .9
         scaleX: 1
         translateX: 0
@@ -218,7 +222,8 @@ class CloudBit
       .velocity({
         scale: 0
         translateX: -500
-      },{
+      },
+      {
         duration: 750
       })
 

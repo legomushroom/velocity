@@ -80,29 +80,27 @@ class Main
           @$github
             .velocity({ translateY: -amount },{duration: 1})
             .velocity({ translateY: 0, opacity: 1},{
-              easing: 'easeOutExpo'
-              duration: 2000*@s
-              delay: 200*@s
+              easing: 'easeInOutQuad'
+              duration: 1500*@s
+              delay: 0*@s
             })
 
           @$lego
-            .velocity({ translateY: -amount },{duration: 1})
+            .velocity({ translateY: amount },{duration: 1})
             .velocity({ translateY: 0, opacity: 1},{
-              easing: 'easeOutExpo'
-              duration: 2000*@s
-              delay: 0*@s
+              easing: 'easeInOutQuad'
+              duration: 1500*@s
+              delay: 300*@s
             })
 
           @$restart
             .velocity({  translateY: -amount  },{ duration: 1 })
             .velocity({ opacity: 1, translateY: 0 },{
-              easing: 'easeOutExpo'
-              duration: 2000*@s
-              delay: 200*@s
+              easing: 'easeInOutQuad'
+              duration: 1500*@s
+              delay: 0*@s
             })
       })
-
-    
 
 
 
@@ -130,6 +128,8 @@ class Main
               duration: 600*@s*coef
               delay: 450+((@lines.length-i)*100*coef)
               easing: 'easeOutBounce'
+              complete:->
+                $(this).css 'display': 'none'
             }
     , delay
 

@@ -95,21 +95,21 @@
               translateY: 0,
               opacity: 1
             }, {
-              easing: 'easeOutExpo',
-              duration: 2000 * _this.s,
-              delay: 200 * _this.s
+              easing: 'easeInOutQuad',
+              duration: 1500 * _this.s,
+              delay: 0 * _this.s
             });
             _this.$lego.velocity({
-              translateY: -amount
+              translateY: amount
             }, {
               duration: 1
             }).velocity({
               translateY: 0,
               opacity: 1
             }, {
-              easing: 'easeOutExpo',
-              duration: 2000 * _this.s,
-              delay: 0 * _this.s
+              easing: 'easeInOutQuad',
+              duration: 1500 * _this.s,
+              delay: 300 * _this.s
             });
             return _this.$restart.velocity({
               translateY: -amount
@@ -119,9 +119,9 @@
               opacity: 1,
               translateY: 0
             }, {
-              easing: 'easeOutExpo',
-              duration: 2000 * _this.s,
-              delay: 200 * _this.s
+              easing: 'easeInOutQuad',
+              duration: 1500 * _this.s,
+              delay: 0 * _this.s
             });
           };
         })(this)
@@ -156,7 +156,12 @@
               }, {
                 duration: 600 * _this.s * coef,
                 delay: 450 + ((_this.lines.length - i) * 100 * coef),
-                easing: 'easeOutBounce'
+                easing: 'easeOutBounce',
+                complete: function() {
+                  return $(this).css({
+                    'display': 'none'
+                  });
+                }
               });
             })(i));
           }

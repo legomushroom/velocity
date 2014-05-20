@@ -1,6 +1,5 @@
 class Helpers
-
-	createDiv:(o={})->
+  createDiv:(o={})->
     $el = $ '<div />'
     o.class? and $el.addClass o.class
     $cont = o?.container or $(document.body)
@@ -16,7 +15,7 @@ class Helpers
       circles.push $new
     circles
 
-	rand:(min,max)->
+  rand:(min,max)->
     Math.floor((Math.random() * ((max + 1) - min)) + min)
 
 window.helpers = new Helpers

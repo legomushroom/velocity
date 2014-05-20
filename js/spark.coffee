@@ -30,7 +30,8 @@ class Spark
           translateX: helpers.rand(-blowSize,blowSize)
           translateY: helpers.rand(-blowSize,blowSize)
           opacity: 1
-        },{
+        },
+        {
           duration: 500+blowSize
           easing: 'easeInOutQuad'
           delay: (@o.delay or 0)+helpers.rand(0,100)
@@ -41,7 +42,8 @@ class Spark
           translateY: 0
           marginTop: 0
           opacity: -2
-        },{
+        },
+        {
           duration: @o.duration or 2500
           easing: 'easeInOutExp'
         })

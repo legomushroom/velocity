@@ -33,7 +33,8 @@ class Drop
           translateX: left2
           translateY: top2
           opacity: 1
-        },{
+        },
+        {
           delay: @o.i*15,
           easing: 'easeOutElastic',
           duration: 1500
@@ -56,7 +57,8 @@ class Drop
             translateX: -helpers.rand(20,400)
             translateY: helpers.rand(-600,600)
             left: 0
-          },{
+          },
+          {
             delay: (((10-@o.i)*50*coef)+delay+helpers.rand(0,delayStep)+3350)
             duration: 1000*coef
           })
