@@ -20,18 +20,15 @@
 		<sliceSourceBounds  height="400" width="400" y="-183.284" x="-184.309" bottomLeftOrigin="true"></sliceSourceBounds>
 	</sfw>
 </metadata>
-<path id="Fill-6_1_" fill="#00DFAA" d="M160.191,200.784h79.5V246.5h-79.5V200.784z"/>
-<path id="Fill-7" fill="#00C093" d="M160.191,160.784h79.5v40h-79.5V160.784z"/>
-<polygon fill="#00FFC4" points="119.941,131 119.941,120.784 119.941,81.784 160.191,81.784 160.192,42.784 240.359,42.784 
-	240.359,82.784 280.441,81.784 280.441,121.784 319.941,120.784 319.941,161 80.441,161 80.441,120.784 "/>
+<path id="Fill-6_1_" fill="#F47A58" d="M160.191,200.784h79.5V246.5h-79.5V200.784z"/>
+<path id="Fill-7" fill="#D64C1D" d="M160.191,160.784h79.5v40h-79.5V160.784z"/>
 <title>legomushrrom</title>
+<polygon fill="#FF4100" points="280.441,120.784 280.441,81.784 240.359,81.784 240.359,42.784 160.192,42.784 160.192,81.784 
+	119.941,81.784 119.941,120.784 80.441,120.784 80.441,161 319.941,161 319.941,120.784 "/>
 <description>Created with Sketch.</description>
 <path id="Fill-1" fill="none" d="M0.191-0.216h400v400h-400V-0.216z"/>
-<path id="Fill-3" fill="#00FFC4" d="M119.941,81.784h160.5v40h-160.5V81.784z"/>
-<path id="Fill-4" fill="#00FFC4" d="M160.192,42.784h80.167v40h-80.167V42.784z"/>
-<path id="Fill-5" fill="#00FFC4" d="M239.691,280.284v-39.5h-79.5v39.5v79.466h79.5V280.284z"/>
-<path id="Fill-6" fill="#00DFAA" d="M160.191,200.784h79.5v40h-79.5V200.784z"/>
-<path id="Fill-10" fill="#FFEF00" d="M160.191,81.784h40.084v39h-40.084V81.784z"/>
-<path id="Fill-2" fill="#00FFC4" d="M80.441,120.784h239.5V161h-239.5V120.784z"/>
-<path id="Fill-9" fill="#FFEF00" d="M219.65,120.784h40.082v40H219.65V120.784z"/>
+<path id="Fill-5" fill="#FFC280" d="M239.691,280.284v-39.5h-79.5v39.5v79.466h79.5V280.284z"/>
+<path id="Fill-6" fill="#F47A58" d="M160.191,200.784h79.5v40h-79.5V200.784z"/>
+<path id="Fill-10" fill="#FFC280" d="M160.191,81.784h40.084v39h-40.084V81.784z"/>
+<path id="Fill-9" fill="#FFC280" d="M219.65,120.784h40.082v40H219.65V120.784z"/>
 </svg>

@@ -26,6 +26,8 @@ class Main
     @$restart = $('#js-restart')
     @$github = $('#js-github')
     @$lego = $('#js-lego')
+    @$easyLine1 = $('#js-easy-line1')
+    @$easyLine2 = $('#js-easy-line2')
 
     @$restart.on 'click', ->
       location.reload()
@@ -65,7 +67,7 @@ class Main
     @waterDrop(7400*@s)
     @showBubbles(8800*@s)
     @shiftScreen(10900*@s)
-    @blow(12100*@s)
+    @blow(12300*@s)
     @showLogos(14000*@s)
 
   showLogos:(delay)->
@@ -76,26 +78,27 @@ class Main
           @$logosScreen.show()
           amount = 15
           @$github
-            .velocity({ translateY: amount },{duration: 1})
+            .velocity({ translateY: -amount },{duration: 1})
             .velocity({ translateY: 0, opacity: 1},{
               easing: 'easeOutExpo'
-              duration: 2500*@s
+              duration: 2000*@s
+              delay: 200*@s
             })
 
           @$lego
             .velocity({ translateY: -amount },{duration: 1})
             .velocity({ translateY: 0, opacity: 1},{
               easing: 'easeOutExpo'
-              duration: 2500*@s
-              delay: 400*@s
+              duration: 2000*@s
+              delay: 0*@s
             })
 
           @$restart
-            .velocity({ rotateZ: 60 },{ duration: 1 })
-            .velocity({ opacity: 1, rotateZ: 0 },{
+            .velocity({  translateY: -amount  },{ duration: 1 })
+            .velocity({ opacity: 1, translateY: 0 },{
               easing: 'easeOutExpo'
-              duration: 2500*@s
-              delay: 800*@s
+              duration: 2000*@s
+              delay: 200*@s
             })
       })
 
@@ -232,6 +235,47 @@ class Main
           easing: 'easeOutElastic'
           duration: 1500*@s
         })
+
+      @$easyWrapper
+        .velocity({
+          rotateZ: -30
+        },{
+          duration: 1
+        })
+
+        .velocity({
+          rotateZ: 0
+        },{
+          easing: 'quake'
+          duration: 6000*@s
+        })
+
+
+      # @$easyLine1
+      #   .velocity({
+      #     scale: 0
+      #   },{
+      #     delay: 500*@s,
+      #     duration: 1
+      #   })
+      #   .velocity({
+      #     translateY: '-50%'
+      #     translateX: '-50%'
+      #     # scale: 1
+      #   },{
+      #     duration: 1000*@s,
+      #     complete:-> $(this).velocity({opacity:0},{duration: 600})
+      #   })
+
+      # @$easyLine2
+      #   .velocity({
+      #     left: '-80%'
+      #     rotateZ: 150
+      #   },{
+      #     delay: 500*@s,
+      #     duration: 600*@s,
+      #     complete:-> $(this).velocity({opacity:0},{duration: 600})
+      #   })
 
       setTimeout =>
         for drop in @drops

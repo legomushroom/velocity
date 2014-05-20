@@ -31,6 +31,8 @@
       this.$restart = $('#js-restart');
       this.$github = $('#js-github');
       this.$lego = $('#js-lego');
+      this.$easyLine1 = $('#js-easy-line1');
+      this.$easyLine2 = $('#js-easy-line2');
       this.$restart.on('click', function() {
         return location.reload();
       });
@@ -71,7 +73,7 @@
       this.waterDrop(7400 * this.s);
       this.showBubbles(8800 * this.s);
       this.shiftScreen(10900 * this.s);
-      this.blow(12100 * this.s);
+      this.blow(12300 * this.s);
       return this.showLogos(14000 * this.s);
     };
 
@@ -86,7 +88,7 @@
             _this.$logosScreen.show();
             amount = 15;
             _this.$github.velocity({
-              translateY: amount
+              translateY: -amount
             }, {
               duration: 1
             }).velocity({
@@ -94,7 +96,8 @@
               opacity: 1
             }, {
               easing: 'easeOutExpo',
-              duration: 2500 * _this.s
+              duration: 2000 * _this.s,
+              delay: 200 * _this.s
             });
             _this.$lego.velocity({
               translateY: -amount
@@ -105,20 +108,20 @@
               opacity: 1
             }, {
               easing: 'easeOutExpo',
-              duration: 2500 * _this.s,
-              delay: 400 * _this.s
+              duration: 2000 * _this.s,
+              delay: 0 * _this.s
             });
             return _this.$restart.velocity({
-              rotateZ: 60
+              translateY: -amount
             }, {
               duration: 1
             }).velocity({
               opacity: 1,
-              rotateZ: 0
+              translateY: 0
             }, {
               easing: 'easeOutExpo',
-              duration: 2500 * _this.s,
-              delay: 800 * _this.s
+              duration: 2000 * _this.s,
+              delay: 200 * _this.s
             });
           };
         })(this)
@@ -259,6 +262,16 @@
           }, {
             easing: 'easeOutElastic',
             duration: 1500 * _this.s
+          });
+          _this.$easyWrapper.velocity({
+            rotateZ: -30
+          }, {
+            duration: 1
+          }).velocity({
+            rotateZ: 0
+          }, {
+            easing: 'quake',
+            duration: 6000 * _this.s
           });
           return setTimeout(function() {
             var drop, _i, _len, _ref;
