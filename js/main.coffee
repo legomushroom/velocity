@@ -91,7 +91,7 @@ class Main
               .velocity({ translateY: 0, opacity: 1},{
                 easing: 'easeInOutQuad'
                 duration: 1500*@s
-                delay: 300*@s
+                delay: 0*@s
               })
 
             @$restart

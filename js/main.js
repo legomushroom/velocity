@@ -109,7 +109,7 @@
             }, {
               easing: 'easeInOutQuad',
               duration: 1500 * _this.s,
-              delay: 300 * _this.s
+              delay: 0 * _this.s
             });
             return _this.$restart.velocity({
               translateY: -amount
